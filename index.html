@@ -9,13 +9,13 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Firebase App & Realtime Database SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;800;900&display=swap');
         
         body {
             font-family: 'Nunito', sans-serif;
@@ -28,31 +28,10 @@
         }
 
         .glass-panel {
-            background: rgba(30, 41, 59, 0.75);
+            background: rgba(30, 41, 59, 0.85);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
-
-        .layer-box {
-            transition: all 0.2s ease;
-            touch-action: none;
-        }
-
-        .layer-box:hover {
-            transform: translateY(-2px);
-        }
-
-        .layer-box.selected {
-            ring: 4px;
-            ring-color: #3b82f6;
-            transform: scale(1.02);
-        }
-
-        /* Cores temáticas das Camadas TCP/IP */
-        .layer-aplicacao { background-color: #ef4444; border-color: #f87171; }
-        .layer-transporte { background-color: #f59e0b; border-color: #fbbf24; }
-        .layer-internet   { background-color: #10b981; border-color: #34d399; }
-        .layer-acesso     { background-color: #3b82f6; border-color: #60a5fa; }
 
         .pulse-anim {
             animation: pulse 1.5s infinite;
@@ -67,46 +46,46 @@
 <body class="text-slate-100 flex flex-col justify-between p-3 md:p-6">
 
     <!-- CABEÇALHO DO JOGO -->
-    <header class="max-w-5xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 mb-4 glass-panel p-4 rounded-2xl shadow-xl">
+    <header class="max-w-6xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 mb-4 glass-panel p-4 rounded-2xl shadow-xl">
         <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-2xl shadow-lg">
                 <i class="fa-solid fa-layer-group text-amber-300"></i>
             </div>
             <div>
                 <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-indigo-300">Pilha TCP/IP</h1>
-                <p class="text-xs text-slate-400">Oficina Interativa de Estrutura de Dados & Redes</p>
+                <p class="text-xs text-slate-400">Oficina Interativa • Estrutura de Dados & Redes</p>
             </div>
         </div>
 
         <!-- PAINEL DE STATUS -->
-        <div id="status-bar" class="hidden flex items-center gap-6 bg-slate-900/80 px-5 py-2 rounded-xl border border-slate-700/50">
+        <div id="status-bar" class="hidden flex items-center gap-4 md:gap-6 bg-slate-900/90 px-5 py-2 rounded-xl border border-slate-700/60">
             <div class="text-center">
-                <span class="text-xs text-slate-400 block uppercase tracking-wider font-semibold">Jogador</span>
+                <span class="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">Jogador</span>
                 <span id="player-display" class="font-bold text-amber-400 text-sm">---</span>
             </div>
             <div class="h-8 w-px bg-slate-700"></div>
             <div class="text-center">
-                <span class="text-xs text-slate-400 block uppercase tracking-wider font-semibold">Pontos</span>
+                <span class="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">Pontos</span>
                 <span id="score-display" class="font-bold text-emerald-400 text-lg">0</span>
             </div>
             <div class="h-8 w-px bg-slate-700"></div>
             <div class="text-center">
-                <span class="text-xs text-slate-400 block uppercase tracking-wider font-semibold">Tempo</span>
+                <span class="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">Tempo</span>
                 <span id="timer-display" class="font-bold text-rose-400 text-lg">30s</span>
             </div>
         </div>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL (TELAS) -->
-    <main class="max-w-5xl mx-auto w-full flex-1 flex flex-col justify-center">
+    <main class="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center">
 
         <!-- TELA 1: LOGIN E INGRESSO -->
         <section id="screen-login" class="glass-panel p-6 md:p-10 rounded-3xl max-w-lg mx-auto w-full shadow-2xl my-auto text-center border-t-4 border-indigo-500">
             <div class="w-20 h-20 bg-indigo-500/20 text-indigo-400 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 border border-indigo-500/30">
-                <i class="fa-solid fa-[#5c6bc0] fa-gamepad"></i>
+                <i class="fa-solid fa-gamepad"></i>
             </div>
             <h2 class="text-3xl font-bold mb-2">Bem-vindo(a) à Oficina!</h2>
-            <p class="text-slate-300 text-sm mb-6">Digite seu nome e o PIN fornecido na aula para entrar no desafio em tempo real com a turma.</p>
+            <p class="text-slate-300 text-sm mb-6">Digite seu nome e o PIN para entrar no desafio em tempo real com a turma.</p>
 
             <form id="login-form" onsubmit="event.preventDefault(); startGame();" class="space-y-4">
                 <div>
@@ -124,86 +103,88 @@
             </form>
         </section>
 
-        <!-- TELA 2: ÁREA DE JOGO MULTIPLAYER -->
-        <section id="screen-game" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- TELA 2: ÁREA DE JOGO MULTIPLAYER (LARGURA AJUSTADA) -->
+        <section id="screen-game" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-6">
             
-            <!-- ÁREA DE PERGUNTAS / ETAPAS DA PILHA -->
-            <div class="lg:col-span-2 flex flex-col gap-4">
-                <div class="glass-panel p-5 md:p-6 rounded-2xl">
-                    <!-- INDICADOR DE FASE -->
-                    <div class="flex justify-between items-center mb-3">
-                        <span id="phase-badge" class="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full border border-indigo-500/30">Fase 1 de 4</span>
-                        <span id="type-badge" class="bg-amber-500/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/30">Operação PUSH (Encapsular)</span>
+            <!-- ÁREA DE PERGUNTAS (OCUPA 3 COLUNAS) -->
+            <div class="lg:col-span-3 flex flex-col gap-4">
+                <div class="glass-panel p-6 md:p-8 rounded-2xl flex-1 flex flex-col justify-between">
+                    <div>
+                        <!-- INDICADOR DE FASE -->
+                        <div class="flex justify-between items-center mb-4">
+                            <span id="phase-badge" class="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full border border-indigo-500/30">Fase 1 de 4</span>
+                            <span id="type-badge" class="bg-amber-500/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/30">Operação PUSH (Encapsular)</span>
+                        </div>
+
+                        <!-- ENUNCIADO DA PERGUNTA (GRANDE E EM NEGRITO) -->
+                        <h3 id="question-title" class="text-2xl md:text-3xl font-black mb-3 text-amber-300 leading-snug tracking-tight">Carregando pergunta...</h3>
+                        <p id="question-desc" class="text-slate-200 text-base md:text-lg font-medium mb-6 leading-relaxed">Instruções da fase aparecerão aqui.</p>
+
+                        <!-- OPÇÕES DE RESPOSTA -->
+                        <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <!-- Gerado via JS -->
+                        </div>
                     </div>
 
-                    <!-- ENUNCIADO DA PERGUNTA -->
-                    <h3 id="question-title" class="text-xl md:text-2xl font-bold mb-2 text-white">Carregando pergunta...</h3>
-                    <p id="question-desc" class="text-slate-300 text-sm mb-6">Instruções da fase aparecerão aqui.</p>
-
-                    <!-- OPÇÕES / BLOCOS DE INTERAÇÃO -->
-                    <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                        <!-- Gerado via JS -->
+                    <!-- DICA DE DIDÁTICA -->
+                    <div class="mt-4 pt-3 border-t border-slate-700/50 flex items-center gap-3 text-xs text-slate-300">
+                        <i class="fa-solid fa-lightbulb text-amber-400 text-base shrink-0"></i>
+                        <span><strong>Dica:</strong> Em uma <strong>Pilha (LIFO)</strong>, o último elemento empilhado (Push) é o primeiro a ser desempilhado (Pop).</span>
                     </div>
-                </div>
-
-                <!-- FEEDBACK RÁPIDO OU DICA -->
-                <div class="glass-panel p-4 rounded-xl flex items-center gap-3 bg-indigo-950/40 border-indigo-800/40">
-                    <i class="fa-solid fa-lightbulb text-amber-400 text-xl"></i>
-                    <p class="text-xs text-slate-300"><strong>Dica de Didática:</strong> Lembre-se que numa <strong>Pilha (LIFO)</strong>, o último elemento a entrar (Push) é sempre o primeiro a sair (Pop)!</p>
                 </div>
             </div>
 
-            <!-- RANKING EM TEMPO REAL -->
-            <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between">
+            <!-- PLACAR AO VIVO MAIS COMPACTO (OCUPA 1 COLUNA) -->
+            <div class="lg:col-span-1 glass-panel p-4 rounded-2xl flex flex-col justify-between">
                 <div>
-                    <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-700/50">
-                        <h3 class="font-bold text-lg flex items-center gap-2">
+                    <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-700/50">
+                        <h3 class="font-bold text-sm flex items-center gap-2">
                             <i class="fa-solid fa-trophy text-amber-400"></i>
                             <span>Placar Ao Vivo</span>
                         </h3>
-                        <span class="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded font-mono">PIN: <span id="room-pin-display">IFPA1</span></span>
+                        <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">PIN: <span id="room-pin-display">IFPA1</span></span>
                     </div>
-                    <div id="leaderboard-list" class="space-y-2 max-h-[320px] overflow-y-auto pr-1">
-                        <div class="text-center text-slate-500 text-sm py-4">Aguardando pontuações...</div>
+                    <div id="leaderboard-list" class="space-y-2 max-h-[360px] overflow-y-auto pr-1">
+                        <!-- Gerado via JS -->
                     </div>
                 </div>
-                <div class="mt-4 pt-3 border-t border-slate-700/50 text-center">
-                    <span class="text-xs text-slate-400">Sincronizado via Firebase Realtime</span>
+                <div class="mt-3 pt-2 border-t border-slate-700/50 text-center">
+                    <span class="text-[10px] text-slate-400">Atualizado em tempo real</span>
                 </div>
             </div>
 
         </section>
 
         <!-- TELA 3: RESULTADOS, REFLEXÃO DIDÁTICA E AGRADECIMENTOS -->
-        <section id="screen-result" class="hidden glass-panel p-6 md:p-8 rounded-3xl max-w-3xl mx-auto w-full shadow-2xl my-auto space-y-8">
+        <section id="screen-result" class="hidden glass-panel p-6 md:p-8 rounded-3xl max-w-3xl mx-auto w-full shadow-2xl my-auto space-y-6">
             <!-- PÓDIO / RESUMO -->
-            <div class="text-center space-y-3">
-                <div class="w-20 h-20 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-4xl mx-auto border border-amber-500/30 pulse-anim">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-3xl mx-auto border border-amber-500/30 pulse-anim">
                     <i class="fa-solid fa-crown"></i>
                 </div>
-                <h2 class="text-3xl font-bold text-amber-300">Parabéns! Desafio Concluído</h2>
-                <p class="text-slate-300 text-sm">Sua pontuação final foi: <strong id="final-score" class="text-emerald-400 text-xl font-bold">0</strong> pontos</p>
+                <h2 class="text-3xl font-bold text-amber-300">Desafio Concluído!</h2>
+                <p class="text-slate-300 text-sm">Sua pontuação final foi: <strong id="final-score" class="text-emerald-400 text-2xl font-black">0</strong> pontos</p>
             </div>
 
             <!-- SEÇÃO DE REVISÃO DIDÁTICA PARA O ENSINO DE INFORMÁTICA -->
-            <div class="bg-indigo-950/60 border border-indigo-700/50 p-5 rounded-2xl space-y-3">
-                <h3 class="text-lg font-bold text-indigo-300 flex items-center gap-2">
+            <div class="bg-indigo-950/60 border border-indigo-700/50 p-4 rounded-2xl space-y-2">
+                <h3 class="text-base font-bold text-indigo-300 flex items-center gap-2">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Reflexão Didática: Por que aprendemos assim?</span>
                 </h3>
-                <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                    Esta atividade utilizou <strong>Metodologia Ativa e Gamificação</strong> para conectar dois conceitos abstratos da Ciência da Computação:
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Esta oficina utilizou a <strong>Gamificação Interativa</strong> para ajudar na abstração de dois conceitos fundamentais:
                 </p>
-                <ul class="text-xs md:text-sm text-slate-300 list-disc list-inside space-y-1">
-                    <li><strong>Estrutura de Dados (Pilha):</strong> Operações concretas de <code>Push</code> (empilhar) e <code>Pop</code> (desempilhar) seguindo a regra LIFO.</li>
-                    <li><strong>Redes de Computadores:</strong> O processo de <strong>Encapsulamento</strong> (adicionar cabeçalhos de cima para baixo) e <strong>Desencapsulamento</strong> (remover de baixo para cima).</li>
+                <ul class="text-xs text-slate-300 list-disc list-inside space-y-1">
+                    <li><strong>Estrutura de Dados (Pilha):</strong> Operações de <code>Push</code> (empilhar) e <code>Pop</code> (desempilhar) com base na regra LIFO.</li>
+                    <li><strong>Redes de Computadores:</strong> O processo de <strong>Encapsulamento</strong> (adicionar cabeçalhos) e <strong>Desencapsulamento</strong> (remover cabeçalhos).</li>
                 </ul>
             </div>
 
             <!-- AGRADECIMENTOS AOS PROFESSORES -->
-            <div class="bg-slate-900/80 border border-slate-700/60 p-5 rounded-2xl text-center space-y-3">
-                <h4 class="text-xs uppercase tracking-widest font-bold text-amber-400">Agradecimentos Especiais</h4>
-                <p class="text-xs text-slate-400 mb-2">Expressamos nossa gratidão aos professores orientadores das disciplinas integradas por viabilizarem esta oficina prática:</p>
+            <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-2xl text-center space-y-2">
+                <h4 class="text-[10px] uppercase tracking-widest font-bold text-amber-400">Agradecimentos Especiais</h4>
+                <p class="text-xs text-slate-400">Expressamos nossa gratidão aos professores docentes das disciplinas integradas por todo o suporte:</p>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-semibold">
                     <div class="p-2 bg-slate-800/80 rounded-lg border border-slate-700 text-indigo-200">
                         Profa. Cláudia Maria Rodrigues Barros da Costa
@@ -217,37 +198,38 @@
                 </div>
             </div>
 
-            <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all">
-                Jogar Novamente / Novo Jogador
+            <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg">
+                Jogar Novamente
             </button>
         </section>
 
     </main>
 
     <!-- MODAL DIDÁTICO DE EXPLICAÇÃO AO ERRAR -->
-    <div id="modal-explanation" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div id="modal-explanation" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="glass-panel p-6 rounded-2xl max-w-md w-full border-2 border-rose-500/50 shadow-2xl space-y-4">
             <div class="flex items-center gap-3 text-rose-400">
                 <i class="fa-solid fa-circle-xmark text-3xl"></i>
-                <h3 class="text-xl font-bold">Ops! Vamos revisar?</h3>
+                <h3 class="text-xl font-bold">Explicação Pedagógica</h3>
             </div>
-            <p id="explanation-text" class="text-sm text-slate-200 leading-relaxed">
+            <p id="explanation-text" class="text-sm text-slate-200 leading-relaxed font-medium">
                 Explicação detalhada...
             </p>
-            <button onclick="closeExplanationModal()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-xl transition-all">
-                Tentar Novamente
+            <button onclick="closeExplanationModalAndAdvance()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                <span>Entendi! Ir para a próxima questão</span>
+                <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
     </div>
 
     <!-- RODAPÉ -->
-    <footer class="max-w-5xl mx-auto w-full text-center text-xs text-slate-500 mt-6">
+    <footer class="max-w-6xl mx-auto w-full text-center text-xs text-slate-500 mt-4">
         IFPA Campus Castanhal • Projeto Integrado • Licenciatura em Informática / Curso Técnico Integrado
     </footer>
 
     <!-- LÓGICA DO JOGO EM JAVASCRIPT -->
     <script>
-        // CONFIGURAÇÃO DO FIREBASE (Configuração pública padrão para salas de jogos)
+        // CONFIGURAÇÃO DO FIREBASE (Sincronização do Placar)
         const firebaseConfig = {
             databaseURL: "https://quiz-pilha-tcpip-default-rtdb.firebaseio.com/"
         };
@@ -260,57 +242,57 @@
             db = firebase.database();
             isFirebaseActive = true;
         } catch(e) {
-            console.warn("Modo offline ativado (Firebase indisponível).", e);
+            console.warn("Modo offline ativado.", e);
         }
 
-        // DADOS DO JOGO (PERGUNTAS SIMPLIFICADAS PARA ENSINO MÉDIO - 30 SEGUNDOS CADA)
+        // PERGUNTAS COM TEXTO CLARO E ACESSÍVEL PARA O ENSINO MÉDIO
         const questions = [
             {
                 phase: 1,
-                type: "PUSH (Encapsulamento)",
-                title: "1. Qual camada é a PRIMEIRA na origem?",
-                desc: "Quando você envia uma mensagem no WhatsApp ou navega no navegador, em qual camada da pilha o dado é criado primeiro?",
+                type: "PUSH (Encapsular)",
+                title: "1. Por onde os dados COMEÇAM a ser criados?",
+                desc: "Quando você envia uma mensagem no WhatsApp ou navega em um site, em qual camada da pilha o dado é gerado primeiro?",
                 options: [
-                    { text: "Camada de Aplicação", correct: true, expl: "Correto! Tudo começa na Aplicação (HTTP, WhatsApp). Na operação PUSH, o dado entra no topo da pilha!" },
-                    { text: "Camada de Acesso à Rede", correct: false, expl: "Incorreto. A camada de Acesso à Rede é a última a receber o pacote antes de ser enviado pelo cabo ou Wi-Fi." },
-                    { text: "Camada de Internet", correct: false, expl: "Incorreto. A camada de Internet (IP) fica no meio da pilha, após a camada de Transporte." },
-                    { text: "Camada de Transporte", correct: false, expl: "Incorreto. A camada de Transporte (TCP/UDP) vem logo após a Aplicação." }
+                    { text: "Camada de Aplicação", correct: true, expl: "Correto! Na operação PUSH, tudo começa na Aplicação (HTTP, WhatsApp), que gera o dado no topo da pilha." },
+                    { text: "Camada de Acesso à Rede", correct: false, expl: "A Acesso à Rede é a última camada a receber os dados antes de enviá-los fisicamente pelo cabo ou Wi-Fi." },
+                    { text: "Camada de Internet", correct: false, expl: "A camada de Internet (IP) fica no meio da pilha e cuida do roteamento dos pacotes." },
+                    { text: "Camada de Transporte", correct: false, expl: "A camada de Transporte (TCP/UDP) vem logo abaixo da Aplicação para dividir os dados em segmentos." }
                 ]
             },
             {
                 phase: 2,
-                type: "PUSH (Encapsulamento)",
-                title: "2. Adicionando Portas de Comunicação",
-                desc: "Após sair da Aplicação, o dado recebe um cabeçalho com a porta de destino (ex: porta 80). Qual camada faz isso?",
+                type: "PUSH (Encapsular)",
+                title: "2. Adicionando as Portas de Comunicação",
+                desc: "Após sair da Aplicação, o pacote recebe um cabeçalho com as portas de origem e destino. Qual camada faz esse empilhamento?",
                 options: [
-                    { text: "Camada de Transporte (TCP/UDP)", correct: true, expl: "Excelente! A camada de Transporte adiciona as portas de origem e destino na PDU (PUSH)." },
-                    { text: "Camada de Acesso à Rede", correct: false, expl: "Incorreto. A Acesso à Rede cuida dos endereços físicos (MAC Address) e cabos." },
-                    { text: "Camada de Aplicação", correct: false, expl: "Incorreto. A Aplicação apenas gera a mensagem original." },
-                    { text: "Camada de Internet", correct: false, expl: "Incorreto. A camada de Internet cuida do endereço IP, não das portas." }
+                    { text: "Camada de Transporte", correct: true, expl: "Perfeito! A camada de Transporte adiciona as portas (ex: porta 80 ou 443) na PDU." },
+                    { text: "Camada de Acesso à Rede", correct: false, expl: "A camada de Acesso à Rede cuida dos endereços físicos (MAC Address), não das portas." },
+                    { text: "Camada de Aplicação", correct: false, expl: "A Aplicação gera o conteúdo da mensagem, mas quem adiciona o cabeçalho de transporte é a camada abaixo dela." },
+                    { text: "Camada de Internet", correct: false, expl: "A camada de Internet adiciona o endereço IP, enquanto o Transporte cuida das portas de comunicação." }
                 ]
             },
             {
                 phase: 3,
-                type: "POP (Desencapsulamento - Regra LIFO)",
-                title: "3. Chegada no Destino (Servidor)",
-                desc: "O pacote chegou pelo cabo de rede. Pela regra da PILHA (LIFO: Último a Entrar, Primeiro a Sair), qual camada é a PRIMEIRA a ser removida (POP)?",
+                type: "POP (Desencapsular - Regra LIFO)",
+                title: "3. O pacote chegou ao destino!",
+                desc: "Pela regra da PILHA (LIFO: Último a Entrar, Primeiro a Sair), qual camada é a PRIMEIRA a ser removida (POP) no receptor?",
                 options: [
-                    { text: "Camada de Acesso à Rede", correct: true, expl: "Perfeito! Como a camada de Acesso à Rede foi a ÚLTIMA a ser colocada (Push), ela é a PRIMEIRA a ser removida (Pop)!" },
-                    { text: "Camada de Aplicação", correct: false, expl: "Incorreto. A Aplicação foi a primeira a entrar, logo será a ÚLTIMA a ser lida no destino." },
-                    { text: "Camada de Transporte", correct: false, expl: "Incorreto. A camada de Transporte só pode ser lida depois que retirarmos a camada externa." },
-                    { text: "Camada de Internet", correct: false, expl: "Incorreto. A camada de Internet fica abaixo do Transporte, mas acima do Acesso à Rede." }
+                    { text: "Camada de Acesso à Rede", correct: true, expl: "Excelente! Como a Acesso à Rede foi a ÚLTIMA a ser empilhada no envio, ela é obrigatoriamente a PRIMEIRA a ser desempilhada!" },
+                    { text: "Camada de Aplicação", correct: false, expl: "A Aplicação foi a primeira a entrar no envio, logo será a ÚLTIMA a ser lida no destino." },
+                    { text: "Camada de Transporte", correct: false, expl: "Não é possível ler o Transporte sem remover primeiro as camadas externas que o cobrem." },
+                    { text: "Camada de Internet", correct: false, expl: "A camada de Internet fica abaixo do Transporte, mas acima do Acesso à Rede." }
                 ]
             },
             {
                 phase: 4,
                 type: "Conceito Geral de Estrutura de Dados",
-                title: "4. Regra de Ouro da Pilha",
-                desc: "Qual é a principal característica da estrutura de dados do tipo PILHA que se aplica ao TCP/IP?",
+                title: "4. Regra Principal da Pilha",
+                desc: "Qual é a regra de ouro do funcionamento de uma PILHA que se aplica exatamente ao TCP/IP?",
                 options: [
-                    { text: "LIFO: O último elemento empilhado é o primeiro a ser retirado", correct: true, expl: "Exatamente! LIFO (Last In, First Out). O último cabeçalho adicionado no envio é o primeiro a ser processado no destino." },
-                    { text: "FIFO: O primeiro elemento a entrar é o primeiro a sair", correct: false, expl: "Incorreto. FIFO (First In, First Out) é a regra de uma FILA, não de uma PILHA." },
-                    { text: "Acesso Aleatório: Qualquer elemento pode ser tirado a qualquer momento", correct: false, expl: "Incorreto. Numa pilha, só temos acesso ao elemento que está no topo!" },
-                    { text: "Os dados entram e saem pelas duas pontas ao mesmo tempo", correct: false, expl: "Incorreto. A pilha possui apenas uma extremidade aberta (o topo) para Push e Pop." }
+                    { text: "LIFO: O último a entrar é o primeiro a sair", correct: true, expl: "Exatamente! LIFO (Last In, First Out). O último cabeçalho adicionado (Push) é o primeiro removido (Pop)." },
+                    { text: "FIFO: O primeiro a entrar é o primeiro a sair", correct: false, expl: "FIFO é a regra de funcionamento de uma FILA, e não de uma PILHA." },
+                    { text: "Retirada aleatória de qualquer camada", correct: false, expl: "Em uma pilha, só temos acesso ao elemento do TOPO. Não é possível acessar o meio diretamente." },
+                    { text: "Entrada e saída por dois lados diferentes", correct: false, expl: "A pilha possui apenas uma extremidade aberta para inserir (Push) ou remover (Pop)." }
                 ]
             }
         ];
@@ -320,8 +302,9 @@
         let roomPin = "IFPA1";
         let currentQuestionIdx = 0;
         let score = 0;
-        let timer = 30; // 30 SEGUNDOS SOLICITADOS
+        let timer = 30; // 30 SEGUNDOS
         let timerInterval = null;
+        let localPlayers = [];
 
         // ELEMENTOS DOM
         const screenLogin = document.getElementById('screen-login');
@@ -334,7 +317,7 @@
         const timerDisplay = document.getElementById('timer-display');
         const roomPinDisplay = document.getElementById('room-pin-display');
 
-        // WEB AUDIO API SINTÉTICO (Sem arquivos externos)
+        // ÁUDIO SINTÉTICO
         function playSound(type) {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -344,14 +327,14 @@
                 gain.connect(ctx.destination);
 
                 if (type === 'correct') {
-                    osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-                    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1); // A5
+                    osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+                    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
                     gain.gain.setValueAtTime(0.1, ctx.currentTime);
                     osc.start();
                     osc.stop(ctx.currentTime + 0.25);
                 } else if (type === 'wrong') {
-                    osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
-                    osc.frequency.setValueAtTime(164.81, ctx.currentTime + 0.1); // E3
+                    osc.frequency.setValueAtTime(220, ctx.currentTime);
+                    osc.frequency.setValueAtTime(164.81, ctx.currentTime + 0.1);
                     gain.gain.setValueAtTime(0.1, ctx.currentTime);
                     osc.start();
                     osc.stop(ctx.currentTime + 0.3);
@@ -373,18 +356,17 @@
             screenGame.classList.remove('hidden');
             statusBar.classList.remove('hidden');
 
-            // Conectar ao Firebase para Placar ao Vivo
+            updateLocalLeaderboard(0);
+
             if (isFirebaseActive && db) {
                 listenToLeaderboard();
                 updateScoreInFirebase();
-            } else {
-                renderLocalLeaderboard();
             }
 
             loadQuestion(0);
         }
 
-        // CARREGAR PERGUNTA E INICIAR TIMING DE 30 SEC
+        // CARREGAR PERGUNTA (30s POR FASE)
         function loadQuestion(idx) {
             currentQuestionIdx = idx;
             const q = questions[idx];
@@ -397,26 +379,17 @@
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
-            // Cores estilizadas para as opções
-            const colorClasses = [
-                'bg-slate-800/80 border-slate-700 hover:border-indigo-500 hover:bg-slate-800',
-                'bg-slate-800/80 border-slate-700 hover:border-indigo-500 hover:bg-slate-800',
-                'bg-slate-800/80 border-slate-700 hover:border-indigo-500 hover:bg-slate-800',
-                'bg-slate-800/80 border-slate-700 hover:border-indigo-500 hover:bg-slate-800'
-            ];
-
             q.options.forEach((opt, oIdx) => {
                 const btn = document.createElement('button');
-                btn.className = `p-4 rounded-xl border-2 text-left font-semibold text-sm transition-all flex items-start gap-3 text-slate-200 ${colorClasses[oIdx % 4]}`;
+                btn.className = `p-4 rounded-xl border-2 text-left font-bold text-base transition-all flex items-start gap-3 bg-slate-800/90 border-slate-700 hover:border-indigo-500 hover:bg-slate-800 text-slate-100 shadow-md`;
                 btn.onclick = () => handleAnswer(opt);
                 btn.innerHTML = `
-                    <span class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 shrink-0">${String.fromCharCode(65 + oIdx)}</span>
+                    <span class="w-7 h-7 rounded-full bg-indigo-900 text-indigo-300 flex items-center justify-center text-xs font-black shrink-0 border border-indigo-700">${String.fromCharCode(65 + oIdx)}</span>
                     <span>${opt.text}</span>
                 `;
                 container.appendChild(btn);
             });
 
-            // Timer de 30 Segundos
             resetTimer();
         }
 
@@ -432,31 +405,28 @@
                 if (timer <= 0) {
                     clearInterval(timerInterval);
                     playSound('wrong');
-                    showExplanation("O tempo de 30 segundos acabou! Na transmissão de rede, pacotes com tempo limite excedido (TTL) são descartados. Tente responder mais rápido!");
+                    showExplanation("O tempo de 30 segundos esgotou! Na rede, quando o limite de tempo (TTL) do pacote expira, ele é descartado. Vamos para a próxima questão!");
                 }
             }, 1000);
         }
 
-        // RESPOSTA SELECIONADA
+        // PROCESSAR RESPOSTA SELECIONADA
         function handleAnswer(option) {
             clearInterval(timerInterval);
 
             if (option.correct) {
                 playSound('correct');
-                // Pontuação base + Bônus de tempo restante
                 const points = 100 + (timer * 5);
                 score += points;
                 scoreDisplay.textContent = score;
+
+                updateLocalLeaderboard(score);
 
                 if (isFirebaseActive && db) {
                     updateScoreInFirebase();
                 }
 
-                if (currentQuestionIdx + 1 < questions.length) {
-                    loadQuestion(currentQuestionIdx + 1);
-                } else {
-                    finishGame();
-                }
+                advanceToNextQuestion();
             } else {
                 playSound('wrong');
                 showExplanation(option.expl);
@@ -468,9 +438,18 @@
             document.getElementById('modal-explanation').classList.remove('hidden');
         }
 
-        function closeExplanationModal() {
+        // AO ERRAR, ABRIR EXPLICAÇÃO E AVANÇAR PARA A PRÓXIMA QUESTAO (FLUXO CORRIGIDO)
+        function closeExplanationModalAndAdvance() {
             document.getElementById('modal-explanation').classList.add('hidden');
-            loadQuestion(currentQuestionIdx); // Recarrega a fase atual
+            advanceToNextQuestion();
+        }
+
+        function advanceToNextQuestion() {
+            if (currentQuestionIdx + 1 < questions.length) {
+                loadQuestion(currentQuestionIdx + 1);
+            } else {
+                finishGame();
+            }
         }
 
         // FINALIZAR JOGO
@@ -480,7 +459,6 @@
             screenResult.classList.remove('hidden');
             document.getElementById('final-score').textContent = score;
 
-            // Confetti de comemoração
             try {
                 confetti({
                     particleCount: 100,
@@ -490,7 +468,19 @@
             } catch(e) {}
         }
 
-        // COMUNICAÇÃO FIREBASE (TEMPO REAL)
+        // ATUALIZAÇÃO DO PLACAR AO VIVO
+        function updateLocalLeaderboard(currentScore) {
+            localPlayers = [
+                { name: playerName, score: currentScore },
+                { name: "Aluno(a) IFPA", score: 250 },
+                { name: "Visitante", score: 180 }
+            ].sort((a, b) => b.score - a.score);
+
+            if (!isFirebaseActive) {
+                renderLeaderboard(localPlayers);
+            }
+        }
+
         function updateScoreInFirebase() {
             if (!db) return;
             const playerRef = db.ref(`rooms/${roomPin}/players/${playerName.replace(/[.#$\[\]]/g, "_")}`);
@@ -520,28 +510,22 @@
             list.forEach((p, idx) => {
                 const item = document.createElement('div');
                 const isMe = p.name === playerName;
-                item.className = `p-2.5 rounded-xl flex items-center justify-between text-sm ${isMe ? 'bg-indigo-600/30 border border-indigo-500/50' : 'bg-slate-800/50 border border-slate-700/40'}`;
+                item.className = `p-2 rounded-xl flex items-center justify-between text-xs ${isMe ? 'bg-indigo-600/40 border border-indigo-400/60 font-bold' : 'bg-slate-800/60 border border-slate-700/50'}`;
                 
-                let medal = `<span class="w-6 text-center font-bold text-slate-400">${idx + 1}º</span>`;
-                if (idx === 0) medal = `<i class="fa-solid fa-medal text-amber-400 w-6 text-center"></i>`;
-                if (idx === 1) medal = `<i class="fa-solid fa-medal text-slate-300 w-6 text-center"></i>`;
-                if (idx === 2) medal = `<i class="fa-solid fa-medal text-amber-600 w-6 text-center"></i>`;
+                let medal = `<span class="w-5 text-center font-bold text-slate-400">${idx + 1}º</span>`;
+                if (idx === 0) medal = `<i class="fa-solid fa-medal text-amber-400 w-5 text-center"></i>`;
+                if (idx === 1) medal = `<i class="fa-solid fa-medal text-slate-300 w-5 text-center"></i>`;
+                if (idx === 2) medal = `<i class="fa-solid fa-medal text-amber-600 w-5 text-center"></i>`;
 
                 item.innerHTML = `
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-1.5 truncate">
                         ${medal}
-                        <span class="font-semibold ${isMe ? 'text-amber-300' : 'text-slate-200'}">${p.name} ${isMe ? '(Você)' : ''}</span>
+                        <span class="truncate ${isMe ? 'text-amber-300' : 'text-slate-200'}">${p.name}</span>
                     </div>
-                    <span class="font-mono font-bold text-emerald-400">${p.score} pts</span>
+                    <span class="font-mono font-bold text-emerald-400 shrink-0">${p.score}</span>
                 `;
                 container.appendChild(item);
             });
-        }
-
-        function renderLocalLeaderboard() {
-            renderLeaderboard([
-                { name: playerName, score: score }
-            ]);
         }
     </script>
 </body>
