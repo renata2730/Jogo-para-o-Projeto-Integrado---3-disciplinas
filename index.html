@@ -9,7 +9,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.min.js"></script>
     <!-- Firebase App & Realtime Database SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
@@ -23,7 +23,7 @@
             min-height: 100vh;
         }
 
-        h1, h2, h3, .font-heading {
+        h1, h2, h3, h4, .font-heading {
             font-family: 'Fredoka', sans-serif;
         }
 
@@ -53,11 +53,11 @@
             </div>
             <div>
                 <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-indigo-300">Pilha TCP/IP</h1>
-                <p class="text-xs text-slate-400">Oficina Interativa • Estrutura de Dados & Redes</p>
+                <p class="text-xs text-slate-400">IFPA Campus Castanhal • Projeto Integrado 2025</p>
             </div>
         </div>
 
-        <!-- PAINEL DE STATUS -->
+        <!-- PAINEL DE STATUS (EXIBIDO DURANTE O JOGO) -->
         <div id="status-bar" class="hidden flex items-center gap-4 md:gap-6 bg-slate-900/90 px-5 py-2 rounded-xl border border-slate-700/60">
             <div class="text-center">
                 <span class="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">Jogador</span>
@@ -79,40 +79,54 @@
     <!-- CONTEÚDO PRINCIPAL (TELAS) -->
     <main class="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center">
 
-        <!-- TELA 1: LOGIN E INGRESSO -->
-        <section id="screen-login" class="glass-panel p-6 md:p-10 rounded-3xl max-w-lg mx-auto w-full shadow-2xl my-auto text-center border-t-4 border-indigo-500">
-            <div class="w-20 h-20 bg-indigo-500/20 text-indigo-400 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 border border-indigo-500/30">
-                <i class="fa-solid fa-gamepad"></i>
+        <!-- TELA 1: ENTRADA DO JOGO E AUTORIA DOS DISCENTES -->
+        <section id="screen-login" class="glass-panel p-6 md:p-8 rounded-3xl max-w-2xl mx-auto w-full shadow-2xl my-auto text-center border-t-4 border-indigo-500 space-y-6">
+            
+            <div class="space-y-1">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-widest block">Oficina Interativa</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white">Desafio Pilha e Arquitetura TCP/IP</h2>
+                <p class="text-xs text-slate-300">IFPA Campus Castanhal • Licenciatura em Informática</p>
             </div>
-            <h2 class="text-3xl font-bold mb-2">Bem-vindo(a) à Oficina!</h2>
-            <p class="text-slate-300 text-sm mb-6">Digite seu nome e o PIN para entrar no desafio em tempo real com a turma.</p>
 
-            <form id="login-form" onsubmit="event.preventDefault(); startGame();" class="space-y-4">
-                <div>
-                    <label class="block text-left text-xs uppercase tracking-wider text-slate-400 mb-1 font-semibold">Seu Nome / Apelido</label>
-                    <input type="text" id="input-name" required placeholder="Ex: Maria Clara" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30">
+            <!-- CARD COM AUTORIA DOS DISCENTES -->
+            <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-left space-y-2">
+                <span class="font-bold text-indigo-400 text-xs uppercase tracking-wider block flex items-center gap-1.5">
+                    <i class="fa-solid fa-code"></i> Desenvolvido por (Discentes):
+                </span>
+                <p class="text-xs text-slate-300 font-medium leading-relaxed">
+                    Ana Dálete de Castro Santos • Carlos Silva Costa • Marcos Nauan Moreira da Costa • Pedro Ricardo Nunes Galvão • Renata de Oliveira Almeida
+                </p>
+            </div>
+
+            <!-- FORMULÁRIO DE ENTRADA DO ALUNO -->
+            <form id="login-form" onsubmit="event.preventDefault(); startGame();" class="space-y-4 pt-1">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="block text-left text-[11px] uppercase tracking-wider text-slate-400 mb-1 font-semibold">Seu Nome / Apelido</label>
+                        <input type="text" id="input-name" required placeholder="Ex: Maria Clara" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-left text-[11px] uppercase tracking-wider text-slate-400 mb-1 font-semibold">PIN da Sala</label>
+                        <input type="text" id="input-pin" required value="IFPA1" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3 py-3 text-white uppercase text-center font-mono font-bold text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-left text-xs uppercase tracking-wider text-slate-400 mb-1 font-semibold">PIN da Sala</label>
-                    <input type="text" id="input-pin" required value="IFPA1" placeholder="Ex: IFPA1" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white uppercase tracking-widest text-center font-mono font-bold focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30">
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all text-lg flex items-center justify-center gap-2">
+                <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all text-base flex items-center justify-center gap-2">
                     <span>Iniciar Desafio</span>
-                    <i class="fa-solid fa-arrow-right"></i>
+                    <i class="fa-solid fa-play"></i>
                 </button>
             </form>
         </section>
 
-        <!-- TELA 2: ÁREA DE JOGO MULTIPLAYER (LARGURA AJUSTADA) -->
+        <!-- TELA 2: ÁREA DE JOGO MULTIPLAYER (8 PERGUNTAS) -->
         <section id="screen-game" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-6">
             
-            <!-- ÁREA DE PERGUNTAS (OCUPA 3 COLUNAS) -->
+            <!-- ÁREA DE PERGUNTAS (3 COLUNAS) -->
             <div class="lg:col-span-3 flex flex-col gap-4">
                 <div class="glass-panel p-6 md:p-8 rounded-2xl flex-1 flex flex-col justify-between">
                     <div>
                         <!-- INDICADOR DE FASE -->
                         <div class="flex justify-between items-center mb-4">
-                            <span id="phase-badge" class="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full border border-indigo-500/30">Fase 1 de 4</span>
+                            <span id="phase-badge" class="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full border border-indigo-500/30">Fase 1 de 8</span>
                             <span id="type-badge" class="bg-amber-500/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/30">Operação PUSH (Encapsular)</span>
                         </div>
 
@@ -129,12 +143,12 @@
                     <!-- DICA DE DIDÁTICA -->
                     <div class="mt-4 pt-3 border-t border-slate-700/50 flex items-center gap-3 text-xs text-slate-300">
                         <i class="fa-solid fa-lightbulb text-amber-400 text-base shrink-0"></i>
-                        <span><strong>Dica:</strong> Em uma <strong>Pilha (LIFO)</strong>, o último elemento empilhado (Push) é o primeiro a ser desempilhado (Pop).</span>
+                        <span><strong>Dica:</strong> Na <strong>Pilha (LIFO)</strong>, o último elemento adicionado (Push) é sempre o primeiro a ser retirado (Pop).</span>
                     </div>
                 </div>
             </div>
 
-            <!-- PLACAR AO VIVO MAIS COMPACTO (OCUPA 1 COLUNA) -->
+            <!-- PLACAR AO VIVO COMPACTO (1 COLUNA) -->
             <div class="lg:col-span-1 glass-panel p-4 rounded-2xl flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-700/50">
@@ -149,13 +163,13 @@
                     </div>
                 </div>
                 <div class="mt-3 pt-2 border-t border-slate-700/50 text-center">
-                    <span class="text-[10px] text-slate-400">Atualizado em tempo real</span>
+                    <span class="text-[10px] text-slate-400">Sincronizado em Tempo Real</span>
                 </div>
             </div>
 
         </section>
 
-        <!-- TELA 3: RESULTADOS, REFLEXÃO DIDÁTICA E AGRADECIMENTOS -->
+        <!-- TELA 3: RESULTADOS, REFLEXÃO, AGRADECIMENTOS E REFERÊNCIAS -->
         <section id="screen-result" class="hidden glass-panel p-6 md:p-8 rounded-3xl max-w-3xl mx-auto w-full shadow-2xl my-auto space-y-6">
             <!-- PÓDIO / RESUMO -->
             <div class="text-center space-y-2">
@@ -166,25 +180,25 @@
                 <p class="text-slate-300 text-sm">Sua pontuação final foi: <strong id="final-score" class="text-emerald-400 text-2xl font-black">0</strong> pontos</p>
             </div>
 
-            <!-- SEÇÃO DE REVISÃO DIDÁTICA PARA O ENSINO DE INFORMÁTICA -->
+            <!-- REVISÃO DIDÁTICA -->
             <div class="bg-indigo-950/60 border border-indigo-700/50 p-4 rounded-2xl space-y-2">
                 <h3 class="text-base font-bold text-indigo-300 flex items-center gap-2">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Reflexão Didática: Por que aprendemos assim?</span>
                 </h3>
                 <p class="text-xs text-slate-300 leading-relaxed">
-                    Esta oficina utilizou a <strong>Gamificação Interativa</strong> para ajudar na abstração de dois conceitos fundamentais:
+                    Esta oficina utilizou a <strong>Gamificação Interativa</strong> para conectar dois conceitos fundamentais:
                 </p>
                 <ul class="text-xs text-slate-300 list-disc list-inside space-y-1">
-                    <li><strong>Estrutura de Dados (Pilha):</strong> Operações de <code>Push</code> (empilhar) e <code>Pop</code> (desempilhar) com base na regra LIFO.</li>
-                    <li><strong>Redes de Computadores:</strong> O processo de <strong>Encapsulamento</strong> (adicionar cabeçalhos) e <strong>Desencapsulamento</strong> (remover cabeçalhos).</li>
+                    <li><strong>Estrutura de Dados (Pilha):</strong> Operações de <code>Push</code> (empilhar) e <code>Pop</code> (desempilhar) baseadas na regra LIFO.</li>
+                    <li><strong>Redes de Computadores:</strong> O processo de <strong>Encapsulamento</strong> (adicionar cabeçalhos) e <strong>Desencapsulamento</strong> (remover cabeçalhos no destino).</li>
                 </ul>
             </div>
 
             <!-- AGRADECIMENTOS AOS PROFESSORES -->
             <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-2xl text-center space-y-2">
                 <h4 class="text-[10px] uppercase tracking-widest font-bold text-amber-400">Agradecimentos Especiais</h4>
-                <p class="text-xs text-slate-400">Expressamos nossa gratidão aos professores docentes das disciplinas integradas por todo o suporte:</p>
+                <p class="text-xs text-slate-400">Expressamos nossa gratidão aos docentes orientadores das três disciplinas integradas pelo suporte:</p>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-semibold">
                     <div class="p-2 bg-slate-800/80 rounded-lg border border-slate-700 text-indigo-200">
                         Profa. Cláudia Maria Rodrigues Barros da Costa
@@ -198,8 +212,21 @@
                 </div>
             </div>
 
+            <!-- REFERÊNCIAS BIBLIOGRÁFICAS (ABNT) -->
+            <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-2xl space-y-2 text-left">
+                <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-book"></i> Referências Bibliográficas (ABNT)
+                </h4>
+                <ul class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed font-sans">
+                    <li>• CORMEN, Thomas H. et al. <strong>Algoritmos: Teoria e Prática</strong>. 3. ed. Rio de Janeiro: Elsevier, 2012.</li>
+                    <li>• GOOGLE. <strong>Gemini (Modelo de Linguagem de Grande Porte)</strong>. Suporte no desenvolvimento pedagógico, codificação e gamificação do projeto. 2026.</li>
+                    <li>• KUROSE, James F.; ROSS, Keith W. <strong>Redes de Computadores e a Internet: Uma Abordagem Top-Down</strong>. 7. ed. São Paulo: Pearson, 2017.</li>
+                    <li>• TANENBAUM, Andrew S.; WETHERALL, David. <strong>Redes de Computadores</strong>. 5. ed. São Paulo: Pearson, 2011.</li>
+                </ul>
+            </div>
+
             <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg">
-                Jogar Novamente
+                Jogar Novamente / Novo Jogador
             </button>
         </section>
 
@@ -224,12 +251,12 @@
 
     <!-- RODAPÉ -->
     <footer class="max-w-6xl mx-auto w-full text-center text-xs text-slate-500 mt-4">
-        IFPA Campus Castanhal • Projeto Integrado • Licenciatura em Informática / Curso Técnico Integrado
+        IFPA Campus Castanhal • Licenciatura em Informática 2025 • Projeto Integrado
     </footer>
 
-    <!-- LÓGICA DO JOGO EM JAVASCRIPT -->
+    <!-- LÓGICA DO JOGO EM JAVASCRIPT (8 PERGUNTAS) -->
     <script>
-        // CONFIGURAÇÃO DO FIREBASE (Sincronização do Placar)
+        // CONFIGURAÇÃO DO FIREBASE (Placar em Tempo Real)
         const firebaseConfig = {
             databaseURL: "https://quiz-pilha-tcpip-default-rtdb.firebaseio.com/"
         };
@@ -245,54 +272,102 @@
             console.warn("Modo offline ativado.", e);
         }
 
-        // PERGUNTAS COM TEXTO CLARO E ACESSÍVEL PARA O ENSINO MÉDIO
+        // BANCO DE 8 PERGUNTAS DIDÁTICAS PARA O ENSINO MÉDIO
         const questions = [
             {
                 phase: 1,
                 type: "PUSH (Encapsular)",
                 title: "1. Por onde os dados COMEÇAM a ser criados?",
-                desc: "Quando você envia uma mensagem no WhatsApp ou navega em um site, em qual camada da pilha o dado é gerado primeiro?",
+                desc: "Quando você envia uma mensagem no WhatsApp ou acessa um site, em qual camada da pilha o dado é criado primeiro?",
                 options: [
-                    { text: "Camada de Aplicação", correct: true, expl: "Correto! Na operação PUSH, tudo começa na Aplicação (HTTP, WhatsApp), que gera o dado no topo da pilha." },
-                    { text: "Camada de Acesso à Rede", correct: false, expl: "A Acesso à Rede é a última camada a receber os dados antes de enviá-los fisicamente pelo cabo ou Wi-Fi." },
-                    { text: "Camada de Internet", correct: false, expl: "A camada de Internet (IP) fica no meio da pilha e cuida do roteamento dos pacotes." },
-                    { text: "Camada de Transporte", correct: false, expl: "A camada de Transporte (TCP/UDP) vem logo abaixo da Aplicação para dividir os dados em segmentos." }
+                    { text: "Camada de Aplicação", correct: true, expl: "Correto! Tudo começa na Aplicação (HTTP, WhatsApp), onde o dado entra no TOPO da pilha (operação PUSH)." },
+                    { text: "Camada de Acesso à Rede", correct: false, expl: "Incorreto. A Acesso à Rede é a última camada a receber os dados antes de enviá-los fisicamente." },
+                    { text: "Camada de Internet", correct: false, expl: "Incorreto. A camada de Internet (IP) fica no meio da pilha e cuida do roteamento." },
+                    { text: "Camada de Transporte", correct: false, expl: "Incorreto. A camada de Transporte (TCP/UDP) vem abaixo da Aplicação para dividir dados em segmentos." }
                 ]
             },
             {
                 phase: 2,
                 type: "PUSH (Encapsular)",
                 title: "2. Adicionando as Portas de Comunicação",
-                desc: "Após sair da Aplicação, o pacote recebe um cabeçalho com as portas de origem e destino. Qual camada faz esse empilhamento?",
+                desc: "Após sair da Aplicação, o pacote recebe um cabeçalho com as portas de origem e destino (ex: porta 80). Qual camada faz isso?",
                 options: [
-                    { text: "Camada de Transporte", correct: true, expl: "Perfeito! A camada de Transporte adiciona as portas (ex: porta 80 ou 443) na PDU." },
-                    { text: "Camada de Acesso à Rede", correct: false, expl: "A camada de Acesso à Rede cuida dos endereços físicos (MAC Address), não das portas." },
-                    { text: "Camada de Aplicação", correct: false, expl: "A Aplicação gera o conteúdo da mensagem, mas quem adiciona o cabeçalho de transporte é a camada abaixo dela." },
-                    { text: "Camada de Internet", correct: false, expl: "A camada de Internet adiciona o endereço IP, enquanto o Transporte cuida das portas de comunicação." }
+                    { text: "Camada de Transporte (TCP/UDP)", correct: true, expl: "Exato! A camada de Transporte adiciona as portas de comunicação na PDU (operação PUSH)." },
+                    { text: "Camada de Acesso à Rede", correct: false, expl: "Incorreto. A Acesso à Rede cuida dos endereços físicos (MAC Address) no cabo/Wi-Fi." },
+                    { text: "Camada de Aplicação", correct: false, expl: "Incorreto. A Aplicação gera o conteúdo, mas quem insere as portas é o Transporte." },
+                    { text: "Camada de Internet", correct: false, expl: "Incorreto. A camada de Internet cuida dos endereços IP, não das portas." }
                 ]
             },
             {
                 phase: 3,
-                type: "POP (Desencapsular - Regra LIFO)",
-                title: "3. O pacote chegou ao destino!",
-                desc: "Pela regra da PILHA (LIFO: Último a Entrar, Primeiro a Sair), qual camada é a PRIMEIRA a ser removida (POP) no receptor?",
+                type: "PUSH (Encapsular)",
+                title: "3. O Endereço IP do Destino",
+                desc: "Para que o pacote saiba para qual computador da rede deve ir, ele recebe um cabeçalho IP. Em qual camada esse IP é adicionado?",
                 options: [
-                    { text: "Camada de Acesso à Rede", correct: true, expl: "Excelente! Como a Acesso à Rede foi a ÚLTIMA a ser empilhada no envio, ela é obrigatoriamente a PRIMEIRA a ser desempilhada!" },
-                    { text: "Camada de Aplicação", correct: false, expl: "A Aplicação foi a primeira a entrar no envio, logo será a ÚLTIMA a ser lida no destino." },
-                    { text: "Camada de Transporte", correct: false, expl: "Não é possível ler o Transporte sem remover primeiro as camadas externas que o cobrem." },
-                    { text: "Camada de Internet", correct: false, expl: "A camada de Internet fica abaixo do Transporte, mas acima do Acesso à Rede." }
+                    { text: "Camada de Internet", correct: true, expl: "Perfeito! A camada de Internet insere o IP de origem e destino no pacote antes dele ir para a física." },
+                    { text: "Camada de Aplicação", correct: false, expl: "Incorreto. A Aplicação lida apenas com dados do usuário, sem saber o IP." },
+                    { text: "Camada de Transporte", correct: false, expl: "Incorreto. A camada de Transporte adiciona portas, não endereços IP." },
+                    { text: "Camada de Acesso à Rede", correct: false, expl: "Incorreto. A Acesso à Rede usa endereço MAC, enquanto a Internet usa o IP." }
                 ]
             },
             {
                 phase: 4,
-                type: "Conceito Geral de Estrutura de Dados",
-                title: "4. Regra Principal da Pilha",
-                desc: "Qual é a regra de ouro do funcionamento de uma PILHA que se aplica exatamente ao TCP/IP?",
+                type: "PUSH (Encapsular)",
+                title: "4. A Proteção Final do Pacote",
+                desc: "Qual é a ÚLTIMA camada a empilhar seu cabeçalho (Push) antes do pacote ser transformado em sinais elétricos no cabo ou ar?",
                 options: [
-                    { text: "LIFO: O último a entrar é o primeiro a sair", correct: true, expl: "Exatamente! LIFO (Last In, First Out). O último cabeçalho adicionado (Push) é o primeiro removido (Pop)." },
-                    { text: "FIFO: O primeiro a entrar é o primeiro a sair", correct: false, expl: "FIFO é a regra de funcionamento de uma FILA, e não de uma PILHA." },
-                    { text: "Retirada aleatória de qualquer camada", correct: false, expl: "Em uma pilha, só temos acesso ao elemento do TOPO. Não é possível acessar o meio diretamente." },
-                    { text: "Entrada e saída por dois lados diferentes", correct: false, expl: "A pilha possui apenas uma extremidade aberta para inserir (Push) ou remover (Pop)." }
+                    { text: "Camada de Acesso à Rede", correct: true, expl: "Correto! A Acesso à Rede fecha o quadro Ethernet e envia os bits pelo meio físico." },
+                    { text: "Camada de Transporte", correct: false, expl: "Incorreto. O Transporte vem bem antes do Acesso à Rede no envio." },
+                    { text: "Camada de Aplicação", correct: false, expl: "Incorreto. A Aplicação foi a PRIMEIRA camada a criar o dado." },
+                    { text: "Camada de Internet", correct: false, expl: "Incorreto. A Internet fica acima da camada de Acesso à Rede." }
+                ]
+            },
+            {
+                phase: 5,
+                type: "POP (Desencapsular - Regra LIFO)",
+                title: "5. O Pacote Chegou ao Servidor!",
+                desc: "Pela regra da PILHA (LIFO: Último a Entrar, Primeiro a Sair), qual camada é a PRIMEIRA a ser removida (POP) no receptor?",
+                options: [
+                    { text: "Camada de Acesso à Rede", correct: true, expl: "Excelente! Como a Acesso à Rede foi a ÚLTIMA empilhada no envio, é a PRIMEIRA desempilhada no receptor!" },
+                    { text: "Camada de Aplicação", correct: false, expl: "Incorreto. A Aplicação foi a primeira a entrar no envio, logo será a ÚLTIMA a ser lida no destino." },
+                    { text: "Camada de Transporte", correct: false, expl: "Incorreto. O Transporte só pode ser lido após retirar as camadas mais externas." },
+                    { text: "Camada de Internet", correct: false, expl: "Incorreto. A camada de Internet fica protegida abaixo da camada de Acesso à Rede." }
+                ]
+            },
+            {
+                phase: 6,
+                type: "POP (Desencapsular - Regra LIFO)",
+                title: "6. Lendo o Endereço IP no Destino",
+                desc: "Após remover a camada de Acesso à Rede, qual é o PRÓXIMO cabeçalho que o computador receptor precisa ler e desempilhar (Pop)?",
+                options: [
+                    { text: "Camada de Internet (Cabeçalho IP)", correct: true, expl: "Muito bem! Subindo a pilha, a camada de Internet é desempilhada para checar se o IP confere com o receptor." },
+                    { text: "Camada de Aplicação", correct: false, expl: "Incorreto. A Aplicação fica no topo da pilha e só é alcançada no final." },
+                    { text: "Camada de Transporte", correct: false, expl: "Incorreto. O Transporte vem logo depois da camada de Internet." },
+                    { text: "Camada Física", correct: false, expl: "Incorreto. A camada física já foi processada na entrada do sinal elétrico." }
+                ]
+            },
+            {
+                phase: 7,
+                type: "Conceito Geral de Estrutura de Dados",
+                title: "7. A Regra de Ouro LIFO",
+                desc: "O que significa a sigla LIFO em uma Estrutura de Dados do tipo Pilha?",
+                options: [
+                    { text: "Last In, First Out (Último a Entrar, Primeiro a Sair)", correct: true, expl: "Perfeito! Esse é o princípio fundamental da Pilha: quem entra por último fica no topo e sai primeiro!" },
+                    { text: "First In, First Out (Primeiro a Entrar, Primeiro a Sair)", correct: false, expl: "Incorreto. FIFO é a regra de uma FILA (como a fila do banco)." },
+                    { text: "Long In, Fast Out (Entrada Longa, Saída Rápida)", correct: false, expl: "Incorreto. A sigla refere-se à ordem dos elementos (Last In, First Out)." },
+                    { text: "Linear In, Free Out (Entrada Linear, Saída Livre)", correct: false, expl: "Incorreto. Na pilha a saída não é livre, depende estritamente do topo." }
+                ]
+            },
+            {
+                phase: 8,
+                type: "Conceito Geral de Estrutura de Dados",
+                title: "8. Operações de Inserção e Remoção",
+                desc: "Quais são os nomes técnicos das operações de COLOCAR um elemento e RETIRAR um elemento de uma Pilha?",
+                options: [
+                    { text: "Push (Empilhar) e Pop (Desempilhar)", correct: true, expl: "Parabéns! Push insere no topo e Pop remove do topo. Exatamente como o Encapsulamento TCP/IP!" },
+                    { text: "Enqueue (Enfileirar) e Dequeue (Desenfileirar)", correct: false, expl: "Incorreto. Enqueue e Dequeue são operações de Filas." },
+                    { text: "Insert (Inserir) e Delete (Deletar)", correct: false, expl: "Incorreto. Insert e Delete são termos genéricos de bancos de dados ou listas." },
+                    { text: "Up (Subir) e Down (Descer)", correct: false, expl: "Incorreto. Os termos clássicos da Ciência da Computação são Push e Pop." }
                 ]
             }
         ];
@@ -438,7 +513,7 @@
             document.getElementById('modal-explanation').classList.remove('hidden');
         }
 
-        // AO ERRAR, ABRIR EXPLICAÇÃO E AVANÇAR PARA A PRÓXIMA QUESTAO (FLUXO CORRIGIDO)
+        // AO ERRAR, ABRIR EXPLICAÇÃO E AVANÇAR PARA A PRÓXIMA QUESTÃO
         function closeExplanationModalAndAdvance() {
             document.getElementById('modal-explanation').classList.add('hidden');
             advanceToNextQuestion();
@@ -461,8 +536,8 @@
 
             try {
                 confetti({
-                    particleCount: 100,
-                    spread: 70,
+                    particleCount: 120,
+                    spread: 80,
                     origin: { y: 0.6 }
                 });
             } catch(e) {}
@@ -472,8 +547,8 @@
         function updateLocalLeaderboard(currentScore) {
             localPlayers = [
                 { name: playerName, score: currentScore },
-                { name: "Aluno(a) IFPA", score: 250 },
-                { name: "Visitante", score: 180 }
+                { name: "Aluno(a) IFPA", score: 450 },
+                { name: "Visitante", score: 320 }
             ].sort((a, b) => b.score - a.score);
 
             if (!isFirebaseActive) {
