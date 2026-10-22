@@ -38,6 +38,22 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
+
+        /* Estilos de Acerto / Erro nas opções */
+        .option-correct {
+            background-color: rgba(16, 185, 129, 0.3) !important;
+            border-color: #10b981 !important;
+            color: #34d399 !important;
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .option-wrong {
+            background-color: rgba(244, 63, 94, 0.3) !important;
+            border-color: #f43f5e !important;
+            color: #fda4af !important;
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+        }
     </style>
 </head>
 <body class="text-slate-100 flex flex-col justify-between p-3 md:p-6">
@@ -221,7 +237,7 @@
         IFPA Campus Castanhal • Licenciatura em Informática 2025 • Projeto Integrado
     </footer>
 
-    <!-- LÓGICA DO JOGO EM JAVASCRIPT (8 PERGUNTAS) -->
+    <!-- LÓGICA DO JOGO EM JAVASCRIPT (8 PERGUNTAS COM INDICADOR VERDE) -->
     <script>
         // BANCO DE 8 PERGUNTAS DIDÁTICAS PARA O ENSINO MÉDIO
         const questions = [
@@ -327,8 +343,9 @@
         let playerName = "";
         let currentQuestionIdx = 0;
         let score = 0;
-        let timer = 30; // 30 SEGUNDOS
+        let timer = 30;
         let timerInterval = null;
+        let isAnswering = false;
 
         // ELEMENTOS DOM
         const screenLogin = document.getElementById('screen-login');
@@ -380,9 +397,10 @@
             loadQuestion(0);
         }
 
-        // CARREGAR PERGUNTA (30s POR FASE)
+        // CARREGAR PERGUNTA
         function loadQuestion(idx) {
             currentQuestionIdx = idx;
+            isAnswering = false;
             const q = questions[idx];
 
             document.getElementById('phase-badge').textContent = `Fase ${q.phase} de ${questions.length}`;
@@ -395,11 +413,14 @@
 
             q.options.forEach((opt, oIdx) => {
                 const btn = document.createElement('button');
-                btn.className = `p-4 rounded-xl border-2 text-left font-bold text-base transition-all flex items-start gap-3 bg-slate-800/90 border-slate-700 hover:border-indigo-500 hover:bg-slate-800 text-slate-100 shadow-md`;
-                btn.onclick = () => handleAnswer(opt);
+                btn.className = `option-btn p-4 rounded-xl border-2 text-left font-bold text-base transition-all flex items-center justify-between gap-3 bg-slate-800/90 border-slate-700 hover:border-indigo-500 hover:bg-slate-800 text-slate-100 shadow-md w-full`;
+                btn.onclick = (e) => handleAnswer(opt, btn);
                 btn.innerHTML = `
-                    <span class="w-7 h-7 rounded-full bg-indigo-900 text-indigo-300 flex items-center justify-center text-xs font-black shrink-0 border border-indigo-700">${String.fromCharCode(65 + oIdx)}</span>
-                    <span>${opt.text}</span>
+                    <div class="flex items-start gap-3">
+                        <span class="badge-letter w-7 h-7 rounded-full bg-indigo-900 text-indigo-300 flex items-center justify-center text-xs font-black shrink-0 border border-indigo-700">${String.fromCharCode(65 + oIdx)}</span>
+                        <span>${opt.text}</span>
+                    </div>
+                    <span class="status-icon text-xl font-black shrink-0 opacity-0 transition-opacity"></span>
                 `;
                 container.appendChild(btn);
             });
@@ -409,7 +430,7 @@
 
         function resetTimer() {
             clearInterval(timerInterval);
-            timer = 30; // 30 SEGUNDOS
+            timer = 30;
             timerDisplay.textContent = `${timer}s`;
 
             timerInterval = setInterval(() => {
@@ -424,20 +445,41 @@
             }, 1000);
         }
 
-        // PROCESSAR RESPOSTA SELECIONADA
-        function handleAnswer(option) {
+        // PROCESSAR RESPOSTA COM INDICADOR VERDE DE ACERTO
+        function handleAnswer(option, btnElement) {
+            if (isAnswering) return;
+            isAnswering = true;
             clearInterval(timerInterval);
+
+            const statusIcon = btnElement.querySelector('.status-icon');
 
             if (option.correct) {
                 playSound('correct');
+                
+                // Feedback Visual Verde com Seta / Check
+                btnElement.classList.add('option-correct');
+                statusIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-2xl"></i>`;
+                statusIcon.classList.remove('opacity-0');
+
                 const points = 100 + (timer * 5);
                 score += points;
                 scoreDisplay.textContent = score;
 
-                advanceToNextQuestion();
+                // Aguarda 0.8s para o aluno ver o ícone verde antes de mudar de fase
+                setTimeout(() => {
+                    advanceToNextQuestion();
+                }, 800);
             } else {
                 playSound('wrong');
-                showExplanation(option.expl);
+
+                // Feedback Visual Vermelho ao Errar
+                btnElement.classList.add('option-wrong');
+                statusIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-2xl"></i>`;
+                statusIcon.classList.remove('opacity-0');
+
+                setTimeout(() => {
+                    showExplanation(option.expl);
+                }, 600);
             }
         }
 
@@ -446,7 +488,6 @@
             document.getElementById('modal-explanation').classList.remove('hidden');
         }
 
-        // AO ERRAR, ABRIR EXPLICAÇÃO E AVANÇAR PARA A PRÓXIMA QUESTÃO
         function closeExplanationModalAndAdvance() {
             document.getElementById('modal-explanation').classList.add('hidden');
             advanceToNextQuestion();
@@ -460,7 +501,6 @@
             }
         }
 
-        // FINALIZAR JOGO
         function finishGame() {
             clearInterval(timerInterval);
             screenGame.classList.add('hidden');
