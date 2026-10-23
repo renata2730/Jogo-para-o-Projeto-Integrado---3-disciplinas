@@ -9,10 +9,10 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap');
         
         body {
             font-family: 'Nunito', sans-serif;
@@ -25,9 +25,9 @@
         }
 
         .glass-panel {
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.90);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(255, 255, 255, 0.15);
         }
 
         .pulse-anim {
@@ -41,206 +41,219 @@
 
         /* Estilos de Acerto / Erro nas opções */
         .option-correct {
-            background-color: rgba(16, 185, 129, 0.3) !important;
+            background-color: rgba(16, 185, 129, 0.35) !important;
             border-color: #10b981 !important;
             color: #34d399 !important;
             transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
         }
 
         .option-wrong {
-            background-color: rgba(244, 63, 94, 0.3) !important;
+            background-color: rgba(244, 63, 94, 0.35) !important;
             border-color: #f43f5e !important;
             color: #fda4af !important;
-            box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.5);
+        }
+
+        /* Estrelas de Avaliação */
+        .star-rating i {
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .star-rating i:hover {
+            transform: scale(1.25);
         }
     </style>
 </head>
-<body class="text-slate-100 flex flex-col justify-between p-3 md:p-6">
+<body class="text-slate-100 flex flex-col justify-between p-4 md:p-8">
 
     <!-- CABEÇALHO DO JOGO -->
-    <header class="max-w-4xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 mb-4 glass-panel p-4 rounded-2xl shadow-xl">
-        <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-2xl shadow-lg">
+    <header class="max-w-5xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 mb-6 glass-panel p-5 rounded-3xl shadow-2xl">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-3xl shadow-lg">
                 <i class="fa-solid fa-layer-group text-amber-300"></i>
             </div>
             <div>
-                <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-indigo-300">Pilha TCP/IP</h1>
-                <p class="text-xs text-slate-400">IFPA Campus Castanhal • Licenciatura em Informática 2025</p>
+                <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-indigo-300">Pilha TCP/IP</h1>
+                <p class="text-sm font-bold text-slate-300">IFPA Campus Castanhal • Licenciatura em Informática</p>
             </div>
         </div>
 
-        <!-- PAINEL DE STATUS (EXIBIDO DURANTE O JOGO) -->
-        <div id="status-bar" class="hidden flex items-center gap-4 md:gap-6 bg-slate-900/90 px-5 py-2 rounded-xl border border-slate-700/60">
+        <!-- PAINEL DE STATUS COM TEMPO DE 20 MINUTOS -->
+        <div id="status-bar" class="hidden flex items-center gap-6 bg-slate-900/90 px-6 py-3 rounded-2xl border border-slate-700/80">
             <div class="text-center">
-                <span class="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">Jogador</span>
-                <span id="player-display" class="font-bold text-amber-400 text-sm">---</span>
+                <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Jogador</span>
+                <span id="player-display" class="font-black text-amber-400 text-lg">---</span>
             </div>
-            <div class="h-8 w-px bg-slate-700"></div>
+            <div class="h-10 w-px bg-slate-700"></div>
             <div class="text-center">
-                <span class="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">Pontos</span>
-                <span id="score-display" class="font-bold text-emerald-400 text-lg">0</span>
+                <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Pontos</span>
+                <span id="score-display" class="font-black text-emerald-400 text-2xl">0</span>
             </div>
-            <div class="h-8 w-px bg-slate-700"></div>
+            <div class="h-10 w-px bg-slate-700"></div>
             <div class="text-center">
-                <span class="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">Tempo</span>
-                <span id="timer-display" class="font-bold text-rose-400 text-lg">30s</span>
+                <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Tempo Restante</span>
+                <span id="timer-display" class="font-black text-amber-300 text-2xl">20:00</span>
             </div>
         </div>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL (TELAS) -->
-    <main class="max-w-4xl mx-auto w-full flex-1 flex flex-col justify-center">
+    <main class="max-w-5xl mx-auto w-full flex-1 flex flex-col justify-center">
 
-        <!-- TELA 1: ENTRADA DO JOGO E AUTORIA DOS DISCENTES -->
-        <section id="screen-login" class="glass-panel p-6 md:p-8 rounded-3xl max-w-2xl mx-auto w-full shadow-2xl my-auto text-center border-t-4 border-indigo-500 space-y-6">
+        <!-- TELA 1: ENTRADA DO JOGO -->
+        <section id="screen-login" class="glass-panel p-8 md:p-12 rounded-3xl max-w-2xl mx-auto w-full shadow-2xl my-auto text-center border-t-8 border-indigo-500 space-y-8">
             
-            <div class="space-y-1">
-                <span class="text-xs font-bold text-amber-400 uppercase tracking-widest block">Oficina Interativa</span>
-                <h2 class="text-2xl md:text-3xl font-extrabold text-white">Desafio Pilha e Arquitetura TCP/IP</h2>
-                <p class="text-xs text-slate-300">IFPA Campus Castanhal • Licenciatura em Informática</p>
+            <div class="space-y-3">
+                <span class="text-sm font-extrabold text-amber-400 uppercase tracking-widest block">Oficina Interativa de Computação</span>
+                <h2 class="text-4xl md:text-5xl font-black text-white leading-tight">Desafio Pilha e Arquitetura TCP/IP</h2>
+                <p class="text-base font-semibold text-slate-300">Digite seu nome abaixo para iniciar a aula prática com o jogo!</p>
             </div>
 
-            <!-- CARD COM AUTORIA DOS DISCENTES -->
-            <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-left space-y-2">
-                <span class="font-bold text-indigo-400 text-xs uppercase tracking-wider block flex items-center gap-1.5">
-                    <i class="fa-solid fa-code"></i> Desenvolvido por (Discentes):
-                </span>
-                <p class="text-xs text-slate-300 font-medium leading-relaxed">
-                    Ana Dálete de Castro Santos • Carlos Silva Costa • Marcos Nauan Moreira da Costa • Pedro Ricardo Nunes Galvão • Renata de Oliveira Almeida
-                </p>
-            </div>
-
-            <!-- FORMULÁRIO DE ENTRADA DO ALUNO -->
-            <form id="login-form" onsubmit="event.preventDefault(); startGame();" class="space-y-4 pt-1">
+            <!-- FORMULÁRIO DE ENTRADA -->
+            <form id="login-form" onsubmit="event.preventDefault(); startGame();" class="space-y-6 pt-2">
                 <div>
-                    <label class="block text-left text-[11px] uppercase tracking-wider text-slate-400 mb-1 font-semibold">Seu Nome / Apelido</label>
-                    <input type="text" id="input-name" required placeholder="Ex: Maria Clara" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+                    <label class="block text-left text-xs uppercase tracking-wider text-slate-300 mb-2 font-bold">Seu Nome Completo ou Apelido</label>
+                    <input type="text" id="input-name" required placeholder="Digite seu nome aqui..." class="w-full bg-slate-900/90 border-2 border-slate-600 rounded-2xl px-5 py-4 text-white text-xl font-bold placeholder-slate-500 focus:outline-none focus:border-indigo-400">
                 </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all text-base flex items-center justify-center gap-2">
-                    <span>Iniciar Desafio</span>
+                <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 hover:from-indigo-600 hover:to-pink-700 text-white font-black py-5 px-8 rounded-2xl shadow-xl transition-all text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.02]">
+                    <span>INICIAR DESAFIO</span>
                     <i class="fa-solid fa-play"></i>
                 </button>
             </form>
         </section>
 
-        <!-- TELA 2: ÁREA DE JOGO (8 PERGUNTAS EM TELA CHEIA) -->
+        <!-- TELA 2: ÁREA DE JOGO (8 PERGUNTAS) -->
         <section id="screen-game" class="hidden w-full">
-            <div class="glass-panel p-6 md:p-8 rounded-2xl flex-1 flex flex-col justify-between shadow-2xl border-t-4 border-indigo-500">
+            <div class="glass-panel p-8 md:p-10 rounded-3xl flex-1 flex flex-col justify-between shadow-2xl border-t-8 border-indigo-500 space-y-6">
                 <div>
                     <!-- INDICADOR DE FASE -->
-                    <div class="flex justify-between items-center mb-4">
-                        <span id="phase-badge" class="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full border border-indigo-500/30">Fase 1 de 8</span>
-                        <span id="type-badge" class="bg-amber-500/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/30">Operação PUSH (Encapsular)</span>
+                    <div class="flex justify-between items-center mb-6">
+                        <span id="phase-badge" class="bg-indigo-500/30 text-indigo-200 text-sm md:text-base font-black px-4 py-2 rounded-full border border-indigo-500/50">Fase 1 de 8</span>
+                        <span id="type-badge" class="bg-amber-500/30 text-amber-200 text-sm md:text-base font-black px-4 py-2 rounded-full border border-amber-500/50">Operação PUSH (Encapsular)</span>
                     </div>
 
-                    <!-- ENUNCIADO DA PERGUNTA (GRANDE E EM NEGRITO) -->
-                    <h3 id="question-title" class="text-2xl md:text-3xl font-black mb-3 text-amber-300 leading-snug tracking-tight">Carregando pergunta...</h3>
-                    <p id="question-desc" class="text-slate-200 text-base md:text-lg font-medium mb-6 leading-relaxed">Instruções da fase aparecerão aqui.</p>
+                    <!-- ENUNCIADO DA PERGUNTA (FONTE GRANDE E EM NEGRITO) -->
+                    <h3 id="question-title" class="text-3xl md:text-4xl font-black mb-4 text-amber-300 leading-snug tracking-tight">Carregando pergunta...</h3>
+                    <p id="question-desc" class="text-slate-100 text-lg md:text-2xl font-bold mb-8 leading-relaxed">Instruções da fase aparecerão aqui.</p>
 
-                    <!-- OPÇÕES DE RESPOSTA -->
-                    <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        <!-- Gerado via JS -->
+                    <!-- OPÇÕES DE RESPOSTA (FONTES AMPLIADAS) -->
+                    <div id="options-container" class="grid grid-cols-1 gap-4 mb-6">
+                        <!-- Gerado via JS com embaralhamento -->
                     </div>
                 </div>
 
-                <!-- DICA DE DIDÁTICA -->
-                <div class="mt-6 pt-4 border-t border-slate-700/50 flex items-center gap-3 text-xs md:text-sm text-slate-300">
-                    <i class="fa-solid fa-lightbulb text-amber-400 text-lg shrink-0"></i>
-                    <span><strong>Dica:</strong> Na <strong>Pilha (LIFO)</strong>, o último elemento adicionado (Push) é sempre o primeiro a ser retirado (Pop).</span>
+                <!-- DICA DIDÁTICA -->
+                <div class="pt-4 border-t border-slate-700/60 flex items-center gap-3 text-sm md:text-base text-slate-300 font-semibold">
+                    <i class="fa-solid fa-lightbulb text-amber-400 text-2xl shrink-0"></i>
+                    <span><strong>Dica Didática:</strong> Na <strong>Pilha (LIFO)</strong>, o último elemento adicionado (Push) é sempre o primeiro a ser retirado (Pop).</span>
                 </div>
             </div>
         </section>
 
-        <!-- TELA 3: RESULTADOS, REFLEXÃO, AGRADECIMENTOS E REFERÊNCIAS -->
-        <section id="screen-result" class="hidden glass-panel p-6 md:p-8 rounded-3xl max-w-3xl mx-auto w-full shadow-2xl my-auto space-y-6">
-            <!-- PÓDIO / RESUMO -->
-            <div class="text-center space-y-2">
-                <div class="w-20 h-20 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-4xl mx-auto border border-amber-500/30 pulse-anim">
+        <!-- TELA 3: RESULTADOS, FEEDBACK PEDAGÓGICO, AVALIAÇÃO E PAINEL GERAL -->
+        <section id="screen-result" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
+            
+            <!-- RESUMO DE PONTUAÇÃO -->
+            <div class="text-center space-y-3">
+                <div class="w-24 h-24 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-5xl mx-auto border-2 border-amber-500/40 pulse-anim">
                     <i class="fa-solid fa-crown"></i>
                 </div>
-                <h2 class="text-3xl font-bold text-amber-300">Desafio Concluído!</h2>
-                <p class="text-slate-300 text-base">Sua pontuação final foi: <strong id="final-score" class="text-emerald-400 text-3xl font-black">0</strong> pontos</p>
-            </div>
-
-            <!-- REVISÃO DIDÁTICA -->
-            <div class="bg-indigo-950/60 border border-indigo-700/50 p-4 rounded-2xl space-y-2">
-                <h3 class="text-base font-bold text-indigo-300 flex items-center gap-2">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Reflexão Didática: Por que aprendemos assim?</span>
-                </h3>
-                <p class="text-xs text-slate-300 leading-relaxed">
-                    Esta oficina utilizou a <strong>Gamificação Interativa</strong> para conectar dois conceitos fundamentais:
+                <h2 class="text-4xl md:text-5xl font-black text-amber-300">Desafio Concluído!</h2>
+                <p class="text-slate-200 text-xl font-bold">
+                    Sua pontuação final foi: <strong id="final-score" class="text-emerald-400 text-4xl font-black">0</strong> pontos 
+                    (<span id="correct-count" class="text-amber-300">0</span> de 8 acertos)
                 </p>
-                <ul class="text-xs text-slate-300 list-disc list-inside space-y-1">
-                    <li><strong>Estrutura de Dados (Pilha):</strong> Operações de <code>Push</code> (empilhar) e <code>Pop</code> (desempilhar) baseadas na regra LIFO.</li>
-                    <li><strong>Redes de Computadores:</strong> O processo de <strong>Encapsulamento</strong> (adicionar cabeçalhos) e <strong>Desencapsulamento</strong> (remover cabeçalhos no destino).</li>
-                </ul>
             </div>
 
-            <!-- AGRADECIMENTOS AOS PROFESSORES -->
-            <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-2xl text-center space-y-2">
-                <h4 class="text-[10px] uppercase tracking-widest font-bold text-amber-400">Agradecimentos Especiais</h4>
-                <p class="text-xs text-slate-400">Expressamos nossa gratidão aos docentes orientadores das três disciplinas integradas pelo suporte:</p>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-semibold">
-                    <div class="p-2 bg-slate-800/80 rounded-lg border border-slate-700 text-indigo-200">
-                        Profa. Cláudia Maria Rodrigues Barros da Costa
-                    </div>
-                    <div class="p-2 bg-slate-800/80 rounded-lg border border-slate-700 text-indigo-200">
-                        Prof. Pedro Fernando Marinho Cabral
-                    </div>
-                    <div class="p-2 bg-slate-800/80 rounded-lg border border-slate-700 text-indigo-200">
-                        Profa. Andrea Guimarães Ribeiro Ohashi
-                    </div>
+            <!-- FEEDBACK PEDAGÓGICO PERSONALIZADO POR ALUNO -->
+            <div id="pedagogical-feedback-card" class="bg-indigo-950/80 border-2 border-indigo-600/60 p-6 rounded-2xl space-y-3">
+                <h3 class="text-xl md:text-2xl font-black text-indigo-300 flex items-center gap-3">
+                    <i class="fa-solid fa-graduation-cap text-3xl"></i>
+                    <span>Seu Feedback Pedagógico Individual</span>
+                </h3>
+                <p id="feedback-level-title" class="text-lg font-bold text-amber-300">Calculando nível...</p>
+                <p id="feedback-level-desc" class="text-base text-slate-200 leading-relaxed font-semibold">
+                    Descrição do desempenho...
+                </p>
+            </div>
+
+            <!-- SEÇÃO DE AVALIAÇÃO DO ALUNO (ESTRELAS + COMENTÁRIO) -->
+            <div id="rating-section" class="bg-slate-900/90 border-2 border-slate-700/80 p-6 rounded-2xl text-center space-y-4">
+                <h3 class="text-xl md:text-2xl font-black text-white">Avalie a Nossa Oficina e o Jogo!</h3>
+                <p class="text-sm text-slate-300 font-semibold">Sua avaliação ajuda nossa equipe a melhorar o ensino de informática.</p>
+                
+                <!-- ESTRELAS (1 a 5) -->
+                <div class="star-rating flex justify-center gap-3 text-3xl text-amber-400" id="star-container">
+                    <i class="fa-solid fa-star" data-rating="1" onclick="setRating(1)"></i>
+                    <i class="fa-solid fa-star" data-rating="2" onclick="setRating(2)"></i>
+                    <i class="fa-solid fa-star" data-rating="3" onclick="setRating(3)"></i>
+                    <i class="fa-solid fa-star" data-rating="4" onclick="setRating(4)"></i>
+                    <i class="fa-solid fa-star" data-rating="5" onclick="setRating(5)"></i>
+                </div>
+
+                <div>
+                    <input type="text" id="rating-comment" placeholder="Escreva um comentário sobre o que achou da aula/jogo (opcional)..." class="w-full bg-slate-800 border border-slate-600 rounded-xl p-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400">
+                </div>
+
+                <button onclick="submitStudentFeedback()" id="btn-submit-feedback" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-6 rounded-xl transition-all text-base shadow-lg">
+                    Salvar Minha Avaliação
+                </button>
+            </div>
+
+            <!-- PAINEL CONSOLIDADO DE FEEDBACKS DOS ALUNOS DA TURMA -->
+            <div class="bg-slate-900/90 border-2 border-slate-800 p-6 rounded-2xl space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-700 pb-3">
+                    <h3 class="text-lg font-black text-indigo-300 flex items-center gap-2">
+                        <i class="fa-solid fa-comments"></i>
+                        <span>Mural de Feedbacks da Turma (Expiram em 24h)</span>
+                    </h3>
+                    <span class="text-xs text-slate-400 font-mono">Atualizado hoje</span>
+                </div>
+
+                <div id="class-feedbacks-list" class="space-y-3 max-h-60 overflow-y-auto pr-2">
+                    <p class="text-slate-400 text-sm italic">Nenhum feedback registrado ainda nesta sessão.</p>
                 </div>
             </div>
 
-            <!-- REFERÊNCIAS BIBLIOGRÁFICAS (ABNT) -->
-            <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-2xl space-y-2 text-left">
-                <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <i class="fa-solid fa-book"></i> Referências Bibliográficas (ABNT)
-                </h4>
-                <ul class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed font-sans">
-                    <li>• CORMEN, Thomas H. et al. <strong>Algoritmos: Teoria e Prática</strong>. 3. ed. Rio de Janeiro: Elsevier, 2012.</li>
-                    <li>• GOOGLE. <strong>Gemini (Modelo de Linguagem de Grande Porte)</strong>. Suporte no desenvolvimento pedagógico, codificação e gamificação do projeto. 2026.</li>
-                    <li>• KUROSE, James F.; ROSS, Keith W. <strong>Redes de Computadores e a Internet: Uma Abordagem Top-Down</strong>. 7. ed. São Paulo: Pearson, 2017.</li>
-                    <li>• TANENBAUM, Andrew S.; WETHERALL, David. <strong>Redes de Computadores</strong>. 5. ed. São Paulo: Pearson, 2011.</li>
-                </ul>
-            </div>
-
-            <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg text-base">
-                Jogar Novamente
+            <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl transition-all shadow-xl text-xl">
+                Novo Jogador / Reiniciar Oficina
             </button>
         </section>
 
     </main>
 
     <!-- MODAL DIDÁTICO DE EXPLICAÇÃO AO ERRAR -->
-    <div id="modal-explanation" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="glass-panel p-6 rounded-2xl max-w-md w-full border-2 border-rose-500/50 shadow-2xl space-y-4">
-            <div class="flex items-center gap-3 text-rose-400">
-                <i class="fa-solid fa-circle-xmark text-3xl"></i>
-                <h3 class="text-xl font-bold">Explicação Pedagógica</h3>
+    <div id="modal-explanation" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-panel p-8 rounded-3xl max-w-lg w-full border-4 border-rose-500/60 shadow-2xl space-y-6">
+            <div class="flex items-center gap-4 text-rose-400">
+                <i class="fa-solid fa-circle-xmark text-4xl"></i>
+                <h3 class="text-2xl md:text-3xl font-black">Explicação Pedagógica</h3>
             </div>
-            <p id="explanation-text" class="text-sm text-slate-200 leading-relaxed font-medium">
+            <p id="explanation-text" class="text-base md:text-xl text-slate-100 leading-relaxed font-bold">
                 Explicação detalhada...
             </p>
-            <button onclick="closeExplanationModalAndAdvance()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
-                <span>Entendi! Ir para a próxima questão</span>
+            <button onclick="closeExplanationModalAndAdvance()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-4 rounded-2xl transition-all shadow-lg text-lg flex items-center justify-center gap-3">
+                <span>Entendi! Ir para a Próxima Questão</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
     </div>
 
-    <!-- RODAPÉ -->
-    <footer class="max-w-4xl mx-auto w-full text-center text-xs text-slate-500 mt-4">
-        IFPA Campus Castanhal • Licenciatura em Informática 2025 • Projeto Integrado
+    <!-- RODAPÉ COM DISCENTES EM TAMANHO PEQUENO E REFERÊNCIA DO GEMINI -->
+    <footer class="max-w-5xl mx-auto w-full text-center mt-8 pt-4 border-t border-slate-800 space-y-1">
+        <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">
+            Desenvolvido pelos discentes: Ana Dálete de Castro Santos • Carlos Silva Costa • Marcos Nauan Moreira da Costa • Pedro Ricardo Nunes Galvão • Renata de Oliveira Almeida
+        </p>
+        <p class="text-[10px] text-slate-500 font-medium">
+            Referência de Apoio Tecnológico: GOOGLE. <i>Gemini (Modelo de Linguagem de Grande Porte)</i>. Suporte na codificação, algoritmo de embaralhamento e estrutura pedagógica do jogo. 2026.
+        </p>
     </footer>
 
-    <!-- LÓGICA DO JOGO EM JAVASCRIPT (8 PERGUNTAS COM INDICADOR VERDE) -->
+    <!-- LÓGICA DO JOGO EM JAVASCRIPT -->
     <script>
-        // BANCO DE 8 PERGUNTAS DIDÁTICAS PARA O ENSINO MÉDIO
-        const questions = [
+        // BANCO DE 8 PERGUNTAS DIDÁTICAS
+        const questionsRaw = [
             {
                 phase: 1,
                 type: "PUSH (Encapsular)",
@@ -339,13 +352,25 @@
             }
         ];
 
-        // VARIÁVEIS DE ESTADO DO JOGO
+        // FUNÇÃO PARA EMBARALHAR ARRAYS (Fisher-Yates)
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // VARIÁVEIS DE ESTADO
         let playerName = "";
         let currentQuestionIdx = 0;
         let score = 0;
-        let timer = 30;
-        let timerInterval = null;
+        let correctAnswersCount = 0;
+        let globalTimerSeconds = 1200; // 20 MINUTOS
+        let globalTimerInterval = null;
         let isAnswering = false;
+        let selectedRating = 5;
 
         // ELEMENTOS DOM
         const screenLogin = document.getElementById('screen-login');
@@ -385,7 +410,6 @@
         // INICIAR JOGO
         function startGame() {
             playerName = document.getElementById('input-name').value.trim();
-
             if (!playerName) return;
 
             playerDisplay.textContent = playerName;
@@ -394,16 +418,34 @@
             screenGame.classList.remove('hidden');
             statusBar.classList.remove('hidden');
 
+            startGlobalTimer();
             loadQuestion(0);
         }
 
-        // CARREGAR PERGUNTA
+        // CRONÔMETRO GLOBAL DE 20 MINUTOS
+        function startGlobalTimer() {
+            clearInterval(globalTimerInterval);
+            globalTimerInterval = setInterval(() => {
+                globalTimerSeconds--;
+                
+                const mins = Math.floor(globalTimerSeconds / 60);
+                const secs = globalTimerSeconds % 60;
+                timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                if (globalTimerSeconds <= 0) {
+                    clearInterval(globalTimerInterval);
+                    finishGame();
+                }
+            }, 1000);
+        }
+
+        // CARREGAR PERGUNTA COM EMBARALHAMENTO DAS RESPOSTAS
         function loadQuestion(idx) {
             currentQuestionIdx = idx;
             isAnswering = false;
-            const q = questions[idx];
+            const q = questionsRaw[idx];
 
-            document.getElementById('phase-badge').textContent = `Fase ${q.phase} de ${questions.length}`;
+            document.getElementById('phase-badge').textContent = `Fase ${q.phase} de ${questionsRaw.length}`;
             document.getElementById('type-badge').textContent = q.type;
             document.getElementById('question-title').textContent = q.title;
             document.getElementById('question-desc').textContent = q.desc;
@@ -411,70 +453,48 @@
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
-            q.options.forEach((opt, oIdx) => {
+            // EMBARALHAR AS OPÇÕES PARA A RESPOSTA CORRETA NÃO FICAR NA LETRA "A"
+            const shuffledOptions = shuffleArray(q.options);
+
+            shuffledOptions.forEach((opt, oIdx) => {
                 const btn = document.createElement('button');
-                btn.className = `option-btn p-4 rounded-xl border-2 text-left font-bold text-base transition-all flex items-center justify-between gap-3 bg-slate-800/90 border-slate-700 hover:border-indigo-500 hover:bg-slate-800 text-slate-100 shadow-md w-full`;
-                btn.onclick = (e) => handleAnswer(opt, btn);
+                btn.className = `option-btn p-5 rounded-2xl border-2 text-left font-bold text-lg md:text-xl transition-all flex items-center justify-between gap-4 bg-slate-800/90 border-slate-700 hover:border-indigo-400 hover:bg-slate-800 text-slate-100 shadow-md w-full`;
+                btn.onclick = () => handleAnswer(opt, btn);
                 btn.innerHTML = `
-                    <div class="flex items-start gap-3">
-                        <span class="badge-letter w-7 h-7 rounded-full bg-indigo-900 text-indigo-300 flex items-center justify-center text-xs font-black shrink-0 border border-indigo-700">${String.fromCharCode(65 + oIdx)}</span>
+                    <div class="flex items-center gap-4">
+                        <span class="w-9 h-9 rounded-full bg-indigo-900 text-indigo-200 flex items-center justify-center text-base font-black shrink-0 border border-indigo-600">${String.fromCharCode(65 + oIdx)}</span>
                         <span>${opt.text}</span>
                     </div>
-                    <span class="status-icon text-xl font-black shrink-0 opacity-0 transition-opacity"></span>
+                    <span class="status-icon text-2xl font-black shrink-0 opacity-0 transition-opacity"></span>
                 `;
                 container.appendChild(btn);
             });
-
-            resetTimer();
         }
 
-        function resetTimer() {
-            clearInterval(timerInterval);
-            timer = 30;
-            timerDisplay.textContent = `${timer}s`;
-
-            timerInterval = setInterval(() => {
-                timer--;
-                timerDisplay.textContent = `${timer}s`;
-
-                if (timer <= 0) {
-                    clearInterval(timerInterval);
-                    playSound('wrong');
-                    showExplanation("O tempo de 30 segundos esgotou! Na rede, quando o limite de tempo (TTL) do pacote expira, ele é descartado. Vamos para a próxima questão!");
-                }
-            }, 1000);
-        }
-
-        // PROCESSAR RESPOSTA COM INDICADOR VERDE DE ACERTO
+        // RESPOSTA
         function handleAnswer(option, btnElement) {
             if (isAnswering) return;
             isAnswering = true;
-            clearInterval(timerInterval);
 
             const statusIcon = btnElement.querySelector('.status-icon');
 
             if (option.correct) {
                 playSound('correct');
-                
-                // Feedback Visual Verde com Seta / Check
                 btnElement.classList.add('option-correct');
-                statusIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-2xl"></i>`;
+                statusIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-3xl"></i>`;
                 statusIcon.classList.remove('opacity-0');
 
-                const points = 100 + (timer * 5);
-                score += points;
+                score += 150;
+                correctAnswersCount++;
                 scoreDisplay.textContent = score;
 
-                // Aguarda 0.8s para o aluno ver o ícone verde antes de mudar de fase
                 setTimeout(() => {
                     advanceToNextQuestion();
                 }, 800);
             } else {
                 playSound('wrong');
-
-                // Feedback Visual Vermelho ao Errar
                 btnElement.classList.add('option-wrong');
-                statusIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-2xl"></i>`;
+                statusIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-3xl"></i>`;
                 statusIcon.classList.remove('opacity-0');
 
                 setTimeout(() => {
@@ -494,26 +514,127 @@
         }
 
         function advanceToNextQuestion() {
-            if (currentQuestionIdx + 1 < questions.length) {
+            if (currentQuestionIdx + 1 < questionsRaw.length) {
                 loadQuestion(currentQuestionIdx + 1);
             } else {
                 finishGame();
             }
         }
 
+        // FINALIZAR JOGO E CALCULAR FEEDBACK PEDAGÓGICO
         function finishGame() {
-            clearInterval(timerInterval);
+            clearInterval(globalTimerInterval);
             screenGame.classList.add('hidden');
             screenResult.classList.remove('hidden');
+
             document.getElementById('final-score').textContent = score;
+            document.getElementById('correct-count').textContent = correctAnswersCount;
+
+            // GERAR FEEDBACK PEDAGÓGICO PERSONALIZADO CONFORME O DESEMPENHO
+            const feedbackCard = document.getElementById('pedagogical-feedback-card');
+            const feedbackTitle = document.getElementById('feedback-level-title');
+            const feedbackDesc = document.getElementById('feedback-level-desc');
+
+            if (correctAnswersCount === 8) {
+                feedbackTitle.textContent = "🏆 Desempenho Excelente! Domínio Completo!";
+                feedbackDesc.textContent = "Parabéns! Você demonstrou perfeita compreensão de como a Estrutura de Dados Pilha (LIFO) se articula com as camadas do Modelo TCP/IP. Você assimilou os conceitos de Push/Pop no Encapsulamento de redes com maestria!";
+                feedbackCard.className = "bg-emerald-950/80 border-2 border-emerald-500 p-6 rounded-2xl space-y-3";
+            } else if (correctAnswersCount >= 5) {
+                feedbackTitle.textContent = "🌟 Bom Desempenho! Conceitos Compreendidos!";
+                feedbackDesc.textContent = "Muito bem! Você compreendeu a lógica principal de empilhar (Push) e desempilhar (Pop) os cabeçalhos das camadas TCP/IP. Lembre-se sempre de rever a ordem LIFO para fixar 100% o conteúdo!";
+                feedbackCard.className = "bg-indigo-950/80 border-2 border-indigo-500 p-6 rounded-2xl space-y-3";
+            } else {
+                feedbackTitle.textContent = "📘 Oportunidade de Aprendizado e Revisão";
+                feedbackDesc.textContent = "Bom esforço! Os conceitos de Redes de Computadores e Estrutura de Dados são abstratos. Lembre-se da analogia dos envelopes: o último envelope fechado é o primeiro que o receptor precisa abrir (LIFO). Continue praticando!";
+                feedbackCard.className = "bg-amber-950/80 border-2 border-amber-500 p-6 rounded-2xl space-y-3";
+            }
 
             try {
-                confetti({
-                    particleCount: 120,
-                    spread: 80,
-                    origin: { y: 0.6 }
-                });
+                confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
             } catch(e) {}
+
+            renderClassFeedbacks();
+        }
+
+        // SISTEMA DE ESTRELAS
+        function setRating(val) {
+            selectedRating = val;
+            const stars = document.querySelectorAll('#star-container i');
+            stars.forEach((star, idx) => {
+                if (idx < val) {
+                    star.className = "fa-solid fa-star text-amber-400";
+                } else {
+                    star.className = "fa-regular fa-star text-slate-500";
+                }
+            });
+        }
+
+        // SALVAR FEEDBACK DO ALUNO NO LOCALSTORAGE (EXPIRA EM 24 HORAS)
+        function submitStudentFeedback() {
+            const comment = document.getElementById('rating-comment').value.trim();
+            const now = new Date().getTime();
+
+            const newEntry = {
+                name: playerName,
+                score: score,
+                corrects: correctAnswersCount,
+                rating: selectedRating,
+                comment: comment || "Sem comentário adicional.",
+                timestamp: now
+            };
+
+            let existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_pilha_feedbacks') || '[]');
+            
+            // FILTRAR APENAS FEEDBACKS DAS ÚLTIMAS 24 HORAS (DESAPARECEM NO DIA SEGUINTE)
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
+
+            existingFeedbacks.unshift(newEntry);
+            localStorage.setItem('ifpa_pilha_feedbacks', JSON.stringify(existingFeedbacks));
+
+            document.getElementById('btn-submit-feedback').innerText = "✓ Avaliação Salva com Sucesso!";
+            document.getElementById('btn-submit-feedback').disabled = true;
+            document.getElementById('btn-submit-feedback').className = "bg-slate-700 text-slate-300 font-bold py-3 px-6 rounded-xl cursor-not-allowed";
+
+            renderClassFeedbacks();
+        }
+
+        // EXIBIR MURAL DE FEEDBACKS DA TURMA
+        function renderClassFeedbacks() {
+            const container = document.getElementById('class-feedbacks-list');
+            const now = new Date().getTime();
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+
+            let existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_pilha_feedbacks') || '[]');
+            // LIMPEZA AUTOMÁTICA DE 24 HORAS
+            existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
+            localStorage.setItem('ifpa_pilha_feedbacks', JSON.stringify(existingFeedbacks));
+
+            if (existingFeedbacks.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 text-sm italic">Nenhum feedback registrado ainda nesta sessão.</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            existingFeedbacks.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "bg-slate-800/80 p-3 rounded-xl border border-slate-700 flex flex-col gap-1 text-left";
+                
+                let starsHTML = '';
+                for(let i = 0; i < 5; i++) {
+                    starsHTML += i < item.rating ? '<i class="fa-solid fa-star text-amber-400 text-xs"></i>' : '<i class="fa-regular fa-star text-slate-600 text-xs"></i>';
+                }
+
+                div.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-amber-300 text-sm">${item.name}</span>
+                        <div class="flex gap-1">${starsHTML}</div>
+                    </div>
+                    <p class="text-xs text-slate-200">"${item.comment}"</p>
+                    <span class="text-[10px] text-emerald-400 font-mono">Pontuação: ${item.score} pts (${item.corrects}/8 acertos)</span>
+                `;
+                container.appendChild(div);
+            });
         }
     </script>
 </body>
