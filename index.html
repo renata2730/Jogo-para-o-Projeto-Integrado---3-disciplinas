@@ -129,12 +129,11 @@
                         <span id="type-badge" class="bg-amber-500/30 text-amber-200 text-sm md:text-base font-black px-4 py-2 rounded-full border border-amber-500/50">Operação PUSH (Encapsular)</span>
                     </div>
 
-                    <!-- FONTES AMPLIADAS -->
                     <h3 id="question-title" class="text-3xl md:text-4xl font-black mb-4 text-amber-300 leading-snug tracking-tight">Carregando pergunta...</h3>
                     <p id="question-desc" class="text-slate-100 text-lg md:text-2xl font-bold mb-8 leading-relaxed">Instruções da fase aparecerão aqui.</p>
 
                     <div id="options-container" class="grid grid-cols-1 gap-4 mb-6">
-                        <!-- Opções geradas dinamicamente com embaralhamento -->
+                        <!-- Opções geradas dinamicamente -->
                     </div>
                 </div>
 
@@ -145,7 +144,7 @@
             </div>
         </section>
 
-        <!-- TELA 3: RESULTADOS, FEEDBACK PEDAGÓGICO E MURAL -->
+        <!-- TELA 3: RESULTADOS E MURAL ONLINE -->
         <section id="screen-result" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
             
             <div class="text-center space-y-3">
@@ -189,22 +188,24 @@
                 </div>
 
                 <button onclick="submitStudentFeedback()" id="btn-submit-feedback" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-6 rounded-xl transition-all text-base shadow-lg">
-                    Salvar Minha Avaliação
+                    Salvar Minha Avaliação na Nuvem
                 </button>
             </div>
 
-            <!-- MURAL CONSOLIDADO DA TURMA (EXPIRA EM 24H) -->
+            <!-- MURAL CONSOLIDADO ONLINE -->
             <div class="bg-slate-900/90 border-2 border-slate-800 p-6 rounded-2xl space-y-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-700 pb-3">
                     <h3 class="text-lg font-black text-indigo-300 flex items-center gap-2">
-                        <i class="fa-solid fa-comments"></i>
-                        <span>Mural de Feedbacks da Turma (Permanecem por 1 dia)</span>
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                        <span>Mural de Feedbacks Unificado da Turma (Sincronizado Online)</span>
                     </h3>
-                    <span class="text-xs text-slate-400 font-mono">Sessão da Turma</span>
+                    <button onclick="renderClassFeedbacks()" class="text-xs bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 px-3 py-1 rounded-lg border border-indigo-700">
+                        <i class="fa-solid fa-rotate"></i> Atualizar Mural
+                    </button>
                 </div>
 
                 <div id="class-feedbacks-list" class="space-y-3 max-h-60 overflow-y-auto pr-2">
-                    <!-- Feedbacks listados aqui -->
+                    <p class="text-slate-400 text-sm italic">Carregando feedbacks da nuvem...</p>
                 </div>
             </div>
 
@@ -242,8 +243,11 @@
         </p>
     </footer>
 
-    <!-- LÓGICA DO JOGO -->
     <script>
+        // CHAVES OFICIAIS CONFIGURADAS DO SEU BANCO JSONBIN
+        const BIN_ID = "6adba49eac6210605a4ccadc"; 
+        const API_KEY = "$2a$10$KRzvfBlWanY8lCAd.Yk6eegREEQ5KfaxjuYWA1SuHK7lluYKPmXnq";
+
         const questionsRaw = [
             {
                 phase: 1,
@@ -343,7 +347,6 @@
             }
         ];
 
-        // EMBARALHAMENTO DAS OPÇÕES (Fisher-Yates)
         function shuffleArray(array) {
             const arr = [...array];
             for (let i = arr.length - 1; i > 0; i--) {
@@ -357,7 +360,7 @@
         let currentQuestionIdx = 0;
         let score = 0;
         let correctAnswersCount = 0;
-        let globalTimerSeconds = 1200; // 20 MINUTOS
+        let globalTimerSeconds = 1200;
         let globalTimerInterval = null;
         let isAnswering = false;
         let selectedRating = 5;
@@ -438,7 +441,6 @@
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
-            // EMBARALHAR OPÇÕES A CADA QUESTÃO
             const shuffledOptions = shuffleArray(q.options);
 
             shuffledOptions.forEach((opt, oIdx) => {
@@ -550,10 +552,14 @@
             });
         }
 
-        // ARMAZENAMENTO COM EXPIRAÇÃO EM 24 HORAS
-        function submitStudentFeedback() {
+        // SALVAR AVALIAÇÃO NA NUVEM VIA API
+        async function submitStudentFeedback() {
             const comment = document.getElementById('rating-comment').value.trim();
             const now = new Date().getTime();
+
+            const btn = document.getElementById('btn-submit-feedback');
+            btn.innerText = "Enviando para a nuvem...";
+            btn.disabled = true;
 
             const newEntry = {
                 name: playerName,
@@ -564,30 +570,64 @@
                 timestamp: now
             };
 
-            let existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_pilha_feedbacks') || '[]');
-            
-            // REMOVER DADOS DE MAIS DE 24 HORAS (1 DIA)
-            const twentyFourHours = 24 * 60 * 60 * 1000;
-            existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
+            try {
+                // BUSCAR LISTA ATUAL DA NUVEM
+                let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { "X-Master-Key": API_KEY }
+                });
+                let data = await res.json();
+                let existingFeedbacks = data.record.feedbacks || [];
 
-            existingFeedbacks.unshift(newEntry);
-            localStorage.setItem('ifpa_pilha_feedbacks', JSON.stringify(existingFeedbacks));
+                // MANTER APENAS OS ÚLTIMOS 1 DIA (24 HORAS)
+                const twentyFourHours = 24 * 60 * 60 * 1000;
+                existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
+                existingFeedbacks.unshift(newEntry);
 
-            document.getElementById('btn-submit-feedback').innerText = "✓ Avaliação Salva com Sucesso!";
-            document.getElementById('btn-submit-feedback').disabled = true;
-            document.getElementById('btn-submit-feedback').className = "bg-slate-700 text-slate-300 font-bold py-3 px-6 rounded-xl cursor-not-allowed";
+                // ATUALIZAR NUVEM
+                await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Master-Key": API_KEY
+                    },
+                    body: JSON.stringify({ feedbacks: existingFeedbacks })
+                });
 
-            renderClassFeedbacks();
+                btn.innerText = "✓ Avaliação Salva na Nuvem!";
+                btn.className = "bg-slate-700 text-slate-300 font-bold py-3 px-6 rounded-xl cursor-not-allowed";
+
+                renderClassFeedbacks();
+            } catch(err) {
+                btn.innerText = "Sua avaliação foi salva localmente!";
+                let local = JSON.parse(localStorage.getItem('ifpa_feedbacks') || '[]');
+                local.unshift(newEntry);
+                localStorage.setItem('ifpa_feedbacks', JSON.stringify(local));
+                renderClassFeedbacks();
+            }
         }
 
-        function renderClassFeedbacks() {
+        // BUSCAR E EXIBIR MURAL COMPARTILHADO DA TURMA
+        async function renderClassFeedbacks() {
             const container = document.getElementById('class-feedbacks-list');
+            container.innerHTML = `<p class="text-slate-400 text-sm italic">Sincronizando mural da nuvem...</p>`;
+
             const now = new Date().getTime();
             const twentyFourHours = 24 * 60 * 60 * 1000;
 
-            let existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_pilha_feedbacks') || '[]');
+            let existingFeedbacks = [];
+
+            try {
+                let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { "X-Master-Key": API_KEY }
+                });
+                let data = await res.json();
+                existingFeedbacks = data.record.feedbacks || [];
+            } catch(err) {
+                existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_feedbacks') || '[]');
+            }
+
+            // FILTRAR POR 24 HORAS (EXPIRAM AUTOMATICAMENTE NO DIA SEGUINTE)
             existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
-            localStorage.setItem('ifpa_pilha_feedbacks', JSON.stringify(existingFeedbacks));
 
             if (existingFeedbacks.length === 0) {
                 container.innerHTML = `<p class="text-slate-400 text-sm italic">Nenhum feedback registrado ainda nesta sessão.</p>`;
@@ -597,7 +637,7 @@
             container.innerHTML = '';
             existingFeedbacks.forEach(item => {
                 const div = document.createElement('div');
-                div.className = "bg-slate-800/80 p-3 rounded-xl border border-slate-700 flex flex-col gap-1 text-left";
+                div.className = "bg-slate-800/80 p-3 rounded-xl border border-slate-700 flex flex-col gap-1 text-left shadow-sm";
                 
                 let starsHTML = '';
                 for(let i = 0; i < 5; i++) {
