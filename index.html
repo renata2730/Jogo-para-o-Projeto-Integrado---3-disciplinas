@@ -9,7 +9,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap');
@@ -25,7 +25,7 @@
         }
 
         .glass-panel {
-            background: rgba(30, 41, 59, 0.90);
+            background: rgba(30, 41, 59, 0.92);
             backdrop-filter: blur(12px);
             border: 2px solid rgba(255, 255, 255, 0.15);
         }
@@ -39,7 +39,6 @@
             50% { transform: scale(1.05); }
         }
 
-        /* Estilos de Acerto / Erro nas opções */
         .option-correct {
             background-color: rgba(16, 185, 129, 0.35) !important;
             border-color: #10b981 !important;
@@ -55,7 +54,6 @@
             box-shadow: 0 0 20px rgba(244, 63, 94, 0.5);
         }
 
-        /* Estrelas de Avaliação */
         .star-rating i {
             cursor: pointer;
             transition: color 0.2s ease, transform 0.2s ease;
@@ -98,7 +96,7 @@
         </div>
     </header>
 
-    <!-- CONTEÚDO PRINCIPAL (TELAS) -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="max-w-5xl mx-auto w-full flex-1 flex flex-col justify-center">
 
         <!-- TELA 1: ENTRADA DO JOGO -->
@@ -110,7 +108,6 @@
                 <p class="text-base font-semibold text-slate-300">Digite seu nome abaixo para iniciar a aula prática com o jogo!</p>
             </div>
 
-            <!-- FORMULÁRIO DE ENTRADA -->
             <form id="login-form" onsubmit="event.preventDefault(); startGame();" class="space-y-6 pt-2">
                 <div>
                     <label class="block text-left text-xs uppercase tracking-wider text-slate-300 mb-2 font-bold">Seu Nome Completo ou Apelido</label>
@@ -123,27 +120,24 @@
             </form>
         </section>
 
-        <!-- TELA 2: ÁREA DE JOGO (8 PERGUNTAS) -->
+        <!-- TELA 2: ÁREA DE JOGO -->
         <section id="screen-game" class="hidden w-full">
             <div class="glass-panel p-8 md:p-10 rounded-3xl flex-1 flex flex-col justify-between shadow-2xl border-t-8 border-indigo-500 space-y-6">
                 <div>
-                    <!-- INDICADOR DE FASE -->
                     <div class="flex justify-between items-center mb-6">
                         <span id="phase-badge" class="bg-indigo-500/30 text-indigo-200 text-sm md:text-base font-black px-4 py-2 rounded-full border border-indigo-500/50">Fase 1 de 8</span>
                         <span id="type-badge" class="bg-amber-500/30 text-amber-200 text-sm md:text-base font-black px-4 py-2 rounded-full border border-amber-500/50">Operação PUSH (Encapsular)</span>
                     </div>
 
-                    <!-- ENUNCIADO DA PERGUNTA (FONTE GRANDE E EM NEGRITO) -->
+                    <!-- FONTES AMPLIADAS -->
                     <h3 id="question-title" class="text-3xl md:text-4xl font-black mb-4 text-amber-300 leading-snug tracking-tight">Carregando pergunta...</h3>
                     <p id="question-desc" class="text-slate-100 text-lg md:text-2xl font-bold mb-8 leading-relaxed">Instruções da fase aparecerão aqui.</p>
 
-                    <!-- OPÇÕES DE RESPOSTA (FONTES AMPLIADAS) -->
                     <div id="options-container" class="grid grid-cols-1 gap-4 mb-6">
-                        <!-- Gerado via JS com embaralhamento -->
+                        <!-- Opções geradas dinamicamente com embaralhamento -->
                     </div>
                 </div>
 
-                <!-- DICA DIDÁTICA -->
                 <div class="pt-4 border-t border-slate-700/60 flex items-center gap-3 text-sm md:text-base text-slate-300 font-semibold">
                     <i class="fa-solid fa-lightbulb text-amber-400 text-2xl shrink-0"></i>
                     <span><strong>Dica Didática:</strong> Na <strong>Pilha (LIFO)</strong>, o último elemento adicionado (Push) é sempre o primeiro a ser retirado (Pop).</span>
@@ -151,10 +145,9 @@
             </div>
         </section>
 
-        <!-- TELA 3: RESULTADOS, FEEDBACK PEDAGÓGICO, AVALIAÇÃO E PAINEL GERAL -->
+        <!-- TELA 3: RESULTADOS, FEEDBACK PEDAGÓGICO E MURAL -->
         <section id="screen-result" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
             
-            <!-- RESUMO DE PONTUAÇÃO -->
             <div class="text-center space-y-3">
                 <div class="w-24 h-24 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-5xl mx-auto border-2 border-amber-500/40 pulse-anim">
                     <i class="fa-solid fa-crown"></i>
@@ -166,7 +159,7 @@
                 </p>
             </div>
 
-            <!-- FEEDBACK PEDAGÓGICO PERSONALIZADO POR ALUNO -->
+            <!-- FEEDBACK PEDAGÓGICO INDIVIDUAL -->
             <div id="pedagogical-feedback-card" class="bg-indigo-950/80 border-2 border-indigo-600/60 p-6 rounded-2xl space-y-3">
                 <h3 class="text-xl md:text-2xl font-black text-indigo-300 flex items-center gap-3">
                     <i class="fa-solid fa-graduation-cap text-3xl"></i>
@@ -178,12 +171,11 @@
                 </p>
             </div>
 
-            <!-- SEÇÃO DE AVALIAÇÃO DO ALUNO (ESTRELAS + COMENTÁRIO) -->
+            <!-- AVALIAÇÃO COM ESTRELAS -->
             <div id="rating-section" class="bg-slate-900/90 border-2 border-slate-700/80 p-6 rounded-2xl text-center space-y-4">
                 <h3 class="text-xl md:text-2xl font-black text-white">Avalie a Nossa Oficina e o Jogo!</h3>
                 <p class="text-sm text-slate-300 font-semibold">Sua avaliação ajuda nossa equipe a melhorar o ensino de informática.</p>
                 
-                <!-- ESTRELAS (1 a 5) -->
                 <div class="star-rating flex justify-center gap-3 text-3xl text-amber-400" id="star-container">
                     <i class="fa-solid fa-star" data-rating="1" onclick="setRating(1)"></i>
                     <i class="fa-solid fa-star" data-rating="2" onclick="setRating(2)"></i>
@@ -193,7 +185,7 @@
                 </div>
 
                 <div>
-                    <input type="text" id="rating-comment" placeholder="Escreva um comentário sobre o que achou da aula/jogo (opcional)..." class="w-full bg-slate-800 border border-slate-600 rounded-xl p-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400">
+                    <input type="text" id="rating-comment" placeholder="Escreva o que achou da aula prática (opcional)..." class="w-full bg-slate-800 border border-slate-600 rounded-xl p-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400">
                 </div>
 
                 <button onclick="submitStudentFeedback()" id="btn-submit-feedback" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-6 rounded-xl transition-all text-base shadow-lg">
@@ -201,18 +193,18 @@
                 </button>
             </div>
 
-            <!-- PAINEL CONSOLIDADO DE FEEDBACKS DOS ALUNOS DA TURMA -->
+            <!-- MURAL CONSOLIDADO DA TURMA (EXPIRA EM 24H) -->
             <div class="bg-slate-900/90 border-2 border-slate-800 p-6 rounded-2xl space-y-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-700 pb-3">
                     <h3 class="text-lg font-black text-indigo-300 flex items-center gap-2">
                         <i class="fa-solid fa-comments"></i>
-                        <span>Mural de Feedbacks da Turma (Expiram em 24h)</span>
+                        <span>Mural de Feedbacks da Turma (Permanecem por 1 dia)</span>
                     </h3>
-                    <span class="text-xs text-slate-400 font-mono">Atualizado hoje</span>
+                    <span class="text-xs text-slate-400 font-mono">Sessão da Turma</span>
                 </div>
 
                 <div id="class-feedbacks-list" class="space-y-3 max-h-60 overflow-y-auto pr-2">
-                    <p class="text-slate-400 text-sm italic">Nenhum feedback registrado ainda nesta sessão.</p>
+                    <!-- Feedbacks listados aqui -->
                 </div>
             </div>
 
@@ -250,9 +242,8 @@
         </p>
     </footer>
 
-    <!-- LÓGICA DO JOGO EM JAVASCRIPT -->
+    <!-- LÓGICA DO JOGO -->
     <script>
-        // BANCO DE 8 PERGUNTAS DIDÁTICAS
         const questionsRaw = [
             {
                 phase: 1,
@@ -352,7 +343,7 @@
             }
         ];
 
-        // FUNÇÃO PARA EMBARALHAR ARRAYS (Fisher-Yates)
+        // EMBARALHAMENTO DAS OPÇÕES (Fisher-Yates)
         function shuffleArray(array) {
             const arr = [...array];
             for (let i = arr.length - 1; i > 0; i--) {
@@ -362,7 +353,6 @@
             return arr;
         }
 
-        // VARIÁVEIS DE ESTADO
         let playerName = "";
         let currentQuestionIdx = 0;
         let score = 0;
@@ -372,7 +362,6 @@
         let isAnswering = false;
         let selectedRating = 5;
 
-        // ELEMENTOS DOM
         const screenLogin = document.getElementById('screen-login');
         const screenGame = document.getElementById('screen-game');
         const screenResult = document.getElementById('screen-result');
@@ -382,7 +371,6 @@
         const scoreDisplay = document.getElementById('score-display');
         const timerDisplay = document.getElementById('timer-display');
 
-        // ÁUDIO SINTÉTICO
         function playSound(type) {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -407,7 +395,6 @@
             } catch(e) {}
         }
 
-        // INICIAR JOGO
         function startGame() {
             playerName = document.getElementById('input-name').value.trim();
             if (!playerName) return;
@@ -422,7 +409,6 @@
             loadQuestion(0);
         }
 
-        // CRONÔMETRO GLOBAL DE 20 MINUTOS
         function startGlobalTimer() {
             clearInterval(globalTimerInterval);
             globalTimerInterval = setInterval(() => {
@@ -439,7 +425,6 @@
             }, 1000);
         }
 
-        // CARREGAR PERGUNTA COM EMBARALHAMENTO DAS RESPOSTAS
         function loadQuestion(idx) {
             currentQuestionIdx = idx;
             isAnswering = false;
@@ -453,7 +438,7 @@
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
-            // EMBARALHAR AS OPÇÕES PARA A RESPOSTA CORRETA NÃO FICAR NA LETRA "A"
+            // EMBARALHAR OPÇÕES A CADA QUESTÃO
             const shuffledOptions = shuffleArray(q.options);
 
             shuffledOptions.forEach((opt, oIdx) => {
@@ -471,7 +456,6 @@
             });
         }
 
-        // RESPOSTA
         function handleAnswer(option, btnElement) {
             if (isAnswering) return;
             isAnswering = true;
@@ -521,7 +505,6 @@
             }
         }
 
-        // FINALIZAR JOGO E CALCULAR FEEDBACK PEDAGÓGICO
         function finishGame() {
             clearInterval(globalTimerInterval);
             screenGame.classList.add('hidden');
@@ -530,7 +513,6 @@
             document.getElementById('final-score').textContent = score;
             document.getElementById('correct-count').textContent = correctAnswersCount;
 
-            // GERAR FEEDBACK PEDAGÓGICO PERSONALIZADO CONFORME O DESEMPENHO
             const feedbackCard = document.getElementById('pedagogical-feedback-card');
             const feedbackTitle = document.getElementById('feedback-level-title');
             const feedbackDesc = document.getElementById('feedback-level-desc');
@@ -556,7 +538,6 @@
             renderClassFeedbacks();
         }
 
-        // SISTEMA DE ESTRELAS
         function setRating(val) {
             selectedRating = val;
             const stars = document.querySelectorAll('#star-container i');
@@ -569,7 +550,7 @@
             });
         }
 
-        // SALVAR FEEDBACK DO ALUNO NO LOCALSTORAGE (EXPIRA EM 24 HORAS)
+        // ARMAZENAMENTO COM EXPIRAÇÃO EM 24 HORAS
         function submitStudentFeedback() {
             const comment = document.getElementById('rating-comment').value.trim();
             const now = new Date().getTime();
@@ -585,7 +566,7 @@
 
             let existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_pilha_feedbacks') || '[]');
             
-            // FILTRAR APENAS FEEDBACKS DAS ÚLTIMAS 24 HORAS (DESAPARECEM NO DIA SEGUINTE)
+            // REMOVER DADOS DE MAIS DE 24 HORAS (1 DIA)
             const twentyFourHours = 24 * 60 * 60 * 1000;
             existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
 
@@ -599,14 +580,12 @@
             renderClassFeedbacks();
         }
 
-        // EXIBIR MURAL DE FEEDBACKS DA TURMA
         function renderClassFeedbacks() {
             const container = document.getElementById('class-feedbacks-list');
             const now = new Date().getTime();
             const twentyFourHours = 24 * 60 * 60 * 1000;
 
             let existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_pilha_feedbacks') || '[]');
-            // LIMPEZA AUTOMÁTICA DE 24 HORAS
             existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
             localStorage.setItem('ifpa_pilha_feedbacks', JSON.stringify(existingFeedbacks));
 
