@@ -61,6 +61,16 @@
         .star-rating i:hover {
             transform: scale(1.25);
         }
+
+        /* EFEITO DE BLOCO 3D PARA AS CAMADAS */
+        .layer-block {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .layer-block:hover {
+            transform: translateY(-4px) scale(1.01);
+            filter: brightness(1.1);
+        }
     </style>
 </head>
 <body class="text-slate-100 flex flex-col justify-between p-4 md:p-8">
@@ -77,7 +87,7 @@
             </div>
         </div>
 
-        <!-- PAINEL DE STATUS COM TEMPO DE 20 MINUTOS -->
+        <!-- PAINEL DE STATUS -->
         <div id="status-bar" class="hidden flex items-center gap-6 bg-slate-900/90 px-6 py-3 rounded-2xl border border-slate-700/80">
             <div class="text-center">
                 <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Jogador</span>
@@ -90,8 +100,8 @@
             </div>
             <div class="h-10 w-px bg-slate-700"></div>
             <div class="text-center">
-                <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Tempo Restante</span>
-                <span id="timer-display" class="font-black text-amber-300 text-2xl">20:00</span>
+                <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Tempo</span>
+                <span id="timer-display" class="font-black text-rose-400 text-2xl">20s</span>
             </div>
         </div>
     </header>
@@ -101,23 +111,108 @@
 
         <!-- TELA 1: ENTRADA DO JOGO -->
         <section id="screen-login" class="glass-panel p-8 md:p-12 rounded-3xl max-w-2xl mx-auto w-full shadow-2xl my-auto text-center border-t-8 border-indigo-500 space-y-8">
-            
             <div class="space-y-3">
-                <span class="text-sm font-extrabold text-amber-400 uppercase tracking-widest block">Oficina Interativa de Computação</span>
+                <span class="text-sm font-extrabold text-amber-400 uppercase tracking-widest block">Oficina Interativa de Computação Plugada</span>
                 <h2 class="text-4xl md:text-5xl font-black text-white leading-tight">Desafio Pilha e Arquitetura TCP/IP</h2>
-                <p class="text-base font-semibold text-slate-300">Digite seu nome abaixo para iniciar a aula prática com o jogo!</p>
+                <p class="text-base font-semibold text-slate-300">Digite seu nome abaixo para ver o resumo rápido das camadas e jogar!</p>
             </div>
 
-            <form id="login-form" onsubmit="event.preventDefault(); startGame();" class="space-y-6 pt-2">
+            <form id="login-form" onsubmit="event.preventDefault(); goToSummaryScreen();" class="space-y-6 pt-2">
                 <div>
                     <label class="block text-left text-xs uppercase tracking-wider text-slate-300 mb-2 font-bold">Seu Nome Completo ou Apelido</label>
                     <input type="text" id="input-name" required placeholder="Digite seu nome aqui..." class="w-full bg-slate-900/90 border-2 border-slate-600 rounded-2xl px-5 py-4 text-white text-xl font-bold placeholder-slate-500 focus:outline-none focus:border-indigo-400">
                 </div>
                 <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 hover:from-indigo-600 hover:to-pink-700 text-white font-black py-5 px-8 rounded-2xl shadow-xl transition-all text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.02]">
-                    <span>INICIAR DESAFIO</span>
-                    <i class="fa-solid fa-play"></i>
+                    <span>CONTINUAR PARA O RESUMO</span>
+                    <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </form>
+        </section>
+
+        <!-- TELA NOVAR: RESUMO INTERATIVO DAS CAMADAS E CONCEITO DE PILHA -->
+        <section id="screen-summary" class="hidden glass-panel p-6 md:p-10 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl space-y-8 my-auto border-t-8 border-amber-400">
+            
+            <div class="text-center space-y-2">
+                <span class="bg-amber-500/20 text-amber-300 text-sm font-black px-4 py-1.5 rounded-full border border-amber-500/40 uppercase tracking-wider">
+                    <i class="fa-solid fa-book-open mr-2"></i>Preparação Inicial
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black text-white">Arquitetura TCP/IP e Conceito de Pilha</h2>
+                <p class="text-slate-300 text-base md:text-lg font-semibold">Clique nas camadas coloridas para descobrir a função de cada uma!</p>
+            </div>
+
+            <!-- BLOCO VISUAL 3D DAS 4 CAMADAS (CORES DA IMAGEM ANEXADA) -->
+            <div class="space-y-3 max-w-3xl mx-auto">
+                
+                <!-- 1. APLICAÇÃO (VERMELHO) -->
+                <div onclick="toggleLayerInfo('app')" class="layer-block bg-red-600 hover:bg-red-500 border-2 border-red-400 p-5 rounded-2xl text-white shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl md:text-3xl font-black">1. Aplicação</span>
+                        <span class="text-sm md:text-base font-bold bg-black/30 px-3 py-1 rounded-lg">HTTP, WhatsApp, DNS</span>
+                    </div>
+                    <div id="info-app" class="hidden mt-3 pt-3 border-t border-white/30 text-base md:text-xl font-bold bg-black/20 p-4 rounded-xl leading-relaxed">
+                        📌 <strong>Função no Jogo:</strong> É onde tudo começa! É a camada do usuário. Cria a mensagem original e faz a primeira operação <strong>PUSH (Empilhar)</strong> no envio dos dados.
+                    </div>
+                </div>
+
+                <!-- 2. TRANSPORTE (CIAN / AZUL CLARO) -->
+                <div onclick="toggleLayerInfo('trans')" class="layer-block bg-cyan-400 hover:bg-cyan-300 border-2 border-cyan-200 p-5 rounded-2xl text-slate-900 shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl md:text-3xl font-black">2. Transporte</span>
+                        <span class="text-sm md:text-base font-black bg-white/40 px-3 py-1 rounded-lg">TCP e UDP</span>
+                    </div>
+                    <div id="info-trans" class="hidden mt-3 pt-3 border-t border-slate-900/30 text-base md:text-xl font-bold bg-white/30 p-4 rounded-xl leading-relaxed text-slate-950">
+                        📌 <strong>Função no Jogo:</strong> Divide as mensagens longas e adiciona as <strong>Portas de Comunicação</strong> (origem e destino) para saber qual aplicativo vai receber.
+                    </div>
+                </div>
+
+                <!-- 3. INTERNET (VERDE) -->
+                <div onclick="toggleLayerInfo('net')" class="layer-block bg-lime-500 hover:bg-lime-400 border-2 border-lime-300 p-5 rounded-2xl text-slate-950 shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl md:text-3xl font-black">3. Internet</span>
+                        <span class="text-sm md:text-base font-black bg-black/20 px-3 py-1 rounded-lg text-white">IP (Endereçamento)</span>
+                    </div>
+                    <div id="info-net" class="hidden mt-3 pt-3 border-t border-black/30 text-base md:text-xl font-bold bg-black/20 p-4 rounded-xl leading-relaxed text-white">
+                        📌 <strong>Função no Jogo:</strong> Responsável pelo roteamento! Adiciona o <strong>Endereço IP</strong> de origem e destino no pacote de dados.
+                    </div>
+                </div>
+
+                <!-- 4. ACESSO À REDE (AMARELO) -->
+                <div onclick="toggleLayerInfo('link')" class="layer-block bg-yellow-400 hover:bg-yellow-300 border-2 border-yellow-200 p-5 rounded-2xl text-slate-950 shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl md:text-3xl font-black">4. Acesso à Rede</span>
+                        <span class="text-sm md:text-base font-black bg-black/20 px-3 py-1 rounded-lg">Ethernet, Frame Relay</span>
+                    </div>
+                    <div id="info-link" class="hidden mt-3 pt-3 border-t border-black/30 text-base md:text-xl font-bold bg-black/20 p-4 rounded-xl leading-relaxed">
+                        📌 <strong>Função no Jogo:</strong> A última camada no envio e a <strong>primeira no recebimento</strong>! Transforma os pacotes em sinais físicos (cabo de rede ou Wi-Fi).
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- EXPLICATIVO COMPACTO E CLARO SOBRE O CONCEITO DE PILHA E A ANALOGIA DOS PRATOS -->
+            <div class="bg-slate-900/90 border-2 border-indigo-500/60 p-6 rounded-2xl space-y-4">
+                <h3 class="text-2xl md:text-3xl font-black text-amber-300 flex items-center gap-3">
+                    <i class="fa-solid fa-utensils text-3xl"></i>
+                    <span>O Conceito de Pilha (LIFO) e a Analogia dos Pratos</span>
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-200 font-bold text-base md:text-lg">
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                        <span class="text-indigo-400 block mb-1 text-xl">🍽️ Exemplo Prático dos Pratos:</span>
+                        Quando você empilha pratos em uma mesa, o <strong>último prato colado no topo</strong> é obrigatoriamente o <strong>primeiro prato que você retira</strong>. Essa é a regra <strong>LIFO (Last In, First Out)</strong>.
+                    </div>
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                        <span class="text-emerald-400 block mb-1 text-xl">🌐 Analogia com a Rede TCP/IP:</span>
+                        • <strong>PUSH (Empilhar):</strong> No envio, cada camada coloca um envelope por cima (Aplicação ➔ Transporte ➔ Internet ➔ Acesso à Rede).<br>
+                        • <strong>POP (Desempilhar):</strong> No receptor, retiramos primeiro a camada externa (Acesso à Rede) para chegar até a mensagem interna.
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startGameFromSummary()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-5 rounded-2xl shadow-2xl text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.01]">
+                <span>ESTOU PRONTO! INICIAR O JOGO</span>
+                <i class="fa-solid fa-gamepad"></i>
+            </button>
         </section>
 
         <!-- TELA 2: ÁREA DE JOGO -->
@@ -144,7 +239,7 @@
             </div>
         </section>
 
-        <!-- TELA 3: RESULTADOS, FEEDBACK PEDAGÓGICO DE DIDÁTICA DO ENSINO DE INFORMÁTICA E AVALIAÇÃO -->
+        <!-- TELA 3: RESULTADOS E AVALIAÇÃO -->
         <section id="screen-result" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
             
             <div class="text-center space-y-3">
@@ -158,15 +253,15 @@
                 </p>
             </div>
 
-            <!-- FEEDBACK DIDÁTICO-PEDAGÓGICO PERSONALIZADO -->
+            <!-- ANÁLISE DIDÁTICA DO DESEMPENHO -->
             <div id="pedagogical-feedback-card" class="bg-indigo-950/80 border-2 border-indigo-600/60 p-6 rounded-2xl space-y-3">
                 <h3 class="text-xl md:text-2xl font-black text-indigo-300 flex items-center gap-3">
                     <i class="fa-solid fa-graduation-cap text-3xl"></i>
-                    <span>Análise Pedagógica e Didática do seu Desempenho</span>
+                    <span>Análise Didática do seu Desempenho</span>
                 </h3>
                 <p id="feedback-level-title" class="text-lg font-bold text-amber-300">Calculando nível...</p>
                 <p id="feedback-level-desc" class="text-base text-slate-200 leading-relaxed font-semibold">
-                    Descrição pedagógica do desempenho...
+                    Descrição da análise didática...
                 </p>
             </div>
 
@@ -200,7 +295,7 @@
             </div>
         </section>
 
-        <!-- TELA 4: EXCLUSIVA PARA O MURAL DE FEEDBACKS DE TODOS OS ALUNOS -->
+        <!-- TELA 4: EXCLUSIVA PARA O MURAL DE FEEDBACKS -->
         <section id="screen-mural" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-700 pb-4">
                 <div>
@@ -259,7 +354,6 @@
         const BIN_ID = "6adba49eac6210605a4ccadc"; 
         const API_KEY = "$2a$10$KRzvfBlWanY8lCAd.Yk6eegREEQ5KfaxjuYWA1SuHK7lluYKPmXnq";
 
-        // BANCO BASE DE PERGUNTAS
         const questionsRaw = [
             {
                 phase: 1,
@@ -359,7 +453,6 @@
             }
         ];
 
-        // ALGORITMO FISHER-YATES DE EMBARALHAMENTO REAL
         function shuffleArray(array) {
             let arr = JSON.parse(JSON.stringify(array));
             for (let i = arr.length - 1; i > 0; i--) {
@@ -373,12 +466,13 @@
         let currentQuestionIdx = 0;
         let score = 0;
         let correctAnswersCount = 0;
-        let globalTimerSeconds = 1200;
-        let globalTimerInterval = null;
+        let questionTimerSeconds = 20;
+        let questionTimerInterval = null;
         let isAnswering = false;
         let selectedRating = 5;
 
         const screenLogin = document.getElementById('screen-login');
+        const screenSummary = document.getElementById('screen-summary');
         const screenGame = document.getElementById('screen-game');
         const screenResult = document.getElementById('screen-result');
         const screenMural = document.getElementById('screen-mural');
@@ -412,32 +506,47 @@
             } catch(e) {}
         }
 
-        function startGame() {
+        // IR PARA A TELA DE RESUMO
+        function goToSummaryScreen() {
             playerName = document.getElementById('input-name').value.trim();
             if (!playerName) return;
 
             playerDisplay.textContent = playerName;
-
             screenLogin.classList.add('hidden');
+            screenSummary.classList.remove('hidden');
+        }
+
+        // ALTERNAR EXPLICAÇÃO DAS CAMADAS AO CLICAR
+        function toggleLayerInfo(id) {
+            const el = document.getElementById(`info-${id}`);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        // INICIAR O JOGO A PARTIR DA TELA DE RESUMO
+        function startGameFromSummary() {
+            screenSummary.classList.add('hidden');
             screenGame.classList.remove('hidden');
             statusBar.classList.remove('hidden');
-
-            startGlobalTimer();
             loadQuestion(0);
         }
 
-        function startGlobalTimer() {
-            clearInterval(globalTimerInterval);
-            globalTimerInterval = setInterval(() => {
-                globalTimerSeconds--;
-                
-                const mins = Math.floor(globalTimerSeconds / 60);
-                const secs = globalTimerSeconds % 60;
-                timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        function resetQuestionTimer() {
+            clearInterval(questionTimerInterval);
+            questionTimerSeconds = 20;
+            timerDisplay.textContent = `${questionTimerSeconds}s`;
 
-                if (globalTimerSeconds <= 0) {
-                    clearInterval(globalTimerInterval);
-                    finishGame();
+            questionTimerInterval = setInterval(() => {
+                questionTimerSeconds--;
+                timerDisplay.textContent = `${questionTimerSeconds}s`;
+
+                if (questionTimerSeconds <= 0) {
+                    clearInterval(questionTimerInterval);
+                    playSound('wrong');
+                    showExplanation("Tempo de 20 segundos esgotado! Na rede, se o pacote demora para responder, ocorre o Timeout. Vamos para a próxima questão!");
                 }
             }, 1000);
         }
@@ -455,7 +564,6 @@
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
-            // EMBARALHAMENTO GARANTIDO A CADA PERGUNTA
             const shuffledOptions = shuffleArray(q.options);
 
             shuffledOptions.forEach((opt, oIdx) => {
@@ -471,11 +579,14 @@
                 `;
                 container.appendChild(btn);
             });
+
+            resetQuestionTimer();
         }
 
         function handleAnswer(option, btnElement) {
             if (isAnswering) return;
             isAnswering = true;
+            clearInterval(questionTimerInterval);
 
             const statusIcon = btnElement.querySelector('.status-icon');
 
@@ -485,7 +596,7 @@
                 statusIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-3xl"></i>`;
                 statusIcon.classList.remove('opacity-0');
 
-                score += 150;
+                score += 100 + (questionTimerSeconds * 5);
                 correctAnswersCount++;
                 scoreDisplay.textContent = score;
 
@@ -523,7 +634,7 @@
         }
 
         function finishGame() {
-            clearInterval(globalTimerInterval);
+            clearInterval(questionTimerInterval);
             screenGame.classList.add('hidden');
             screenResult.classList.remove('hidden');
 
@@ -534,18 +645,17 @@
             const feedbackTitle = document.getElementById('feedback-level-title');
             const feedbackDesc = document.getElementById('feedback-level-desc');
 
-            // FEEDBACK BASEADO NA DISCIPLINA DE DIDÁTICA DO ENSINO DE INFORMÁTICA
             if (correctAnswersCount === 8) {
-                feedbackTitle.textContent = "🏆 Excelente Transposição Didática e Absorção do Conteúdo!";
-                feedbackDesc.textContent = "Sob a ótica da Didática da Computação, você realizou com maestria a mediação cognitiva entre o modelo conceitual abstrato de Pilhas (LIFO) e o processo físico de Encapsulamento TCP/IP. Sua capacidade de relacionar os comandos Push e Pop à movimentação dos pacotes em rede demonstra pleno domínio do objeto de aprendizagem!";
+                feedbackTitle.textContent = "🏆 Desempenho Perfeito (8/8): Domínio do Objeto Digital!";
+                feedbackDesc.textContent = `Sensacional, ${playerName}! A proposta da Computação Plugada através deste jogo cumpriu com total êxito o seu papel didático. Você conectou perfeitamente o funcionamento abstrato da Pilha (LIFO) à lógica real das camadas do TCP/IP. Sua rápida tomada de decisão nos 20 segundos mostra que o aprendizado gamificado consolidou o conhecimento de forma clara e significativa.`;
                 feedbackCard.className = "bg-emerald-950/80 border-2 border-emerald-500 p-6 rounded-2xl space-y-3";
             } else if (correctAnswersCount >= 5) {
-                feedbackTitle.textContent = "🌟 Bom Processo Didático de Aprendizagem!";
-                feedbackDesc.textContent = "Sua participação evidencia boa apropriação dos conceitos intermediários. Do ponto de vista pedagógico, o recurso ludificado ajudou a concretizar a metáfora da Pilha. Continue revisando a ordem de remoção (Pop) para consolidar a transposição didática completa do modelo de redes!";
+                feedbackTitle.textContent = "🌟 Bom Desempenho (" + correctAnswersCount + "/8): Compreensão em Construção!";
+                feedbackDesc.textContent = `Muito bem, ${playerName}! A abordagem da Computação Plugada ajudou você a visualizar grande parte da dinâmica de empilhar e desempilhar dados. Você teve um bom raciocínio pedagógico, mas alguns erros indicam que a transição entre o topo da pilha e os cabeçalhos de rede ainda precisa de um pouco mais de prática para se fixar totalmente.`;
                 feedbackCard.className = "bg-indigo-950/80 border-2 border-indigo-500 p-6 rounded-2xl space-y-3";
             } else {
-                feedbackTitle.textContent = "📘 Diagnóstico Pedagógico e Necessidade de Mediação";
-                feedbackDesc.textContent = "O resultado indica que os conceitos de arquitetura de redes ainda se encontram em nível alto de abstração. Na didática do ensino de informática, sugere-se reforçar o uso de analogias físicas (como caixas sobrepostas) para apoiar a compreensão de Push/Pop antes de avançar para a teoria dos protocolos TCP/IP.";
+                feedbackTitle.textContent = "📘 Oportunidade Didática (" + correctAnswersCount + "/8): Necessidade de Reforço Prático";
+                feedbackDesc.textContent = `Bom esforço, ${playerName}! O jogo de Computação Plugada serve justamente como uma ferramenta de diagnóstico para identificar onde estão as dúvidas. Como a arquitetura TCP/IP e as Pilhas possuem conceitos de alta abstração, recomendamos revisar a ordem de remoção LIFO (Último a Entrar, Primeiro a Sair) e tentar o desafio novamente para fortalecer sua aprendizagem!`;
                 feedbackCard.className = "bg-amber-950/80 border-2 border-amber-500 p-6 rounded-2xl space-y-3";
             }
 
@@ -613,14 +723,12 @@
             }
         }
 
-        // IR PARA A NOVA TELA DE MURAL EXCLUSIVA (TELA 4)
         function goToMuralScreen() {
             screenResult.classList.add('hidden');
             screenMural.classList.remove('hidden');
             renderClassFeedbacks();
         }
 
-        // BUSCAR E EXIBIR MURAL NA TELA 4
         async function renderClassFeedbacks() {
             const container = document.getElementById('class-feedbacks-list');
             container.innerHTML = `<p class="text-slate-400 text-base italic">Sincronizando mural com as avaliações dos alunos na nuvem...</p>`;
