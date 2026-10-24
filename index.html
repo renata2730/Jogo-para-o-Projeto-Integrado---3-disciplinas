@@ -133,7 +133,7 @@
                     <p id="question-desc" class="text-slate-100 text-lg md:text-2xl font-bold mb-8 leading-relaxed">Instruções da fase aparecerão aqui.</p>
 
                     <div id="options-container" class="grid grid-cols-1 gap-4 mb-6">
-                        <!-- Opções geradas dinamicamente -->
+                        <!-- Opções geradas dinamicamente com embaralhamento -->
                     </div>
                 </div>
 
@@ -144,7 +144,7 @@
             </div>
         </section>
 
-        <!-- TELA 3: RESULTADOS E MURAL ONLINE -->
+        <!-- TELA 3: RESULTADOS, FEEDBACK PEDAGÓGICO DE DIDÁTICA DO ENSINO DE INFORMÁTICA E AVALIAÇÃO -->
         <section id="screen-result" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
             
             <div class="text-center space-y-3">
@@ -158,22 +158,22 @@
                 </p>
             </div>
 
-            <!-- FEEDBACK PEDAGÓGICO INDIVIDUAL -->
+            <!-- FEEDBACK DIDÁTICO-PEDAGÓGICO PERSONALIZADO -->
             <div id="pedagogical-feedback-card" class="bg-indigo-950/80 border-2 border-indigo-600/60 p-6 rounded-2xl space-y-3">
                 <h3 class="text-xl md:text-2xl font-black text-indigo-300 flex items-center gap-3">
                     <i class="fa-solid fa-graduation-cap text-3xl"></i>
-                    <span>Seu Feedback Pedagógico Individual</span>
+                    <span>Análise Pedagógica e Didática do seu Desempenho</span>
                 </h3>
                 <p id="feedback-level-title" class="text-lg font-bold text-amber-300">Calculando nível...</p>
                 <p id="feedback-level-desc" class="text-base text-slate-200 leading-relaxed font-semibold">
-                    Descrição do desempenho...
+                    Descrição pedagógica do desempenho...
                 </p>
             </div>
 
             <!-- AVALIAÇÃO COM ESTRELAS -->
             <div id="rating-section" class="bg-slate-900/90 border-2 border-slate-700/80 p-6 rounded-2xl text-center space-y-4">
                 <h3 class="text-xl md:text-2xl font-black text-white">Avalie a Nossa Oficina e o Jogo!</h3>
-                <p class="text-sm text-slate-300 font-semibold">Sua avaliação ajuda nossa equipe a melhorar o ensino de informática.</p>
+                <p class="text-sm text-slate-300 font-semibold">Sua avaliação ajuda nossa equipe a aprimorar o ensino de informática.</p>
                 
                 <div class="star-rating flex justify-center gap-3 text-3xl text-amber-400" id="star-container">
                     <i class="fa-solid fa-star" data-rating="1" onclick="setRating(1)"></i>
@@ -187,31 +187,43 @@
                     <input type="text" id="rating-comment" placeholder="Escreva o que achou da aula prática (opcional)..." class="w-full bg-slate-800 border border-slate-600 rounded-xl p-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400">
                 </div>
 
-                <button onclick="submitStudentFeedback()" id="btn-submit-feedback" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-6 rounded-xl transition-all text-base shadow-lg">
+                <button onclick="submitStudentFeedback()" id="btn-submit-feedback" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-6 rounded-xl transition-all text-base shadow-lg w-full sm:w-auto">
                     Salvar Minha Avaliação na Nuvem
                 </button>
             </div>
 
-            <!-- MURAL CONSOLIDADO ONLINE -->
-            <div class="bg-slate-900/90 border-2 border-slate-800 p-6 rounded-2xl space-y-4">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-700 pb-3">
-                    <h3 class="text-lg font-black text-indigo-300 flex items-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-down"></i>
-                        <span>Mural de Feedbacks Unificado da Turma (Sincronizado Online)</span>
-                    </h3>
-                    <button onclick="renderClassFeedbacks()" class="text-xs bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 px-3 py-1 rounded-lg border border-indigo-700">
-                        <i class="fa-solid fa-rotate"></i> Atualizar Mural
-                    </button>
-                </div>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button onclick="goToMuralScreen()" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-black py-4 rounded-2xl transition-all shadow-xl text-xl flex items-center justify-center gap-3">
+                    <span>Ver Mural Geral da Turma</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
 
-                <div id="class-feedbacks-list" class="space-y-3 max-h-60 overflow-y-auto pr-2">
-                    <p class="text-slate-400 text-sm italic">Carregando feedbacks da nuvem...</p>
+        <!-- TELA 4: EXCLUSIVA PARA O MURAL DE FEEDBACKS DE TODOS OS ALUNOS -->
+        <section id="screen-mural" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-700 pb-4">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-black text-amber-300 flex items-center gap-3">
+                        <i class="fa-solid fa-comments text-indigo-400"></i>
+                        <span>Mural de Avaliações da Turma</span>
+                    </h2>
+                    <p class="text-sm font-bold text-slate-300 mt-1">Sincronizado na nuvem • Válido por 1 dia de oficina</p>
                 </div>
+                <button onclick="renderClassFeedbacks()" class="bg-indigo-800 hover:bg-indigo-700 text-indigo-100 font-bold px-4 py-2 rounded-xl text-sm border border-indigo-500 flex items-center gap-2">
+                    <i class="fa-solid fa-rotate"></i> Atualizar Mural
+                </button>
             </div>
 
-            <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl transition-all shadow-xl text-xl">
-                Novo Jogador / Reiniciar Oficina
-            </button>
+            <div id="class-feedbacks-list" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                <p class="text-slate-400 text-base italic">Carregando feedbacks da nuvem...</p>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-4">
+                <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl transition-all shadow-xl text-xl">
+                    Novo Jogador / Reiniciar Oficina
+                </button>
+            </div>
         </section>
 
     </main>
@@ -244,10 +256,10 @@
     </footer>
 
     <script>
-        // CHAVES OFICIAIS CONFIGURADAS DO SEU BANCO JSONBIN
         const BIN_ID = "6adba49eac6210605a4ccadc"; 
         const API_KEY = "$2a$10$KRzvfBlWanY8lCAd.Yk6eegREEQ5KfaxjuYWA1SuHK7lluYKPmXnq";
 
+        // BANCO BASE DE PERGUNTAS
         const questionsRaw = [
             {
                 phase: 1,
@@ -347,8 +359,9 @@
             }
         ];
 
+        // ALGORITMO FISHER-YATES DE EMBARALHAMENTO REAL
         function shuffleArray(array) {
-            const arr = [...array];
+            let arr = JSON.parse(JSON.stringify(array));
             for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -368,6 +381,7 @@
         const screenLogin = document.getElementById('screen-login');
         const screenGame = document.getElementById('screen-game');
         const screenResult = document.getElementById('screen-result');
+        const screenMural = document.getElementById('screen-mural');
         const statusBar = document.getElementById('status-bar');
 
         const playerDisplay = document.getElementById('player-display');
@@ -441,6 +455,7 @@
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
+            // EMBARALHAMENTO GARANTIDO A CADA PERGUNTA
             const shuffledOptions = shuffleArray(q.options);
 
             shuffledOptions.forEach((opt, oIdx) => {
@@ -519,25 +534,24 @@
             const feedbackTitle = document.getElementById('feedback-level-title');
             const feedbackDesc = document.getElementById('feedback-level-desc');
 
+            // FEEDBACK BASEADO NA DISCIPLINA DE DIDÁTICA DO ENSINO DE INFORMÁTICA
             if (correctAnswersCount === 8) {
-                feedbackTitle.textContent = "🏆 Desempenho Excelente! Domínio Completo!";
-                feedbackDesc.textContent = "Parabéns! Você demonstrou perfeita compreensão de como a Estrutura de Dados Pilha (LIFO) se articula com as camadas do Modelo TCP/IP. Você assimilou os conceitos de Push/Pop no Encapsulamento de redes com maestria!";
+                feedbackTitle.textContent = "🏆 Excelente Transposição Didática e Absorção do Conteúdo!";
+                feedbackDesc.textContent = "Sob a ótica da Didática da Computação, você realizou com maestria a mediação cognitiva entre o modelo conceitual abstrato de Pilhas (LIFO) e o processo físico de Encapsulamento TCP/IP. Sua capacidade de relacionar os comandos Push e Pop à movimentação dos pacotes em rede demonstra pleno domínio do objeto de aprendizagem!";
                 feedbackCard.className = "bg-emerald-950/80 border-2 border-emerald-500 p-6 rounded-2xl space-y-3";
             } else if (correctAnswersCount >= 5) {
-                feedbackTitle.textContent = "🌟 Bom Desempenho! Conceitos Compreendidos!";
-                feedbackDesc.textContent = "Muito bem! Você compreendeu a lógica principal de empilhar (Push) e desempilhar (Pop) os cabeçalhos das camadas TCP/IP. Lembre-se sempre de rever a ordem LIFO para fixar 100% o conteúdo!";
+                feedbackTitle.textContent = "🌟 Bom Processo Didático de Aprendizagem!";
+                feedbackDesc.textContent = "Sua participação evidencia boa apropriação dos conceitos intermediários. Do ponto de vista pedagógico, o recurso ludificado ajudou a concretizar a metáfora da Pilha. Continue revisando a ordem de remoção (Pop) para consolidar a transposição didática completa do modelo de redes!";
                 feedbackCard.className = "bg-indigo-950/80 border-2 border-indigo-500 p-6 rounded-2xl space-y-3";
             } else {
-                feedbackTitle.textContent = "📘 Oportunidade de Aprendizado e Revisão";
-                feedbackDesc.textContent = "Bom esforço! Os conceitos de Redes de Computadores e Estrutura de Dados são abstratos. Lembre-se da analogia dos envelopes: o último envelope fechado é o primeiro que o receptor precisa abrir (LIFO). Continue praticando!";
+                feedbackTitle.textContent = "📘 Diagnóstico Pedagógico e Necessidade de Mediação";
+                feedbackDesc.textContent = "O resultado indica que os conceitos de arquitetura de redes ainda se encontram em nível alto de abstração. Na didática do ensino de informática, sugere-se reforçar o uso de analogias físicas (como caixas sobrepostas) para apoiar a compreensão de Push/Pop antes de avançar para a teoria dos protocolos TCP/IP.";
                 feedbackCard.className = "bg-amber-950/80 border-2 border-amber-500 p-6 rounded-2xl space-y-3";
             }
 
             try {
                 confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
             } catch(e) {}
-
-            renderClassFeedbacks();
         }
 
         function setRating(val) {
@@ -552,7 +566,6 @@
             });
         }
 
-        // SALVAR AVALIAÇÃO NA NUVEM VIA API
         async function submitStudentFeedback() {
             const comment = document.getElementById('rating-comment').value.trim();
             const now = new Date().getTime();
@@ -571,19 +584,16 @@
             };
 
             try {
-                // BUSCAR LISTA ATUAL DA NUVEM
                 let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
                     headers: { "X-Master-Key": API_KEY }
                 });
                 let data = await res.json();
                 let existingFeedbacks = data.record.feedbacks || [];
 
-                // MANTER APENAS OS ÚLTIMOS 1 DIA (24 HORAS)
                 const twentyFourHours = 24 * 60 * 60 * 1000;
                 existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
                 existingFeedbacks.unshift(newEntry);
 
-                // ATUALIZAR NUVEM
                 await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
                     method: 'PUT',
                     headers: {
@@ -593,23 +603,27 @@
                     body: JSON.stringify({ feedbacks: existingFeedbacks })
                 });
 
-                btn.innerText = "✓ Avaliação Salva na Nuvem!";
-                btn.className = "bg-slate-700 text-slate-300 font-bold py-3 px-6 rounded-xl cursor-not-allowed";
-
-                renderClassFeedbacks();
+                btn.innerText = "✓ Avaliação Salva com Sucesso!";
+                btn.className = "bg-slate-700 text-slate-300 font-bold py-3 px-6 rounded-xl cursor-not-allowed w-full sm:w-auto";
             } catch(err) {
                 btn.innerText = "Sua avaliação foi salva localmente!";
                 let local = JSON.parse(localStorage.getItem('ifpa_feedbacks') || '[]');
                 local.unshift(newEntry);
                 localStorage.setItem('ifpa_feedbacks', JSON.stringify(local));
-                renderClassFeedbacks();
             }
         }
 
-        // BUSCAR E EXIBIR MURAL COMPARTILHADO DA TURMA
+        // IR PARA A NOVA TELA DE MURAL EXCLUSIVA (TELA 4)
+        function goToMuralScreen() {
+            screenResult.classList.add('hidden');
+            screenMural.classList.remove('hidden');
+            renderClassFeedbacks();
+        }
+
+        // BUSCAR E EXIBIR MURAL NA TELA 4
         async function renderClassFeedbacks() {
             const container = document.getElementById('class-feedbacks-list');
-            container.innerHTML = `<p class="text-slate-400 text-sm italic">Sincronizando mural da nuvem...</p>`;
+            container.innerHTML = `<p class="text-slate-400 text-base italic">Sincronizando mural com as avaliações dos alunos na nuvem...</p>`;
 
             const now = new Date().getTime();
             const twentyFourHours = 24 * 60 * 60 * 1000;
@@ -626,31 +640,33 @@
                 existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_feedbacks') || '[]');
             }
 
-            // FILTRAR POR 24 HORAS (EXPIRAM AUTOMATICAMENTE NO DIA SEGUINTE)
             existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
 
             if (existingFeedbacks.length === 0) {
-                container.innerHTML = `<p class="text-slate-400 text-sm italic">Nenhum feedback registrado ainda nesta sessão.</p>`;
+                container.innerHTML = `<p class="text-slate-400 text-base italic">Nenhuma avaliação registrada ainda na nuvem.</p>`;
                 return;
             }
 
             container.innerHTML = '';
             existingFeedbacks.forEach(item => {
                 const div = document.createElement('div');
-                div.className = "bg-slate-800/80 p-3 rounded-xl border border-slate-700 flex flex-col gap-1 text-left shadow-sm";
+                div.className = "bg-slate-800/90 p-5 rounded-2xl border border-slate-700 flex flex-col gap-2 text-left shadow-lg";
                 
                 let starsHTML = '';
                 for(let i = 0; i < 5; i++) {
-                    starsHTML += i < item.rating ? '<i class="fa-solid fa-star text-amber-400 text-xs"></i>' : '<i class="fa-regular fa-star text-slate-600 text-xs"></i>';
+                    starsHTML += i < item.rating ? '<i class="fa-solid fa-star text-amber-400 text-base"></i>' : '<i class="fa-regular fa-star text-slate-600 text-base"></i>';
                 }
 
                 div.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-amber-300 text-sm">${item.name}</span>
+                    <div class="flex justify-between items-center border-b border-slate-700/60 pb-2">
+                        <span class="font-black text-amber-300 text-lg">${item.name}</span>
                         <div class="flex gap-1">${starsHTML}</div>
                     </div>
-                    <p class="text-xs text-slate-200">"${item.comment}"</p>
-                    <span class="text-[10px] text-emerald-400 font-mono">Pontuação: ${item.score} pts (${item.corrects}/8 acertos)</span>
+                    <p class="text-sm md:text-base text-slate-100 font-semibold my-1">"${item.comment}"</p>
+                    <div class="flex justify-between items-center text-xs font-bold text-emerald-400 font-mono">
+                        <span>Pontuação: ${item.score} pts (${item.corrects}/8 acertos)</span>
+                        <span class="text-slate-400 font-sans font-normal text-[11px]">${new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                    </div>
                 `;
                 container.appendChild(div);
             });
