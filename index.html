@@ -62,7 +62,6 @@
             transform: scale(1.25);
         }
 
-        /* EFEITO DE BLOCO 3D PARA AS CAMADAS */
         .layer-block {
             transition: all 0.3s ease;
             cursor: pointer;
@@ -70,6 +69,19 @@
         .layer-block:hover {
             transform: translateY(-4px) scale(1.01);
             filter: brightness(1.1);
+        }
+
+        .avatar-option {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .avatar-option:hover {
+            transform: scale(1.15);
+        }
+        .avatar-selected {
+            border-color: #f59e0b !important;
+            background-color: rgba(245, 158, 11, 0.2) !important;
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -89,9 +101,12 @@
 
         <!-- PAINEL DE STATUS -->
         <div id="status-bar" class="hidden flex items-center gap-6 bg-slate-900/90 px-6 py-3 rounded-2xl border border-slate-700/80">
-            <div class="text-center">
-                <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Jogador</span>
-                <span id="player-display" class="font-black text-amber-400 text-lg">---</span>
+            <div class="flex items-center gap-3">
+                <span id="player-avatar-display" class="text-3xl">🦊</span>
+                <div>
+                    <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Jogador</span>
+                    <span id="player-display" class="font-black text-amber-400 text-lg">---</span>
+                </div>
             </div>
             <div class="h-10 w-px bg-slate-700"></div>
             <div class="text-center">
@@ -109,63 +124,38 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="max-w-5xl mx-auto w-full flex-1 flex flex-col justify-center">
 
-        <!-- TELA 1: ENTRADA DO JOGO -->
-        <section id="screen-login" class="glass-panel p-8 md:p-12 rounded-3xl max-w-2xl mx-auto w-full shadow-2xl my-auto text-center border-t-8 border-indigo-500 space-y-8">
-            <div class="space-y-3">
-                <span class="text-sm font-extrabold text-amber-400 uppercase tracking-widest block">Oficina Interativa de Computação Plugada</span>
-                <h2 class="text-4xl md:text-5xl font-black text-white leading-tight">Desafio Pilha e Arquitetura TCP/IP</h2>
-                <p class="text-base font-semibold text-slate-300">Digite seu nome abaixo para ver o resumo rápido das camadas e jogar!</p>
-            </div>
-
-            <form id="login-form" onsubmit="event.preventDefault(); goToSummaryScreen();" class="space-y-6 pt-2">
-                <div>
-                    <label class="block text-left text-xs uppercase tracking-wider text-slate-300 mb-2 font-bold">Seu Nome Completo ou Apelido</label>
-                    <input type="text" id="input-name" required placeholder="Digite seu nome aqui..." class="w-full bg-slate-900/90 border-2 border-slate-600 rounded-2xl px-5 py-4 text-white text-xl font-bold placeholder-slate-500 focus:outline-none focus:border-indigo-400">
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 hover:from-indigo-600 hover:to-pink-700 text-white font-black py-5 px-8 rounded-2xl shadow-xl transition-all text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.02]">
-                    <span>CONTINUAR PARA O RESUMO</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-        </section>
-
-        <!-- TELA NOVAR: RESUMO INTERATIVO DAS CAMADAS E CONCEITO DE PILHA -->
-        <section id="screen-summary" class="hidden glass-panel p-6 md:p-10 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl space-y-8 my-auto border-t-8 border-amber-400">
-            
+        <!-- TELA 1 (PRIMEIRA TELA): RESUMO INTERATIVO DAS CAMADAS E CONCEITO DE PILHA -->
+        <section id="screen-summary" class="glass-panel p-6 md:p-10 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl space-y-8 my-auto border-t-8 border-amber-400">
             <div class="text-center space-y-2">
                 <span class="bg-amber-500/20 text-amber-300 text-sm font-black px-4 py-1.5 rounded-full border border-amber-500/40 uppercase tracking-wider">
-                    <i class="fa-solid fa-book-open mr-2"></i>Preparação Inicial
+                    <i class="fa-solid fa-book-open mr-2"></i>Oficina Interativa • Preparação Inicial
                 </span>
                 <h2 class="text-3xl md:text-4xl font-black text-white">Arquitetura TCP/IP e Conceito de Pilha</h2>
-                <p class="text-slate-300 text-base md:text-lg font-semibold">Clique nas camadas coloridas para descobrir a função de cada uma!</p>
+                <p class="text-slate-300 text-base md:text-lg font-semibold">Clique nas camadas coloridas para descobrir a função de cada uma antes do jogo!</p>
             </div>
 
-            <!-- BLOCO VISUAL 3D DAS 4 CAMADAS (CORES DA IMAGEM ANEXADA) -->
+            <!-- BLOCO VISUAL 3D DAS 4 CAMADAS -->
             <div class="space-y-3 max-w-3xl mx-auto">
-                
-                <!-- 1. APLICAÇÃO (VERMELHO) -->
                 <div onclick="toggleLayerInfo('app')" class="layer-block bg-red-600 hover:bg-red-500 border-2 border-red-400 p-5 rounded-2xl text-white shadow-xl">
                     <div class="flex justify-between items-center">
                         <span class="text-2xl md:text-3xl font-black">1. Aplicação</span>
                         <span class="text-sm md:text-base font-bold bg-black/30 px-3 py-1 rounded-lg">HTTP, WhatsApp, DNS</span>
                     </div>
                     <div id="info-app" class="hidden mt-3 pt-3 border-t border-white/30 text-base md:text-xl font-bold bg-black/20 p-4 rounded-xl leading-relaxed">
-                        📌 <strong>Função no Jogo:</strong> É onde tudo começa! É a camada do usuário. Cria a mensagem original e faz a primeira operação <strong>PUSH (Empilhar)</strong> no envio dos dados.
+                        📌 <strong>Função no Jogo:</strong> É onde tudo começa! Cria a mensagem original e faz a primeira operação <strong>PUSH (Empilhar)</strong> no envio dos dados.
                     </div>
                 </div>
 
-                <!-- 2. TRANSPORTE (CIAN / AZUL CLARO) -->
                 <div onclick="toggleLayerInfo('trans')" class="layer-block bg-cyan-400 hover:bg-cyan-300 border-2 border-cyan-200 p-5 rounded-2xl text-slate-900 shadow-xl">
                     <div class="flex justify-between items-center">
                         <span class="text-2xl md:text-3xl font-black">2. Transporte</span>
                         <span class="text-sm md:text-base font-black bg-white/40 px-3 py-1 rounded-lg">TCP e UDP</span>
                     </div>
                     <div id="info-trans" class="hidden mt-3 pt-3 border-t border-slate-900/30 text-base md:text-xl font-bold bg-white/30 p-4 rounded-xl leading-relaxed text-slate-950">
-                        📌 <strong>Função no Jogo:</strong> Divide as mensagens longas e adiciona as <strong>Portas de Comunicação</strong> (origem e destino) para saber qual aplicativo vai receber.
+                        📌 <strong>Função no Jogo:</strong> Divide as mensagens longas e adiciona as <strong>Portas de Comunicação</strong> para identificar o programa correto.
                     </div>
                 </div>
 
-                <!-- 3. INTERNET (VERDE) -->
                 <div onclick="toggleLayerInfo('net')" class="layer-block bg-lime-500 hover:bg-lime-400 border-2 border-lime-300 p-5 rounded-2xl text-slate-950 shadow-xl">
                     <div class="flex justify-between items-center">
                         <span class="text-2xl md:text-3xl font-black">3. Internet</span>
@@ -176,7 +166,6 @@
                     </div>
                 </div>
 
-                <!-- 4. ACESSO À REDE (AMARELO) -->
                 <div onclick="toggleLayerInfo('link')" class="layer-block bg-yellow-400 hover:bg-yellow-300 border-2 border-yellow-200 p-5 rounded-2xl text-slate-950 shadow-xl">
                     <div class="flex justify-between items-center">
                         <span class="text-2xl md:text-3xl font-black">4. Acesso à Rede</span>
@@ -186,10 +175,9 @@
                         📌 <strong>Função no Jogo:</strong> A última camada no envio e a <strong>primeira no recebimento</strong>! Transforma os pacotes em sinais físicos (cabo de rede ou Wi-Fi).
                     </div>
                 </div>
-
             </div>
 
-            <!-- EXPLICATIVO COMPACTO E CLARO SOBRE O CONCEITO DE PILHA E A ANALOGIA DOS PRATOS -->
+            <!-- EXPLICATIVO COMPACTO DE PILHA -->
             <div class="bg-slate-900/90 border-2 border-indigo-500/60 p-6 rounded-2xl space-y-4">
                 <h3 class="text-2xl md:text-3xl font-black text-amber-300 flex items-center gap-3">
                     <i class="fa-solid fa-utensils text-3xl"></i>
@@ -198,24 +186,59 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-200 font-bold text-base md:text-lg">
                     <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
-                        <span class="text-indigo-400 block mb-1 text-xl">🍽️ Exemplo Prático dos Pratos:</span>
-                        Quando você empilha pratos em uma mesa, o <strong>último prato colado no topo</strong> é obrigatoriamente o <strong>primeiro prato que você retira</strong>. Essa é a regra <strong>LIFO (Last In, First Out)</strong>.
+                        <span class="text-indigo-400 block mb-1 text-xl">🍽️ Exemplo dos Pratos:</span>
+                        O <strong>último prato colocado no topo</strong> é obrigatoriamente o <strong>primeiro a ser retirado</strong>. Regra <strong>LIFO (Last In, First Out)</strong>.
                     </div>
                     <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
-                        <span class="text-emerald-400 block mb-1 text-xl">🌐 Analogia com a Rede TCP/IP:</span>
-                        • <strong>PUSH (Empilhar):</strong> No envio, cada camada coloca um envelope por cima (Aplicação ➔ Transporte ➔ Internet ➔ Acesso à Rede).<br>
-                        • <strong>POP (Desempilhar):</strong> No receptor, retiramos primeiro a camada externa (Acesso à Rede) para chegar até a mensagem interna.
+                        <span class="text-emerald-400 block mb-1 text-xl">🌐 Analogia com o TCP/IP:</span>
+                        • <strong>PUSH (Empilhar):</strong> No envio, adicione o envelope no topo.<br>
+                        • <strong>POP (Desempilhar):</strong> No receptor, retire primeiro o envelope mais externo!
                     </div>
                 </div>
             </div>
 
-            <button onclick="startGameFromSummary()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-5 rounded-2xl shadow-2xl text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.01]">
-                <span>ESTOU PRONTO! INICIAR O JOGO</span>
-                <i class="fa-solid fa-gamepad"></i>
+            <button onclick="goToLoginScreen()" class="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 hover:from-indigo-600 hover:to-pink-700 text-white font-black py-5 rounded-2xl shadow-2xl text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.01]">
+                <span>ENTENDI O RESUMO! DIGITAR MEU NOME</span>
+                <i class="fa-solid fa-arrow-right"></i>
             </button>
         </section>
 
-        <!-- TELA 2: ÁREA DE JOGO -->
+        <!-- TELA 2 (SEGUNDA TELA): ENTRADA DO NOME E MASCOTE (ESTILO KAHOOT) -->
+        <section id="screen-login" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-2xl mx-auto w-full shadow-2xl my-auto text-center border-t-8 border-indigo-500 space-y-6">
+            <div class="space-y-3">
+                <span class="text-sm font-extrabold text-amber-400 uppercase tracking-widest block">Identificação do Jogador</span>
+                <h2 class="text-4xl md:text-5xl font-black text-white leading-tight">Escolha seu Mascote e Digite seu Nome</h2>
+                <p class="text-base font-semibold text-slate-300">Como você quer aparecer no Pódio do Ranking ao final?</p>
+            </div>
+
+            <!-- SELEÇÃO DE ANIMALZINHO -->
+            <div class="space-y-2">
+                <label class="block text-xs uppercase tracking-wider text-amber-400 font-bold">Escolha seu Animalzinho:</label>
+                <div class="flex justify-center gap-3 flex-wrap" id="avatar-picker">
+                    <div onclick="selectAvatar('🦊', this)" class="avatar-option avatar-selected p-3 rounded-2xl border-2 border-slate-600 bg-slate-800 text-4xl">🦊</div>
+                    <div onclick="selectAvatar('🐼', this)" class="avatar-option p-3 rounded-2xl border-2 border-slate-600 bg-slate-800 text-4xl">🐼</div>
+                    <div onclick="selectAvatar('🦁', this)" class="avatar-option p-3 rounded-2xl border-2 border-slate-600 bg-slate-800 text-4xl">🦁</div>
+                    <div onclick="selectAvatar('🐯', this)" class="avatar-option p-3 rounded-2xl border-2 border-slate-600 bg-slate-800 text-4xl">🐯</div>
+                    <div onclick="selectAvatar('🐰', this)" class="avatar-option p-3 rounded-2xl border-2 border-slate-600 bg-slate-800 text-4xl">🐰</div>
+                    <div onclick="selectAvatar('🐸', this)" class="avatar-option p-3 rounded-2xl border-2 border-slate-600 bg-slate-800 text-4xl">🐸</div>
+                    <div onclick="selectAvatar('🦉', this)" class="avatar-option p-3 rounded-2xl border-2 border-slate-600 bg-slate-800 text-4xl">🦉</div>
+                    <div onclick="selectAvatar('🦄', this)" class="avatar-option p-3 rounded-2xl border-2 border-slate-600 bg-slate-800 text-4xl">🦄</div>
+                </div>
+            </div>
+
+            <form id="login-form" onsubmit="event.preventDefault(); startGameFromLogin();" class="space-y-6 pt-2">
+                <div>
+                    <label class="block text-left text-xs uppercase tracking-wider text-slate-300 mb-2 font-bold">Seu Nome Completo ou Apelido</label>
+                    <input type="text" id="input-name" required placeholder="Digite seu nome aqui..." class="w-full bg-slate-900/90 border-2 border-slate-600 rounded-2xl px-5 py-4 text-white text-xl font-bold placeholder-slate-500 focus:outline-none focus:border-indigo-400">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-5 px-8 rounded-2xl shadow-xl transition-all text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.02]">
+                    <span>INICIAR DESAFIO AGORA</span>
+                    <i class="fa-solid fa-play"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- TELA 3: ÁREA DE JOGO -->
         <section id="screen-game" class="hidden w-full">
             <div class="glass-panel p-8 md:p-10 rounded-3xl flex-1 flex flex-col justify-between shadow-2xl border-t-8 border-indigo-500 space-y-6">
                 <div>
@@ -239,9 +262,8 @@
             </div>
         </section>
 
-        <!-- TELA 3: RESULTADOS E AVALIAÇÃO -->
+        <!-- TELA 4: ANÁLISE DIDÁTICA DE DESEMPENHO -->
         <section id="screen-result" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
-            
             <div class="text-center space-y-3">
                 <div class="w-24 h-24 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-5xl mx-auto border-2 border-amber-500/40 pulse-anim">
                     <i class="fa-solid fa-crown"></i>
@@ -265,12 +287,19 @@
                 </p>
             </div>
 
-            <!-- AVALIAÇÃO COM ESTRELAS -->
-            <div id="rating-section" class="bg-slate-900/90 border-2 border-slate-700/80 p-6 rounded-2xl text-center space-y-4">
-                <h3 class="text-xl md:text-2xl font-black text-white">Avalie a Nossa Oficina e o Jogo!</h3>
-                <p class="text-sm text-slate-300 font-semibold">Sua avaliação ajuda nossa equipe a aprimorar o ensino de informática.</p>
+            <button onclick="goToRatingScreen()" class="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 text-white font-black py-5 rounded-2xl shadow-xl text-2xl flex items-center justify-center gap-3">
+                <span>AVANÇAR PARA A AVALIAÇÃO DO JOGO</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- TELA 5: AVALIAÇÃO DO JOGO / ESTRELAS -->
+        <section id="screen-rating" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
+            <div id="rating-section" class="bg-slate-900/90 border-2 border-slate-700/80 p-8 rounded-3xl text-center space-y-6">
+                <h2 class="text-3xl md:text-4xl font-black text-white">Avalie a Nossa Oficina e o Jogo!</h2>
+                <p class="text-base text-slate-300 font-semibold">Sua opinião é fundamental para aprimorarmos nossas oficinas de computação plugada.</p>
                 
-                <div class="star-rating flex justify-center gap-3 text-3xl text-amber-400" id="star-container">
+                <div class="star-rating flex justify-center gap-4 text-4xl text-amber-400" id="star-container">
                     <i class="fa-solid fa-star" data-rating="1" onclick="setRating(1)"></i>
                     <i class="fa-solid fa-star" data-rating="2" onclick="setRating(2)"></i>
                     <i class="fa-solid fa-star" data-rating="3" onclick="setRating(3)"></i>
@@ -279,46 +308,74 @@
                 </div>
 
                 <div>
-                    <input type="text" id="rating-comment" placeholder="Escreva o que achou da aula prática (opcional)..." class="w-full bg-slate-800 border border-slate-600 rounded-xl p-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400">
+                    <input type="text" id="rating-comment" placeholder="Escreva o que achou da aula prática (opcional)..." class="w-full bg-slate-800 border-2 border-slate-600 rounded-2xl p-4 text-lg text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400">
                 </div>
 
-                <button onclick="submitStudentFeedback()" id="btn-submit-feedback" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-6 rounded-xl transition-all text-base shadow-lg w-full sm:w-auto">
-                    Salvar Minha Avaliação na Nuvem
-                </button>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-4">
-                <button onclick="goToMuralScreen()" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-black py-4 rounded-2xl transition-all shadow-xl text-xl flex items-center justify-center gap-3">
-                    <span>Ver Mural Geral da Turma</span>
-                    <i class="fa-solid fa-arrow-right"></i>
+                <button onclick="submitStudentFeedbackAndGoToRanking()" id="btn-submit-feedback" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 rounded-2xl transition-all text-2xl shadow-xl flex items-center justify-center gap-3">
+                    <span>SALVAR E VER O RANKING FINAL</span>
+                    <i class="fa-solid fa-trophy"></i>
                 </button>
             </div>
         </section>
 
-        <!-- TELA 4: EXCLUSIVA PARA O MURAL DE FEEDBACKS -->
-        <section id="screen-mural" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-700 pb-4">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-black text-amber-300 flex items-center gap-3">
-                        <i class="fa-solid fa-comments text-indigo-400"></i>
-                        <span>Mural de Avaliações da Turma</span>
-                    </h2>
-                    <p class="text-sm font-bold text-slate-300 mt-1">Sincronizado na nuvem • Válido por 1 dia de oficina</p>
+        <!-- TELA 6 (ÚLTIMA TELA): RANKING ESTILO KAHOOT (TOP 3 PÓDIO) + MURAL -->
+        <section id="screen-mural" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
+            <div class="text-center space-y-2">
+                <h2 class="text-4xl md:text-5xl font-black text-amber-300 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-trophy text-amber-400"></i>
+                    <span>Ranking do Desafio (Pódio)</span>
+                </h2>
+                <p class="text-base font-bold text-slate-300">Classificação dos melhores jogadores da turma estilo Kahoot!</p>
+            </div>
+
+            <!-- ESTRUTURA DO PÓDIO KAHOOT (1º, 2º E 3º LUGAR) -->
+            <div id="podium-container" class="grid grid-cols-3 gap-3 items-end pt-6 pb-2 max-w-2xl mx-auto">
+                <!-- 2º LUGAR -->
+                <div class="flex flex-col items-center">
+                    <span id="p2-avatar" class="text-4xl mb-1">🐼</span>
+                    <span id="p2-name" class="font-black text-sm md:text-base text-slate-200 truncate max-w-[90px] md:max-w-[120px]">---</span>
+                    <span id="p2-score" class="text-xs font-bold text-emerald-400 font-mono mb-2">0 pts</span>
+                    <div class="w-full bg-slate-700/80 border-2 border-slate-500 rounded-t-2xl h-24 md:h-32 flex items-center justify-center font-black text-2xl md:text-4xl text-slate-300 shadow-lg">2º</div>
                 </div>
-                <button onclick="renderClassFeedbacks()" class="bg-indigo-800 hover:bg-indigo-700 text-indigo-100 font-bold px-4 py-2 rounded-xl text-sm border border-indigo-500 flex items-center gap-2">
-                    <i class="fa-solid fa-rotate"></i> Atualizar Mural
-                </button>
+
+                <!-- 1º LUGAR (MAIOR) -->
+                <div class="flex flex-col items-center">
+                    <i class="fa-solid fa-crown text-amber-400 text-3xl mb-1 pulse-anim"></i>
+                    <span id="p1-avatar" class="text-5xl mb-1">🦊</span>
+                    <span id="p1-name" class="font-black text-base md:text-xl text-amber-300 truncate max-w-[100px] md:max-w-[140px]">---</span>
+                    <span id="p1-score" class="text-sm font-black text-emerald-400 font-mono mb-2">0 pts</span>
+                    <div class="w-full bg-gradient-to-t from-amber-600 to-amber-500 border-2 border-amber-300 rounded-t-2xl h-36 md:h-48 flex items-center justify-center font-black text-4xl md:text-6xl text-slate-950 shadow-2xl">1º</div>
+                </div>
+
+                <!-- 3º LUGAR -->
+                <div class="flex flex-col items-center">
+                    <span id="p3-avatar" class="text-4xl mb-1">🐯</span>
+                    <span id="p3-name" class="font-black text-sm md:text-base text-slate-200 truncate max-w-[90px] md:max-w-[120px]">---</span>
+                    <span id="p3-score" class="text-xs font-bold text-emerald-400 font-mono mb-2">0 pts</span>
+                    <div class="w-full bg-amber-800/80 border-2 border-amber-700 rounded-t-2xl h-20 md:h-24 flex items-center justify-center font-black text-xl md:text-3xl text-amber-200 shadow-lg">3º</div>
+                </div>
             </div>
 
-            <div id="class-feedbacks-list" class="space-y-4 max-h-96 overflow-y-auto pr-2">
-                <p class="text-slate-400 text-base italic">Carregando feedbacks da nuvem...</p>
+            <!-- MURAL PERMANENTE DE AVALIAÇÕES DA TURMA -->
+            <div class="bg-slate-900/90 border-2 border-slate-800 p-6 rounded-2xl space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-700 pb-3">
+                    <h3 class="text-xl font-black text-indigo-300 flex items-center gap-2">
+                        <i class="fa-solid fa-comments"></i>
+                        <span>Mural Permanente de Feedbacks da Turma</span>
+                    </h3>
+                    <button onclick="renderClassFeedbacks()" class="bg-indigo-800 hover:bg-indigo-700 text-indigo-100 font-bold px-4 py-2 rounded-xl text-sm border border-indigo-500 flex items-center gap-2">
+                        <i class="fa-solid fa-rotate"></i> Atualizar
+                    </button>
+                </div>
+
+                <div id="class-feedbacks-list" class="space-y-4 max-h-72 overflow-y-auto pr-2">
+                    <p class="text-slate-400 text-base italic">Sincronizando mural e pódio com o servidor...</p>
+                </div>
             </div>
 
-            <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-4">
-                <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl transition-all shadow-xl text-xl">
-                    Novo Jogador / Reiniciar Oficina
-                </button>
-            </div>
+            <button onclick="location.reload()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-5 rounded-2xl transition-all shadow-xl text-2xl">
+                Novo Jogador / Reiniciar Oficina
+            </button>
         </section>
 
     </main>
@@ -463,6 +520,7 @@
         }
 
         let playerName = "";
+        let selectedAvatar = "🦊";
         let currentQuestionIdx = 0;
         let score = 0;
         let correctAnswersCount = 0;
@@ -471,16 +529,24 @@
         let isAnswering = false;
         let selectedRating = 5;
 
-        const screenLogin = document.getElementById('screen-login');
         const screenSummary = document.getElementById('screen-summary');
+        const screenLogin = document.getElementById('screen-login');
         const screenGame = document.getElementById('screen-game');
         const screenResult = document.getElementById('screen-result');
+        const screenRating = document.getElementById('screen-rating');
         const screenMural = document.getElementById('screen-mural');
         const statusBar = document.getElementById('status-bar');
 
         const playerDisplay = document.getElementById('player-display');
+        const playerAvatarDisplay = document.getElementById('player-avatar-display');
         const scoreDisplay = document.getElementById('score-display');
         const timerDisplay = document.getElementById('timer-display');
+
+        function selectAvatar(emoji, el) {
+            selectedAvatar = emoji;
+            document.querySelectorAll('.avatar-option').forEach(item => item.classList.remove('avatar-selected'));
+            el.classList.add('avatar-selected');
+        }
 
         function playSound(type) {
             try {
@@ -506,29 +572,26 @@
             } catch(e) {}
         }
 
-        // IR PARA A TELA DE RESUMO
-        function goToSummaryScreen() {
+        // TELA 1 ➔ TELA 2: IR DA TELA DE RESUMO PARA A TELA DE LOGIN
+        function goToLoginScreen() {
+            screenSummary.classList.add('hidden');
+            screenLogin.classList.remove('hidden');
+        }
+
+        function toggleLayerInfo(id) {
+            const el = document.getElementById(`info-${id}`);
+            el.classList.toggle('hidden');
+        }
+
+        // TELA 2 ➔ TELA 3: INICIAR O JOGO A PARTIR DO LOGIN
+        function startGameFromLogin() {
             playerName = document.getElementById('input-name').value.trim();
             if (!playerName) return;
 
             playerDisplay.textContent = playerName;
+            playerAvatarDisplay.textContent = selectedAvatar;
+
             screenLogin.classList.add('hidden');
-            screenSummary.classList.remove('hidden');
-        }
-
-        // ALTERNAR EXPLICAÇÃO DAS CAMADAS AO CLICAR
-        function toggleLayerInfo(id) {
-            const el = document.getElementById(`info-${id}`);
-            if (el.classList.contains('hidden')) {
-                el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
-            }
-        }
-
-        // INICIAR O JOGO A PARTIR DA TELA DE RESUMO
-        function startGameFromSummary() {
-            screenSummary.classList.add('hidden');
             screenGame.classList.remove('hidden');
             statusBar.classList.remove('hidden');
             loadQuestion(0);
@@ -647,21 +710,26 @@
 
             if (correctAnswersCount === 8) {
                 feedbackTitle.textContent = "🏆 Desempenho Perfeito (8/8): Domínio do Objeto Digital!";
-                feedbackDesc.textContent = `Sensacional, ${playerName}! A proposta da Computação Plugada através deste jogo cumpriu com total êxito o seu papel didático. Você conectou perfeitamente o funcionamento abstrato da Pilha (LIFO) à lógica real das camadas do TCP/IP. Sua rápida tomada de decisão nos 20 segundos mostra que o aprendizado gamificado consolidou o conhecimento de forma clara e significativa.`;
+                feedbackDesc.textContent = `Sensacional, ${playerName}! A proposta da Computação Plugada através deste jogo cumpriu com total êxito o seu papel didático. Você conectou perfeitamente o funcionamento abstrato da Pilha (LIFO) à lógica real das camadas do TCP/IP.`;
                 feedbackCard.className = "bg-emerald-950/80 border-2 border-emerald-500 p-6 rounded-2xl space-y-3";
             } else if (correctAnswersCount >= 5) {
                 feedbackTitle.textContent = "🌟 Bom Desempenho (" + correctAnswersCount + "/8): Compreensão em Construção!";
-                feedbackDesc.textContent = `Muito bem, ${playerName}! A abordagem da Computação Plugada ajudou você a visualizar grande parte da dinâmica de empilhar e desempilhar dados. Você teve um bom raciocínio pedagógico, mas alguns erros indicam que a transição entre o topo da pilha e os cabeçalhos de rede ainda precisa de um pouco mais de prática para se fixar totalmente.`;
+                feedbackDesc.textContent = `Muito bem, ${playerName}! A abordagem da Computação Plugada ajudou você a visualizar grande parte da dinâmica de empilhar e desempilhar dados. Você teve um bom raciocínio pedagógico!`;
                 feedbackCard.className = "bg-indigo-950/80 border-2 border-indigo-500 p-6 rounded-2xl space-y-3";
             } else {
                 feedbackTitle.textContent = "📘 Oportunidade Didática (" + correctAnswersCount + "/8): Necessidade de Reforço Prático";
-                feedbackDesc.textContent = `Bom esforço, ${playerName}! O jogo de Computação Plugada serve justamente como uma ferramenta de diagnóstico para identificar onde estão as dúvidas. Como a arquitetura TCP/IP e as Pilhas possuem conceitos de alta abstração, recomendamos revisar a ordem de remoção LIFO (Último a Entrar, Primeiro a Sair) e tentar o desafio novamente para fortalecer sua aprendizagem!`;
+                feedbackDesc.textContent = `Bom esforço, ${playerName}! O jogo serve justamente como diagnóstico. Recomendamos revisar a ordem de remoção LIFO (Último a Entrar, Primeiro a Sair) e tentar novamente!`;
                 feedbackCard.className = "bg-amber-950/80 border-2 border-amber-500 p-6 rounded-2xl space-y-3";
             }
 
             try {
                 confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
             } catch(e) {}
+        }
+
+        function goToRatingScreen() {
+            screenResult.classList.add('hidden');
+            screenRating.classList.remove('hidden');
         }
 
         function setRating(val) {
@@ -676,16 +744,17 @@
             });
         }
 
-        async function submitStudentFeedback() {
+        async function submitStudentFeedbackAndGoToRanking() {
             const comment = document.getElementById('rating-comment').value.trim();
             const now = new Date().getTime();
 
             const btn = document.getElementById('btn-submit-feedback');
-            btn.innerText = "Enviando para a nuvem...";
+            btn.innerText = "Salvando no Servidor...";
             btn.disabled = true;
 
             const newEntry = {
                 name: playerName,
+                avatar: selectedAvatar,
                 score: score,
                 corrects: correctAnswersCount,
                 rating: selectedRating,
@@ -700,8 +769,6 @@
                 let data = await res.json();
                 let existingFeedbacks = data.record.feedbacks || [];
 
-                const twentyFourHours = 24 * 60 * 60 * 1000;
-                existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
                 existingFeedbacks.unshift(newEntry);
 
                 await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
@@ -713,28 +780,23 @@
                     body: JSON.stringify({ feedbacks: existingFeedbacks })
                 });
 
-                btn.innerText = "✓ Avaliação Salva com Sucesso!";
-                btn.className = "bg-slate-700 text-slate-300 font-bold py-3 px-6 rounded-xl cursor-not-allowed w-full sm:w-auto";
+                screenRating.classList.add('hidden');
+                screenMural.classList.remove('hidden');
+                renderClassFeedbacks();
             } catch(err) {
-                btn.innerText = "Sua avaliação foi salva localmente!";
                 let local = JSON.parse(localStorage.getItem('ifpa_feedbacks') || '[]');
                 local.unshift(newEntry);
                 localStorage.setItem('ifpa_feedbacks', JSON.stringify(local));
-            }
-        }
 
-        function goToMuralScreen() {
-            screenResult.classList.add('hidden');
-            screenMural.classList.remove('hidden');
-            renderClassFeedbacks();
+                screenRating.classList.add('hidden');
+                screenMural.classList.remove('hidden');
+                renderClassFeedbacks();
+            }
         }
 
         async function renderClassFeedbacks() {
             const container = document.getElementById('class-feedbacks-list');
-            container.innerHTML = `<p class="text-slate-400 text-base italic">Sincronizando mural com as avaliações dos alunos na nuvem...</p>`;
-
-            const now = new Date().getTime();
-            const twentyFourHours = 24 * 60 * 60 * 1000;
+            container.innerHTML = `<p class="text-slate-400 text-base italic">Sincronizando mural e pódio com o servidor...</p>`;
 
             let existingFeedbacks = [];
 
@@ -748,11 +810,27 @@
                 existingFeedbacks = JSON.parse(localStorage.getItem('ifpa_feedbacks') || '[]');
             }
 
-            existingFeedbacks = existingFeedbacks.filter(item => (now - item.timestamp) < twentyFourHours);
-
             if (existingFeedbacks.length === 0) {
-                container.innerHTML = `<p class="text-slate-400 text-base italic">Nenhuma avaliação registrada ainda na nuvem.</p>`;
+                container.innerHTML = `<p class="text-slate-400 text-base italic">Nenhuma avaliação registrada ainda.</p>`;
                 return;
+            }
+
+            let sortedByScore = [...existingFeedbacks].sort((a, b) => b.score - a.score);
+
+            if (sortedByScore[0]) {
+                document.getElementById('p1-name').textContent = sortedByScore[0].name;
+                document.getElementById('p1-avatar').textContent = sortedByScore[0].avatar || '🦊';
+                document.getElementById('p1-score').textContent = `${sortedByScore[0].score} pts`;
+            }
+            if (sortedByScore[1]) {
+                document.getElementById('p2-name').textContent = sortedByScore[1].name;
+                document.getElementById('p2-avatar').textContent = sortedByScore[1].avatar || '🐼';
+                document.getElementById('p2-score').textContent = `${sortedByScore[1].score} pts`;
+            }
+            if (sortedByScore[2]) {
+                document.getElementById('p3-name').textContent = sortedByScore[2].name;
+                document.getElementById('p3-avatar').textContent = sortedByScore[2].avatar || '🐯';
+                document.getElementById('p3-score').textContent = `${sortedByScore[2].score} pts`;
             }
 
             container.innerHTML = '';
@@ -767,13 +845,16 @@
 
                 div.innerHTML = `
                     <div class="flex justify-between items-center border-b border-slate-700/60 pb-2">
-                        <span class="font-black text-amber-300 text-lg">${item.name}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">${item.avatar || '🦊'}</span>
+                            <span class="font-black text-amber-300 text-lg">${item.name}</span>
+                        </div>
                         <div class="flex gap-1">${starsHTML}</div>
                     </div>
                     <p class="text-sm md:text-base text-slate-100 font-semibold my-1">"${item.comment}"</p>
                     <div class="flex justify-between items-center text-xs font-bold text-emerald-400 font-mono">
                         <span>Pontuação: ${item.score} pts (${item.corrects}/8 acertos)</span>
-                        <span class="text-slate-400 font-sans font-normal text-[11px]">${new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                        <span class="text-slate-400 font-sans font-normal text-[11px]">${new Date(item.timestamp).toLocaleDateString('pt-BR')} ${new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                     </div>
                 `;
                 container.appendChild(div);
