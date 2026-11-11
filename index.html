@@ -241,7 +241,7 @@
 
             <div class="bg-slate-900/90 border-2 border-indigo-500/60 p-6 md:p-8 rounded-2xl space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-200 font-bold text-base md:text-lg">
-                    <!-- CARD 1: EXEMPLO DOS PRATOS COM ILUSTRAÇÃO -->
+                    <!-- CARD 1: DIAGRAMA VISUAL DA PILHA DE PRATOS (LIFO) -->
                     <div class="bg-slate-800/90 p-6 rounded-2xl border border-indigo-500/40 space-y-4 shadow-lg flex flex-col justify-between">
                         <div>
                             <span class="text-indigo-400 block text-2xl font-black mb-2">🍽️ Exemplo dos Pratos:</span>
@@ -249,12 +249,32 @@
                                 O <strong>último prato colocado no topo</strong> é obrigatoriamente o <strong>primeiro a ser retirado</strong>. Regra <strong>LIFO (Last In, First Out)</strong>.
                             </p>
                         </div>
-                        <div class="rounded-xl overflow-hidden border-2 border-indigo-500/50 shadow-md bg-slate-950/60 mt-2">
-                            <img src="img/pilha_pratos_lifo.png" alt="Exemplo didático da pilha de pratos LIFO" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
+
+                        <!-- ILUSTRAÇÃO NATIVA DA PILHA DE PRATOS -->
+                        <div class="bg-slate-950/80 border-2 border-indigo-500/50 p-4 rounded-xl flex flex-col items-center justify-center gap-2 mt-2 shadow-inner">
+                            <span class="text-xs uppercase font-extrabold text-amber-400 tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-arrow-down text-emerald-400"></i> PUSH (Empilhar no topo)
+                            </span>
+                            
+                            <div class="w-full flex flex-col items-center gap-1 my-1">
+                                <div class="w-4/5 bg-rose-500 border border-rose-300 py-1.5 rounded-full text-center text-xs font-black text-white shadow-md animate-pulse">
+                                    🔴 Prato 3 (Último / Topo)
+                                </div>
+                                <div class="w-4/5 bg-amber-500 border border-amber-300 py-1.5 rounded-full text-center text-xs font-black text-slate-950 shadow-md">
+                                    🟡 Prato 2 (Meio)
+                                </div>
+                                <div class="w-4/5 bg-indigo-600 border border-indigo-300 py-1.5 rounded-full text-center text-xs font-black text-white shadow-md">
+                                    🔵 Prato 1 (Primeiro / Base)
+                                </div>
+                            </div>
+
+                            <span class="text-xs uppercase font-extrabold text-rose-400 tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-arrow-up text-rose-400"></i> POP (Desempilhar do topo)
+                            </span>
                         </div>
                     </div>
 
-                    <!-- CARD 2: ANALOGIA COM TCP/IP COM ILUSTRAÇÃO -->
+                    <!-- CARD 2: DIAGRAMA VISUAL DO ENCAPSULAMENTO TCP/IP -->
                     <div class="bg-slate-800/90 p-6 rounded-2xl border border-emerald-500/40 space-y-4 shadow-lg flex flex-col justify-between">
                         <div>
                             <span class="text-emerald-400 block text-2xl font-black mb-2">🌐 Analogia com o TCP/IP:</span>
@@ -263,8 +283,35 @@
                                 • <strong>POP (Desempilhar):</strong> No receptor, retire primeiro o envelope mais externo!
                             </p>
                         </div>
-                        <div class="rounded-xl overflow-hidden border-2 border-emerald-500/50 shadow-md bg-slate-950/60 mt-2">
-                            <img src="img/encapsulamento_tcpip.png" alt="Analogia do encapsulamento TCP/IP com envelopes Push e Pop" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
+
+                        <!-- ILUSTRAÇÃO NATIVA DO ENCAPSULAMENTO TCP/IP -->
+                        <div class="bg-slate-950/80 border-2 border-emerald-500/50 p-4 rounded-xl flex flex-col items-center justify-center gap-1.5 mt-2 shadow-inner">
+                            <span class="text-xs uppercase font-extrabold text-emerald-400 tracking-wider">
+                                Flutuação de Envelopes na Rede
+                            </span>
+                            
+                            <div class="w-full space-y-1 my-1 text-xs font-black">
+                                <div class="bg-red-600/90 border border-red-400 p-1.5 rounded-lg text-white flex justify-between items-center">
+                                    <span>1. Aplicação</span>
+                                    <span class="bg-black/30 px-2 py-0.5 rounded text-[10px]">Dados da Mensagem</span>
+                                </div>
+                                <div class="bg-cyan-500/90 border border-cyan-300 p-1.5 rounded-lg text-slate-950 flex justify-between items-center">
+                                    <span>2. Transporte</span>
+                                    <span class="bg-white/40 px-2 py-0.5 rounded text-[10px]">+ Portas Origem/Destino</span>
+                                </div>
+                                <div class="bg-lime-500/90 border border-lime-300 p-1.5 rounded-lg text-slate-950 flex justify-between items-center">
+                                    <span>3. Internet</span>
+                                    <span class="bg-black/20 px-2 py-0.5 rounded text-[10px] text-white">+ Endereço IP</span>
+                                </div>
+                                <div class="bg-yellow-400/90 border border-yellow-200 p-1.5 rounded-lg text-slate-950 flex justify-between items-center">
+                                    <span>4. Acesso à Rede</span>
+                                    <span class="bg-black/20 px-2 py-0.5 rounded text-[10px]">+ Quadro Ethernet</span>
+                                </div>
+                            </div>
+
+                            <span class="text-[11px] font-bold text-slate-400 text-center">
+                                Envio (Push: 1 → 4) | Recepção (Pop: 4 → 1)
+                            </span>
                         </div>
                     </div>
                 </div>
