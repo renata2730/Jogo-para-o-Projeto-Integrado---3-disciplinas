@@ -124,26 +124,24 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="max-w-5xl mx-auto w-full flex-1 flex flex-col justify-center">
 
-        <!-- TELA 1: RESUMO INTERATIVO + CAPA ACADÊMICA -->
-        <section id="screen-summary" class="glass-panel p-6 md:p-10 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl space-y-8 my-auto border-t-8 border-amber-400">
-            
-            <!-- CAPA DO TRABALHO ACADÊMICO -->
-            <div class="text-center space-y-4 border-b border-slate-700/80 pb-6">
+        <!-- TELA 1: CAPA ACADÊMICA -->
+        <section id="screen-cover" class="glass-panel p-6 md:p-10 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl space-y-8 my-auto border-t-8 border-amber-400">
+            <div class="text-center space-y-6">
                 <!-- INSTITUIÇÃO DE ENSINO -->
-                <div class="space-y-1">
-                    <span class="text-amber-400 font-black text-sm md:text-base uppercase tracking-widest block">
+                <div class="space-y-2">
+                    <span class="text-amber-400 font-black text-base md:text-xl uppercase tracking-widest block leading-snug">
                         IFPA - Instituto Federal de Educação, Ciência e Tecnologia do Pará - Campus Castanhal
                     </span>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+                    <span class="text-sm font-bold text-slate-400 uppercase tracking-wider block">
                         Curso Superior de Licenciatura em Informática • Oficina Interativa
                     </span>
                 </div>
 
                 <!-- AUTORES / DISCENTES E DOCENTES -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left bg-slate-900/80 p-5 rounded-2xl border border-slate-700/80 text-xs md:text-sm">
-                    <div class="space-y-1">
-                        <span class="text-amber-300 font-extrabold uppercase tracking-wider block border-b border-slate-700 pb-1">
-                            <i class="fa-solid fa-users mr-1"></i> Discentes (Alunos):
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left bg-slate-900/80 p-6 rounded-2xl border border-slate-700/80 text-sm md:text-base">
+                    <div class="space-y-2">
+                        <span class="text-amber-300 font-extrabold uppercase tracking-wider block border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-users mr-2"></i> Discentes (Alunos):
                         </span>
                         <p class="text-slate-200 font-semibold leading-relaxed">
                             • ANA DÁLETE DE CASTRO SANTOS<br>
@@ -153,9 +151,9 @@
                             • RENATA DE OLIVEIRA ALMEIDA
                         </p>
                     </div>
-                    <div class="space-y-1">
-                        <span class="text-indigo-300 font-extrabold uppercase tracking-wider block border-b border-slate-700 pb-1">
-                            <i class="fa-solid fa-chalkboard-user mr-1"></i> Docentes (Professores):
+                    <div class="space-y-2">
+                        <span class="text-indigo-300 font-extrabold uppercase tracking-wider block border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-chalkboard-user mr-2"></i> Docentes (Professores):
                         </span>
                         <p class="text-slate-200 font-semibold leading-relaxed">
                             • ANDREA GUIMARAES RIBEIRO OHASHI<br>
@@ -165,10 +163,21 @@
                     </div>
                 </div>
 
-                <div class="pt-2">
-                    <h2 class="text-3xl md:text-4xl font-black text-white">Arquitetura TCP/IP e Conceito de Pilha</h2>
-                    <p class="text-slate-300 text-sm md:text-base font-semibold mt-1">Clique nas camadas coloridas abaixo para revisar o assunto antes de iniciar o desafio!</p>
-                </div>
+                <button onclick="goToLayersScreen()" class="w-full bg-gradient-to-r from-amber-500 via-indigo-600 to-purple-600 hover:from-amber-600 hover:to-purple-700 text-white font-black py-5 rounded-2xl shadow-2xl text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.01] transition-all">
+                    <span>AVANÇAR PARA AS CAMADAS TCP/IP</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- TELA 2: CAMADAS TCP/IP -->
+        <section id="screen-layers" class="hidden glass-panel p-6 md:p-10 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl space-y-8 my-auto border-t-8 border-indigo-500">
+            <div class="text-center space-y-2">
+                <span class="bg-indigo-500/20 text-indigo-300 text-sm font-black px-4 py-1.5 rounded-full border border-indigo-500/40 uppercase tracking-wider">
+                    <i class="fa-solid fa-layer-group mr-2"></i>Etapa 1 • Revisão das Camadas
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black text-white">Arquitetura TCP/IP e Conceito de Pilha</h2>
+                <p class="text-slate-300 text-base md:text-lg font-semibold">Clique nas camadas coloridas abaixo para revisar o assunto antes de iniciar o desafio!</p>
             </div>
 
             <!-- BLOCO VISUAL 3D DAS 4 CAMADAS -->
@@ -214,33 +223,47 @@
                 </div>
             </div>
 
-            <!-- EXPLICATIVO COMPACTO DE PILHA -->
-            <div class="bg-slate-900/90 border-2 border-indigo-500/60 p-6 rounded-2xl space-y-4">
-                <h3 class="text-2xl md:text-3xl font-black text-amber-300 flex items-center gap-3">
-                    <i class="fa-solid fa-utensils text-3xl"></i>
-                    <span>O Conceito de Pilha (LIFO) e a Analogia dos Pratos</span>
-                </h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-200 font-bold text-base md:text-lg">
-                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
-                        <span class="text-indigo-400 block mb-1 text-xl">🍽️ Exemplo dos Pratos:</span>
-                        O <strong>último prato colocado no topo</strong> é obrigatoriamente o <strong>primeiro a ser retirado</strong>. Regra <strong>LIFO (Last In, First Out)</strong>.
+            <button onclick="goToStackScreen()" class="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 hover:from-indigo-600 hover:to-pink-700 text-white font-black py-5 rounded-2xl shadow-2xl text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.01] transition-all">
+                <span>AVANÇAR PARA CONCEITO DE PILHA (LIFO)</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- TELA 3: CONCEITO DE PILHA (LIFO) E ANALOGIA DOS PRATOS -->
+        <section id="screen-stack" class="hidden glass-panel p-6 md:p-10 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl space-y-8 my-auto border-t-8 border-pink-500">
+            <div class="text-center space-y-2">
+                <span class="bg-pink-500/20 text-pink-300 text-sm font-black px-4 py-1.5 rounded-full border border-pink-500/40 uppercase tracking-wider">
+                    <i class="fa-solid fa-utensils mr-2"></i>Etapa 2 • Regra Fundamental
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black text-amber-300">O Conceito de Pilha (LIFO) e a Analogia dos Pratos</h2>
+                <p class="text-slate-300 text-base md:text-lg font-semibold">Entenda a regra técnica de inserção e remoção de dados na rede!</p>
+            </div>
+
+            <div class="bg-slate-900/90 border-2 border-indigo-500/60 p-6 md:p-8 rounded-2xl space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-200 font-bold text-base md:text-lg">
+                    <div class="bg-slate-800/90 p-6 rounded-2xl border border-indigo-500/40 space-y-2 shadow-lg">
+                        <span class="text-indigo-400 block text-2xl font-black">🍽️ Exemplo dos Pratos:</span>
+                        <p class="text-slate-200 leading-relaxed font-semibold">
+                            O <strong>último prato colocado no topo</strong> é obrigatoriamente o <strong>primeiro a ser retirado</strong>. Regra <strong>LIFO (Last In, First Out)</strong>.
+                        </p>
                     </div>
-                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
-                        <span class="text-emerald-400 block mb-1 text-xl">🌐 Analogia com o TCP/IP:</span>
-                        • <strong>PUSH (Empilhar):</strong> No envio, adicione o envelope no topo.<br>
-                        • <strong>POP (Desempilhar):</strong> No receptor, retire primeiro o envelope mais externo!
+                    <div class="bg-slate-800/90 p-6 rounded-2xl border border-emerald-500/40 space-y-2 shadow-lg">
+                        <span class="text-emerald-400 block text-2xl font-black">🌐 Analogia com o TCP/IP:</span>
+                        <p class="text-slate-200 leading-relaxed font-semibold">
+                            • <strong>PUSH (Empilhar):</strong> No envio, adicione o envelope no topo.<br>
+                            • <strong>POP (Desempilhar):</strong> No receptor, retire primeiro o envelope mais externo!
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <button onclick="goToLoginScreen()" class="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 hover:from-indigo-600 hover:to-pink-700 text-white font-black py-5 rounded-2xl shadow-2xl text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.01]">
+            <button onclick="goToLoginScreen()" class="w-full bg-gradient-to-r from-emerald-500 via-teal-600 to-indigo-600 hover:from-emerald-600 hover:to-indigo-700 text-white font-black py-5 rounded-2xl shadow-2xl text-2xl flex items-center justify-center gap-3 transform hover:scale-[1.01] transition-all">
                 <span>ENTENDI O RESUMO! DIGITAR MEU NOME</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </section>
 
-        <!-- TELA 2: ENTRADA DO NOME E MASCOTE (ESTILO KAHOOT) -->
+        <!-- TELA 4: ENTRADA DO NOME E MASCOTE (ESTILO KAHOOT) -->
         <section id="screen-login" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-2xl mx-auto w-full shadow-2xl my-auto text-center border-t-8 border-indigo-500 space-y-6">
             <div class="space-y-3">
                 <span class="text-sm font-extrabold text-amber-400 uppercase tracking-widest block">Identificação do Jogador</span>
@@ -275,7 +298,7 @@
             </form>
         </section>
 
-        <!-- TELA 3: ÁREA DE JOGO -->
+        <!-- TELA 5: ÁREA DE JOGO -->
         <section id="screen-game" class="hidden w-full">
             <div class="glass-panel p-8 md:p-10 rounded-3xl flex-1 flex flex-col justify-between shadow-2xl border-t-8 border-indigo-500 space-y-6">
                 <div>
@@ -299,7 +322,7 @@
             </div>
         </section>
 
-        <!-- TELA 4: ANÁLISE DIDÁTICA DE DESEMPENHO -->
+        <!-- TELA 6: ANÁLISE DIDÁTICA DE DESEMPENHO -->
         <section id="screen-result" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
             <div class="text-center space-y-3">
                 <div class="w-24 h-24 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-5xl mx-auto border-2 border-amber-500/40 pulse-anim">
@@ -330,7 +353,7 @@
             </button>
         </section>
 
-        <!-- TELA 5: AVALIAÇÃO DO JOGO / ESTRELAS -->
+        <!-- TELA 7: AVALIAÇÃO DO JOGO / ESTRELAS -->
         <section id="screen-rating" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
             <div id="rating-section" class="bg-slate-900/90 border-2 border-slate-700/80 p-8 rounded-3xl text-center space-y-6">
                 <h2 class="text-3xl md:text-4xl font-black text-white">Avalie a Nossa Oficina e o Jogo!</h2>
@@ -355,7 +378,7 @@
             </div>
         </section>
 
-        <!-- TELA 6: RANKING ESTILO KAHOOT (TOP 3 PÓDIO) + MURAL DA OFICINA -->
+        <!-- TELA 8: RANKING ESTILO KAHOOT (TOP 3 PÓDIO) + MURAL DA OFICINA -->
         <section id="screen-mural" class="hidden glass-panel p-8 md:p-12 rounded-3xl max-w-4xl mx-auto w-full shadow-2xl my-auto space-y-8">
             <div class="text-center space-y-2">
                 <h2 class="text-4xl md:text-5xl font-black text-amber-300 flex items-center justify-center gap-3">
@@ -563,7 +586,9 @@
         let isAnswering = false;
         let selectedRating = 5;
 
-        const screenSummary = document.getElementById('screen-summary');
+        const screenCover = document.getElementById('screen-cover');
+        const screenLayers = document.getElementById('screen-layers');
+        const screenStack = document.getElementById('screen-stack');
         const screenLogin = document.getElementById('screen-login');
         const screenGame = document.getElementById('screen-game');
         const screenResult = document.getElementById('screen-result');
@@ -606,8 +631,19 @@
             } catch(e) {}
         }
 
+        // NAVEGAÇÃO ENTRE AS TELAS DIDÁTICAS INICIAIS
+        function goToLayersScreen() {
+            screenCover.classList.add('hidden');
+            screenLayers.classList.remove('hidden');
+        }
+
+        function goToStackScreen() {
+            screenLayers.classList.add('hidden');
+            screenStack.classList.remove('hidden');
+        }
+
         function goToLoginScreen() {
-            screenSummary.classList.add('hidden');
+            screenStack.classList.add('hidden');
             screenLogin.classList.remove('hidden');
         }
 
