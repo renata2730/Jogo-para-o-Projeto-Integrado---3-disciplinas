@@ -241,18 +241,31 @@
 
             <div class="bg-slate-900/90 border-2 border-indigo-500/60 p-6 md:p-8 rounded-2xl space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-200 font-bold text-base md:text-lg">
-                    <div class="bg-slate-800/90 p-6 rounded-2xl border border-indigo-500/40 space-y-2 shadow-lg">
-                        <span class="text-indigo-400 block text-2xl font-black">🍽️ Exemplo dos Pratos:</span>
-                        <p class="text-slate-200 leading-relaxed font-semibold">
-                            O <strong>último prato colocado no topo</strong> é obrigatoriamente o <strong>primeiro a ser retirado</strong>. Regra <strong>LIFO (Last In, First Out)</strong>.
-                        </p>
+                    <!-- CARD 1: EXEMPLO DOS PRATOS COM ILUSTRAÇÃO -->
+                    <div class="bg-slate-800/90 p-6 rounded-2xl border border-indigo-500/40 space-y-4 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <span class="text-indigo-400 block text-2xl font-black mb-2">🍽️ Exemplo dos Pratos:</span>
+                            <p class="text-slate-200 leading-relaxed font-semibold">
+                                O <strong>último prato colocado no topo</strong> é obrigatoriamente o <strong>primeiro a ser retirado</strong>. Regra <strong>LIFO (Last In, First Out)</strong>.
+                            </p>
+                        </div>
+                        <div class="rounded-xl overflow-hidden border-2 border-indigo-500/50 shadow-md bg-slate-950/60 mt-2">
+                            <img src="img/pilha_pratos_lifo.png" alt="Exemplo didático da pilha de pratos LIFO" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
                     </div>
-                    <div class="bg-slate-800/90 p-6 rounded-2xl border border-emerald-500/40 space-y-2 shadow-lg">
-                        <span class="text-emerald-400 block text-2xl font-black">🌐 Analogia com o TCP/IP:</span>
-                        <p class="text-slate-200 leading-relaxed font-semibold">
-                            • <strong>PUSH (Empilhar):</strong> No envio, adicione o envelope no topo.<br>
-                            • <strong>POP (Desempilhar):</strong> No receptor, retire primeiro o envelope mais externo!
-                        </p>
+
+                    <!-- CARD 2: ANALOGIA COM TCP/IP COM ILUSTRAÇÃO -->
+                    <div class="bg-slate-800/90 p-6 rounded-2xl border border-emerald-500/40 space-y-4 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <span class="text-emerald-400 block text-2xl font-black mb-2">🌐 Analogia com o TCP/IP:</span>
+                            <p class="text-slate-200 leading-relaxed font-semibold">
+                                • <strong>PUSH (Empilhar):</strong> No envio, adicione o envelope no topo.<br>
+                                • <strong>POP (Desempilhar):</strong> No receptor, retire primeiro o envelope mais externo!
+                            </p>
+                        </div>
+                        <div class="rounded-xl overflow-hidden border-2 border-emerald-500/50 shadow-md bg-slate-950/60 mt-2">
+                            <img src="img/encapsulamento_tcpip.png" alt="Analogia do encapsulamento TCP/IP com envelopes Push e Pop" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
                     </div>
                 </div>
             </div>
